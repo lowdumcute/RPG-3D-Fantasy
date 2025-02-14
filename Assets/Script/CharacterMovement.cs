@@ -1,78 +1,62 @@
+using System;
+using Unity.Mathematics;
 using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
-    public float walkSpeed = 5f;
-    public float runSpeed = 8f;
-    public float jumpForce = 5f;
-    public float gravity = 9.81f;
-
+    [SerializeField] private float movementSpeed = 5f;
+    [SerializeField] private float rotationSpeed = 500f;
+    [SerializeField] private float gravityMultiplier = 2f;
+    [SerializeField] private float jumpForce = 10f;
     private CharacterController controller;
     private Animator animator;
-    private Vector3 moveDirection;
-    private float currentSpeed;
-    private bool isGrounded;
+   private float downwardVelocity;
 
     void Start()
     {
         animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
+        Camera.main.GetComponent<CameraController>().followTarget = transform;
         animator.SetBool("Run", false);
     }
 
+
     void Update()
     {
-        Move();
-    }
-
-    void Move()
-    {
-        isGrounded = controller.isGrounded;
-
-        float moveX = Input.GetAxis("Horizontal");
-        float moveZ = Input.GetAxis("Vertical");
-
-        bool isMoving = (moveX != 0 || moveZ != 0);
-        animator.SetBool("Run", isMoving);
-
-        currentSpeed = Input.GetKey(KeyCode.LeftShift) ? runSpeed : walkSpeed;
-
-        // Lấy hướng từ camera
-        Vector3 camForward = Camera.main.transform.forward;
-        Vector3 camRight = Camera.main.transform.right;
-
-        // Đảm bảo hướng di chuyển không bị nghiêng theo góc camera
-        camForward.y = 0;
-        camRight.y = 0;
-        camForward.Normalize();
-        camRight.Normalize();
-
-        // Hướng di chuyển theo góc camera
-        Vector3 move = camRight * moveX + camForward * moveZ;
-        move.Normalize();
-
-        // Xoay nhân vật theo hướng di chuyển
-        if (isMoving)
+        animator.SetBool("Run", true);
+        float horizontal = Input.GetAxis("Horizontal");
+        float vertical = Input.GetAxis("Vertical");
+        float moveAmount = Mathf.Abs(horizontal) + Mathf.Abs(vertical);
+        Vector3 velocity = new Vector3(horizontal, 0, vertical).normalized * movementSpeed ;
+        velocity = Quaternion.LookRotation(new Vector3(Camera.main.transform.forward.x, 0f, Camera.main.transform.forward.z)) * velocity;
+        if (controller.isGrounded)
         {
-            transform.rotation = Quaternion.LookRotation(move);
-        }
-
-        moveDirection.x = move.x * currentSpeed;
-        moveDirection.z = move.z * currentSpeed;
-
-        if (isGrounded)
-        {
-            if (Input.GetKeyDown(KeyCode.Space))
+            downwardVelocity = -2f;
+            if (Input.GetButtonDown("Jump"))
             {
                 animator.SetTrigger("Jump");
-                moveDirection.y = jumpForce;
+                downwardVelocity = jumpForce;
             }
         }
         else
         {
-            moveDirection.y -= gravity * Time.deltaTime;
+            downwardVelocity += Physics.gravity.y * gravityMultiplier * Time.deltaTime ;
+            if (Input.GetButtonDown("Jump") && downwardVelocity > 0f)
+            {
+                downwardVelocity *= 0.5f;
+            }
         }
-
-        controller.Move(moveDirection * Time.deltaTime);
+        velocity.y = downwardVelocity;
+        controller.Move(velocity * Time.deltaTime);
+        if(moveAmount > 0)
+        {
+            animator.SetBool("Run", true);
+            var targetRotation = Quaternion.LookRotation(new Vector3(velocity.x, 0f, velocity.z));
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
+        else
+        {
+            animator.SetBool("Run", false);
+        }
     }
 }
