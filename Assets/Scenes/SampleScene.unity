@@ -3168,10 +3168,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   followTarget: {fileID: 2134931054}
   defaultDistance: 7.5
-  minDistance: 2
+  minDistance: 0.5
   rotationSpeed: 5
   minVerticalAngle: -30
-  maxVerticalAngle: 180
+  maxVerticalAngle: 80
   obstacleMask:
     serializedVersion: 2
     m_Bits: 128
