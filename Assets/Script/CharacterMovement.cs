@@ -16,14 +16,13 @@ public class CharacterMovement : MonoBehaviour
     {
         animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
-        Camera.main.GetComponent<CameraController>().followTarget = transform;
         animator.SetBool("Run", false);
     }
 
 
     void Update()
     {
-        animator.SetBool("Run", true);
+        
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         float moveAmount = Mathf.Abs(horizontal) + Mathf.Abs(vertical);
@@ -57,6 +56,14 @@ public class CharacterMovement : MonoBehaviour
         else
         {
             animator.SetBool("Run", false);
+        }
+        if (Input.GetMouseButtonDown(0))
+        {
+            Attack();
+        }
+        void Attack()
+        {
+            animator.SetTrigger("Attack");
         }
     }
 }
