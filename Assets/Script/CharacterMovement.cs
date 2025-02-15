@@ -40,10 +40,6 @@ public class CharacterMovement : MonoBehaviour
         else
         {
             downwardVelocity += Physics.gravity.y * gravityMultiplier * Time.deltaTime ;
-            if (Input.GetButtonDown("Jump") && downwardVelocity > 0f)
-            {
-                downwardVelocity *= 0.5f;
-            }
         }
         velocity.y = downwardVelocity;
         controller.Move(velocity * Time.deltaTime);

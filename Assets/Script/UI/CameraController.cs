@@ -18,6 +18,8 @@ public class CameraController : MonoBehaviour
 
     void Start()
     {
+        // Khóa chuột
+        Cursor.lockState = CursorLockMode.Locked;
         currentDistance = defaultDistance;
     }
 
