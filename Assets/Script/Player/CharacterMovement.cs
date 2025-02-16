@@ -28,6 +28,7 @@ public class CharacterMovement : MonoBehaviour
         float moveAmount = Mathf.Abs(horizontal) + Mathf.Abs(vertical);
         Vector3 velocity = new Vector3(horizontal, 0, vertical).normalized * movementSpeed ;
         velocity = Quaternion.LookRotation(new Vector3(Camera.main.transform.forward.x, 0f, Camera.main.transform.forward.z)) * velocity;
+        
         if (controller.isGrounded)
         {
             downwardVelocity = -2f;
@@ -40,6 +41,11 @@ public class CharacterMovement : MonoBehaviour
         else
         {
             downwardVelocity += Physics.gravity.y * gravityMultiplier * Time.deltaTime ;
+            if (Input.GetButtonDown("Jump") && downwardVelocity > 0f)
+            {
+                animator.SetTrigger("Jump");
+                downwardVelocity *= 0.5f;
+            }
         }
         velocity.y = downwardVelocity;
         controller.Move(velocity * Time.deltaTime);
