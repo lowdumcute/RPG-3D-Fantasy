@@ -1,5 +1,5 @@
 using System;
-using Unity.Mathematics;
+using System.Collections;
 using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
@@ -8,9 +8,16 @@ public class CharacterMovement : MonoBehaviour
     [SerializeField] private float rotationSpeed = 500f;
     [SerializeField] private float gravityMultiplier = 2f;
     [SerializeField] private float jumpForce = 10f;
+    private int comboStep = 0;  // Để theo dõi bước combo
+    private float attackCooldown = 0.01f;
+    private float comboTimeLimit = 2f;  // Thời gian cho phép nhấn chuột liên tục để combo
+    private float lastAttackTime = 0f;  // Thời gian của lần tấn công cuối
+    private bool canAttack = true;  // Biến flag kiểm tra có thể tấn công hay không
+    
     private CharacterController controller;
     private Animator animator;
-   private float downwardVelocity;
+    private float downwardVelocity;
+    [SerializeField] private bool isAttacking = false; // Biến kiểm tra xem nhân vật có đang tấn công hay không
 
     void Start()
     {
@@ -19,37 +26,42 @@ public class CharacterMovement : MonoBehaviour
         animator.SetBool("Run", false);
     }
 
-
     void Update()
     {
-        
+        Move();
+        HandleJump(); // Tách riêng kiểm tra và xử lý nhảy
+        if (Input.GetMouseButtonDown(0))
+        {
+            Attack();
+        }
+
+        // Kiểm tra thời gian giữa các lần tấn công để reset combo nếu cần
+        if (Time.time - lastAttackTime > comboTimeLimit && comboStep > 0)
+        {
+            comboStep = 0;  // Reset combo nếu thời gian quá lâu
+        }
+    }
+
+    private void Move()
+    {
+        if (isAttacking) return; // Không cho phép di chuyển khi đang tấn công
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         float moveAmount = Mathf.Abs(horizontal) + Mathf.Abs(vertical);
-        Vector3 velocity = new Vector3(horizontal, 0, vertical).normalized * movementSpeed ;
+
+        Vector3 velocity = new Vector3(horizontal, 0, vertical).normalized * movementSpeed;
         velocity = Quaternion.LookRotation(new Vector3(Camera.main.transform.forward.x, 0f, Camera.main.transform.forward.z)) * velocity;
-        
-        if (controller.isGrounded)
+
+        // Áp dụng trọng lực nếu không chạm đất
+        if (!controller.isGrounded)
         {
-            downwardVelocity = -2f;
-            if (Input.GetButtonDown("Jump"))
-            {
-                animator.SetTrigger("Jump");
-                downwardVelocity = jumpForce;
-            }
+            downwardVelocity += Physics.gravity.y * gravityMultiplier * Time.deltaTime;
         }
-        else
-        {
-            downwardVelocity += Physics.gravity.y * gravityMultiplier * Time.deltaTime ;
-            if (Input.GetButtonDown("Jump") && downwardVelocity > 0f)
-            {
-                animator.SetTrigger("Jump");
-                downwardVelocity *= 0.5f;
-            }
-        }
+
         velocity.y = downwardVelocity;
         controller.Move(velocity * Time.deltaTime);
-        if(moveAmount > 0)
+
+        if (moveAmount > 0)
         {
             animator.SetBool("Run", true);
             var targetRotation = Quaternion.LookRotation(new Vector3(velocity.x, 0f, velocity.z));
@@ -59,13 +71,80 @@ public class CharacterMovement : MonoBehaviour
         {
             animator.SetBool("Run", false);
         }
-        if (Input.GetMouseButtonDown(0))
+    }
+
+    private void HandleJump()
+    {
+        if (controller.isGrounded)
         {
-            Attack();
+            downwardVelocity = -2f; // Đặt giá trị thấp để tránh bị "dính" mặt đất
+
+            if (Input.GetButtonDown("Jump"))
+            {
+                Jump();
+            }
         }
-        void Attack()
+    }
+
+    private void Jump()
+    {
+        animator.SetTrigger("Jump");
+        comboStep =0; // Reset combo khi nhảy
+        downwardVelocity = jumpForce; // Gán lực nhảy
+    }
+
+    private void Attack()
+    {
+        if (!canAttack) return;  // Nếu đang trong thời gian hồi chiêu thì không tấn công
+        if (isAttacking) return; // Nếu đang tấn công thì không cho phép tấn công lại
+
+        isAttacking = true;
+        canAttack = false;
+        animator.SetBool("IsAttacking", true);
+        lastAttackTime = Time.time;
+
+        // Tiến hành thực hiện combo
+        comboStep++;
+
+        // Kiểm tra combo
+        if (comboStep > 3) comboStep = 1;  // Reset combo nếu quá 3 bước
+
+        // Trigger animation dựa trên comboStep
+        string attackTrigger = "Attack" + comboStep;
+        animator.SetTrigger(attackTrigger);
+
+        // Xác định hướng nhìn của camera nhưng bỏ đi trục Y
+        Vector3 cameraForward = new Vector3(Camera.main.transform.forward.x, 0f, Camera.main.transform.forward.z).normalized;
+        Quaternion targetRotation = Quaternion.LookRotation(cameraForward);
+        transform.rotation = targetRotation;
+
+        // Tiến lên phía trước một chút trong lúc tấn công
+        StartCoroutine(MoveForwardDuringAttack(movementSpeed/3));
+    }
+
+    private IEnumerator MoveForwardDuringAttack(float movementSpeed)
+    {
+        Vector3 forwardMovement = transform.forward;
+        float moveTime = 0.1f; // Thời gian di chuyển
+        float elapsedTime = 0f;
+
+        while (elapsedTime < moveTime)
         {
-            animator.SetTrigger("Attack");
+            controller.Move(forwardMovement * movementSpeed * Time.deltaTime); // Di chuyển nhân vật
+            elapsedTime += Time.deltaTime;
+            yield return null;
         }
+    }
+
+    public void UnlockMovementAfterAttack()
+    {
+        animator.SetBool("IsAttacking", false);
+        isAttacking = false; // Mở khóa di chuyển sau khi tấn công xong
+        StartCoroutine(CooldownRoutine());  // Bắt đầu cooldown
+    }
+    private IEnumerator CooldownRoutine()
+    {
+        yield return new WaitForSeconds(attackCooldown);
+        canAttack = true;
     }
 }
