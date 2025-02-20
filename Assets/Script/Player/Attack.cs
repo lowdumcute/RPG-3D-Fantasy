@@ -3,57 +3,51 @@ using UnityEngine;
 
 public class Attack : MonoBehaviour
 {
-    public GameObject attackColider;  // Collider của đòn tấn công
-    public float radius = 1f;         // Bán kính tấn công
-    public float attackRange = 2f;    // Khoảng cách tấn công
-    public float attackDamage = 10f;  // Số sát thương
-    public Transform playerTransform; // Transform của người chơi (để xác định hướng tấn công)
+    [SerializeField] private BoxCollider attackCollider;  // Collider của đòn tấn công
+    [SerializeField] private GameObject VFX;       // Prefab VFX khi đánh trúng
+    [SerializeField] private float attackDamage = 10f;  // Số sát thương
 
     void Start()
     {
-        attackColider.SetActive(false); // Bắt đầu tắt attackCollider
+        VFX.SetActive(false);
     }
 
-    void Update()
-    {
-        // Kiểm tra nếu người chơi nhấn nút tấn công (ví dụ: chuột trái)
-        if (Input.GetMouseButtonDown(0))
-        {
-            AttackTarget();
-        }
-    }
+    public void AttackMelee()
+{
+    // Bật Attack Collider
+    attackCollider.enabled = true;
 
-    private void AttackTarget()
-    {
-        // Lấy tất cả các collider trong phạm vi attackRange và bán kính radius
-        Collider[] hitEnemies = Physics.OverlapSphere(transform.position, attackRange);
+    // Lấy tất cả đối tượng trong phạm vi AttackCollider
+    Collider[] hitEnemies = Physics.OverlapBox(attackCollider.bounds.center, attackCollider.bounds.extents, attackCollider.transform.rotation);
 
-        foreach (Collider enemy in hitEnemies)
+    foreach (Collider enemy in hitEnemies)
+    {
+        // Kiểm tra xem đối tượng có CharacterController hoặc tag "Enemy"
+        if (enemy.TryGetComponent<CharacterController>(out CharacterController enemyController) || enemy.CompareTag("Enemy"))
         {
-            // Kiểm tra xem đối tượng có phải là quái vật không và có script EnemyHealth không
-            EnemyHealth enemyHealth = enemy.GetComponent<EnemyHealth>();
-            if (enemyHealth != null)
+            // Kiểm tra xem có EnemyHealth không
+            if (enemy.TryGetComponent<EnemyHealth>(out EnemyHealth enemyHealth))
             {
-                // Kiểm tra xem đối tượng có nằm trong hướng tấn công của người chơi hay không
-                Vector3 directionToEnemy = (enemy.transform.position - transform.position).normalized;
-                float angle = Vector3.Angle(playerTransform.forward, directionToEnemy);
+                // Gây sát thương
+                enemyHealth.TakeDamage(attackDamage, transform.position);
 
-                if (angle < 45f) // Chỉ tấn công đối tượng trong phạm vi góc 45 độ trước người chơi
-                {
-                    attackColider.SetActive(true);  // Bật attackCollider
-
-                    // Gây sát thương cho kẻ thù
-                    enemyHealth.TakeDamage(attackDamage);
-
-                    StartCoroutine(AttackCooldown());
-                }
+                // Di chuyển VFX đến vị trí enemy trúng đòn
+                VFX.transform.position = enemy.transform.position + Vector3.up * 1f;
+                VFX.SetActive(true); // Bật VFX
+                StartCoroutine(DisableVFX());
             }
         }
     }
+}
+private IEnumerator DisableVFX()
+{
+    yield return new WaitForSeconds(0.5f); // VFX tồn tại trong 1 giây
+    VFX.SetActive(false); // Tắt VFX
+}
 
-    private IEnumerator AttackCooldown()
-    {
-        yield return new WaitForSeconds(0.5f);  // Thời gian chờ giữa các lần tấn công
-        attackColider.SetActive(false);  // Tắt attackCollider
-    }
+
+public void  DisableAttackCollider()
+{
+    attackCollider.enabled = false;
+}
 }

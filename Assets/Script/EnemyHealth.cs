@@ -1,52 +1,75 @@
 using UnityEngine;
-using UnityEngine.UI; // Để làm việc với UI
+using UnityEngine.UI;
 
 public class EnemyHealth : MonoBehaviour
 {
-    public float maxHealth = 100f; // Máu tối đa của địch
-    private float currentHealth; // Máu hiện tại của địch
-    Animator animator; // Animator của địch
+    public float maxHealth = 100f;
+    private float currentHealth;
+    public Slider healthSlider;
+    public float hitBackForce = 3f; // Lực đẩy khi bị đánh
+    public float hitBackDuration = 0.2f; // Thời gian đẩy lùi
+    public float rotationSpeed = 10f;
+    [SerializeField] AIMovement aIMovement;
+
+    private Animator animator;
+    private CharacterController controller;
+    private Vector3 hitBackDirection;
+    private float hitBackTimer;
+
     private void Start()
     {
-        animator = GetComponent<Animator>(); // Lấy component Animator
-        currentHealth = maxHealth; // Thiết lập máu ban đầu
+        animator = GetComponent<Animator>();
+        controller = GetComponent<CharacterController>();
+        currentHealth = maxHealth;
 
-        // Nếu có Slider trong UI, thiết lập giá trị ban đầu
         if (healthSlider != null)
         {
-            healthSlider.maxValue = 1f; // Đặt giá trị tối đa của Slider là 1 (100%)
-            healthSlider.value = 1f; // Đặt giá trị ban đầu của Slider là 100%
+            healthSlider.maxValue = 1f;
+            healthSlider.value = 1f;
         }
     }
 
-    public Slider healthSlider; // Slider hiển thị máu
-
-    // Hàm này sẽ được gọi khi đối tượng bị nhận sát thương
-    public void TakeDamage(float damage)
+    private void Update()
     {
-        animator.SetTrigger("Hit"); 
-        currentHealth -= damage; // Giảm máu của địch
+        // Xử lý hit back (nếu đang bị đẩy lùi)
+        if (hitBackTimer > 0)
+        {
+            controller.Move(hitBackDirection * hitBackForce * Time.deltaTime);
+            hitBackTimer -= Time.deltaTime;
+        }
+    }
 
-        // Cập nhật giá trị của Slider
+    public void TakeDamage(float damage, Vector3 attackPosition)
+    {
+        aIMovement.enabled = false;
+        animator.SetTrigger("Hit");
+        currentHealth -= damage;
+
         if (healthSlider != null)
         {
-            healthSlider.value = currentHealth / maxHealth; // Tính toán tỷ lệ phần trăm máu còn lại
+            healthSlider.value = currentHealth / maxHealth;
         }
 
-        // Nếu máu còn lại nhỏ hơn hoặc bằng 0, gọi hàm Die()
+        // Quay enemy về hướng bị tấn công
+        Vector3 directionToAttacker = transform.position - attackPosition;
+        directionToAttacker.y = 0; // Không quay theo trục Y
+        Quaternion lookRotation = Quaternion.LookRotation(directionToAttacker);
+        transform.rotation = Quaternion.Lerp(transform.rotation, lookRotation, Time.deltaTime * rotationSpeed);
+
+        // Thiết lập hit back
+        hitBackDirection = directionToAttacker.normalized;
+        hitBackTimer = hitBackDuration;
+
+        // Kiểm tra nếu enemy chết
         if (currentHealth <= 0)
         {
             Die();
         }
     }
 
-    // Hàm này sẽ được gọi khi địch chết
     private void Die()
     {
-        // Gọi animation chết hoặc bất kỳ hiệu ứng gì khi địch chết
         Debug.Log("Enemy died!");
-        // Hủy đối tượng hoặc tắt hoạt động của đối tượng
-        Destroy(gameObject); // Xóa đối tượng khỏi scene
+        Destroy(gameObject);
     }
-
 }
