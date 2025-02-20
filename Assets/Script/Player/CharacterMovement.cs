@@ -4,15 +4,23 @@ using UnityEngine;
 
 public class CharacterMovement : MonoBehaviour
 {
+    [Header("Movement")]
     [SerializeField] private float movementSpeed = 5f;
     [SerializeField] private float rotationSpeed = 500f;
     [SerializeField] private float gravityMultiplier = 2f;
     [SerializeField] private float jumpForce = 10f;
+    private bool isRolling = false; // Biến kiểm tra trạng thái roll
+    private float rollSpeed = 10f;  // Tốc độ của roll
+    private float rollDuration = 0.5f; // Thời gian kéo dài roll
+
+    [Header("Attack")]
     private int comboStep = 0;  // Để theo dõi bước combo
     private float attackCooldown = 0.01f;
     private float comboTimeLimit = 2f;  // Thời gian cho phép nhấn chuột liên tục để combo
     private float lastAttackTime = 0f;  // Thời gian của lần tấn công cuối
     private bool canAttack = true;  // Biến flag kiểm tra có thể tấn công hay không
+
+    [Header("References")]
     
     private CharacterController controller;
     private Animator animator;
@@ -33,6 +41,10 @@ public class CharacterMovement : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             Attack();
+        }
+        if (Input.GetKeyDown("left shift") && !isAttacking && !isRolling)  // Không thể roll khi đang tấn công hoặc đang roll
+        {
+            StartCoroutine(Roll());
         }
 
         // Kiểm tra thời gian giữa các lần tấn công để reset combo nếu cần
@@ -96,7 +108,7 @@ public class CharacterMovement : MonoBehaviour
     private void Attack()
     {
         if (!canAttack) return;  // Nếu đang trong thời gian hồi chiêu thì không tấn công
-        if (isAttacking) return; // Nếu đang tấn công thì không cho phép tấn công lại
+        if (isAttacking || isRolling) return; // Không cho phép di chuyển khi đang tấn công hoặc đang roll
 
         isAttacking = true;
         canAttack = false;
@@ -146,5 +158,23 @@ public class CharacterMovement : MonoBehaviour
     {
         yield return new WaitForSeconds(attackCooldown);
         canAttack = true;
+    }
+    private IEnumerator Roll()
+    {
+        isRolling = true;  // Đánh dấu nhân vật đang thực hiện roll
+        animator.SetTrigger("Roll");
+
+        // Tạm dừng các hành động di chuyển bình thường
+        float rollTime = 0f;
+        Vector3 rollDirection = transform.forward;  // Di chuyển theo hướng nhìn của nhân vật
+
+        while (rollTime < rollDuration)
+        {
+            controller.Move(rollDirection * rollSpeed * Time.deltaTime); // Di chuyển nhân vật theo roll
+            rollTime += Time.deltaTime;
+            yield return null;
+        }
+
+        isRolling = false;  // Kết thúc roll
     }
 }
