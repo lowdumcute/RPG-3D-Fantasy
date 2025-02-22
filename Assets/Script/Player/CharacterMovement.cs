@@ -5,18 +5,21 @@ using UnityEngine;
 public class CharacterMovement : MonoBehaviour
 {
     [Header("Movement")]
+    private float currentSpeed = 0f;
+    private float acceleration = 5f; // Tốc độ tăng dần
+    private float deceleration = 10f; // Tốc độ giảm dần
     [SerializeField] private float movementSpeed = 5f;
     [SerializeField] private float rotationSpeed = 500f;
     [SerializeField] private float gravityMultiplier = 2f;
     [SerializeField] private float jumpForce = 10f;
     private bool isRolling = false; // Biến kiểm tra trạng thái roll
-    private float rollSpeed = 10f;  // Tốc độ của roll
+    private float rollSpeed = 5f;  // Tốc độ của roll
     private float rollDuration = 0.5f; // Thời gian kéo dài roll
 
     [Header("Attack")]
     private int comboStep = 0;  // Để theo dõi bước combo
     private float attackCooldown = 0.01f;
-    private float comboTimeLimit = 2f;  // Thời gian cho phép nhấn chuột liên tục để combo
+    private float comboTimeLimit = 4f;  // Thời gian cho phép nhấn chuột liên tục để combo
     private float lastAttackTime = 0f;  // Thời gian của lần tấn công cuối
     private bool canAttack = true;  // Biến flag kiểm tra có thể tấn công hay không
 
@@ -40,6 +43,7 @@ public class CharacterMovement : MonoBehaviour
         HandleJump(); // Tách riêng kiểm tra và xử lý nhảy
         if (Input.GetMouseButtonDown(0))
         {
+            downwardVelocity += Physics.gravity.y * gravityMultiplier * Time.deltaTime;
             Attack();
         }
         if (Input.GetKeyDown("left shift") && !isAttacking && !isRolling)  // Không thể roll khi đang tấn công hoặc đang roll
@@ -57,12 +61,34 @@ public class CharacterMovement : MonoBehaviour
     private void Move()
     {
         if (isAttacking) return; // Không cho phép di chuyển khi đang tấn công
+        
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         float moveAmount = Mathf.Abs(horizontal) + Mathf.Abs(vertical);
 
-        Vector3 velocity = new Vector3(horizontal, 0, vertical).normalized * movementSpeed;
-        velocity = Quaternion.LookRotation(new Vector3(Camera.main.transform.forward.x, 0f, Camera.main.transform.forward.z)) * velocity;
+        Vector3 moveDirection = new Vector3(horizontal, 0, vertical).normalized;
+
+        if (moveAmount > 0)
+        {
+            // Tăng tốc dần
+            currentSpeed = Mathf.MoveTowards(currentSpeed, movementSpeed, acceleration * Time.deltaTime);
+            
+            animator.SetBool("Run", true);
+
+            // Xoay theo hướng camera
+            moveDirection = Quaternion.LookRotation(new Vector3(Camera.main.transform.forward.x, 0f, Camera.main.transform.forward.z)) * moveDirection;
+            var targetRotation = Quaternion.LookRotation(new Vector3(moveDirection.x, 0f, moveDirection.z));
+            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
+        }
+        else
+        {
+            // Giảm tốc dần
+            currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, deceleration * Time.deltaTime);
+            animator.SetBool("Run", false);
+        }
+
+        // Tính toán vận tốc di chuyển
+        Vector3 velocity = moveDirection * currentSpeed;
 
         // Áp dụng trọng lực nếu không chạm đất
         if (!controller.isGrounded)
@@ -72,17 +98,6 @@ public class CharacterMovement : MonoBehaviour
 
         velocity.y = downwardVelocity;
         controller.Move(velocity * Time.deltaTime);
-
-        if (moveAmount > 0)
-        {
-            animator.SetBool("Run", true);
-            var targetRotation = Quaternion.LookRotation(new Vector3(velocity.x, 0f, velocity.z));
-            transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        }
-        else
-        {
-            animator.SetBool("Run", false);
-        }
     }
 
     private void HandleJump()
@@ -93,6 +108,7 @@ public class CharacterMovement : MonoBehaviour
 
             if (Input.GetButtonDown("Jump"))
             {
+                if (isAttacking || isRolling) return; // Không cho phép nhảy khi đang tấn công hoặc đang roll
                 Jump();
             }
         }
@@ -105,7 +121,7 @@ public class CharacterMovement : MonoBehaviour
         downwardVelocity = jumpForce; // Gán lực nhảy
     }
 
-    private void Attack()
+   private void Attack()
     {
         if (!canAttack) return;  // Nếu đang trong thời gian hồi chiêu thì không tấn công
         if (isAttacking || isRolling) return; // Không cho phép di chuyển khi đang tấn công hoặc đang roll
@@ -123,16 +139,47 @@ public class CharacterMovement : MonoBehaviour
 
         // Trigger animation dựa trên comboStep
         string attackTrigger = "Attack" + comboStep;
+        
         animator.SetTrigger(attackTrigger);
 
-        // Xác định hướng nhìn của camera nhưng bỏ đi trục Y
-        Vector3 cameraForward = new Vector3(Camera.main.transform.forward.x, 0f, Camera.main.transform.forward.z).normalized;
-        Quaternion targetRotation = Quaternion.LookRotation(cameraForward);
-        transform.rotation = targetRotation;
+        // Xác định hướng quay chỉ xoay trục Y
+        Transform nearestEnemy = FindNearestEnemy(15f);
+        if (nearestEnemy != null)
+        {
+            // Hướng về phía kẻ địch gần nhất (chỉ thay đổi góc Y)
+            Vector3 directionToEnemy = (nearestEnemy.position - transform.position).normalized;
+            float targetYRotation = Mathf.Atan2(directionToEnemy.x, directionToEnemy.z) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, targetYRotation, 0);
+        }
+        else
+        {
+            // Hướng về phía camera nếu không có kẻ địch nào trong phạm vi (chỉ thay đổi góc Y)
+            Vector3 cameraForward = new Vector3(Camera.main.transform.forward.x, 0f, Camera.main.transform.forward.z).normalized;
+            float cameraYRotation = Mathf.Atan2(cameraForward.x, cameraForward.z) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, cameraYRotation, 0);
+        }
 
         // Tiến lên phía trước một chút trong lúc tấn công
-        StartCoroutine(MoveForwardDuringAttack(movementSpeed/3));
+        StartCoroutine(MoveForwardDuringAttack(movementSpeed / 3));
     }
+private Transform FindNearestEnemy(float radius)
+{
+    GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+    Transform nearestEnemy = null;
+    float minDistance = radius;
+
+    foreach (GameObject enemy in enemies)
+    {
+        float distance = Vector3.Distance(transform.position, enemy.transform.position);
+        if (distance < minDistance)
+        {
+            minDistance = distance;
+            nearestEnemy = enemy.transform;
+        }
+    }
+
+    return nearestEnemy;
+}
 
     private IEnumerator MoveForwardDuringAttack(float movementSpeed)
     {
@@ -170,8 +217,9 @@ public class CharacterMovement : MonoBehaviour
 
         while (rollTime < rollDuration)
         {
-            controller.Move(rollDirection * rollSpeed * Time.deltaTime); // Di chuyển nhân vật theo roll
+            controller.Move(rollDirection * rollSpeed/3 * Time.deltaTime); // Di chuyển nhân vật theo roll
             rollTime += Time.deltaTime;
+            downwardVelocity = -2f; 
             yield return null;
         }
 
