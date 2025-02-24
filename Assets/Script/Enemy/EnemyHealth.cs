@@ -86,6 +86,16 @@ public class EnemyHealth : MonoBehaviour
     private void Die()
     {
         Debug.Log("Enemy died!");
-        Destroy(gameObject);
+        aiMovement.enabled = false; // Tắt script di chuyển
+        animator.SetBool("isDead", true); // Chuyển sang trạng thái chết
+        controller.enabled = false; // Tắt CharacterController
+    }
+    public void UnActive()
+    {
+        gameObject.SetActive(false);
+    }
+    public void DropItem()
+    {
+        DropItemManager.Instance.SpawnItems(transform.position);
     }
 }

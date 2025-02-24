@@ -6,7 +6,9 @@ using UnityEngine.EventSystems;
 public class InventoryManager : MonoBehaviour
 {
     [SerializeField] private GameObject InventoryMenu;
+    [SerializeField] private KeyCode keyCodeInventory = KeyCode.Escape;
     [SerializeField] private List<ItemSlot> itemsSlot;
+    
     bool isActive;
     void Start()
     {
@@ -18,17 +20,24 @@ public class InventoryManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !isActive)
+        if (Input.GetKeyDown(keyCodeInventory))
         {
-            isActive = true;
+            isActive = !isActive;
             InventoryMenu.SetActive(isActive);
             RefreshInventory();
-        }
-        else if (Input.GetKeyDown(KeyCode.Escape) && isActive)
-        {
-            isActive = false;
-            InventoryMenu.SetActive(isActive);
-            RefreshInventory();
+
+            if (isActive)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                CameraController.isPaused = true; // Tắt camera
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                CameraController.isPaused = false; // Bật lại camera
+            }
         }
     }
     
