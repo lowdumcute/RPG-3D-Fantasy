@@ -28737,58 +28737,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7a3b4e0ce3105e340a61cb9472530255, type: 3}
---- !u!1 &2129253841
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2129253843}
-  - component: {fileID: 2129253842}
-  m_Layer: 0
-  m_Name: DropManager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &2129253842
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2129253841}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 79feb4b4d393ea54db04707c39010910, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  itemPrefabs:
-  - {fileID: 100018019714611367, guid: 3441d49fa3ca7744a95e9dfd2aba3f54, type: 3}
-  - {fileID: 5795407589716557517, guid: 9214597ca565f5840be2b48f71eb9966, type: 3}
-  - {fileID: 2410114350040114610, guid: 4603d2cd3ffcb6e46add7daf3a524b6c, type: 3}
-  spawnForce: 5
-  torqueForce: 5
-  minDrop: 1
-  maxDrop: 3
---- !u!4 &2129253843
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2129253841}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 450.6191, y: 4.710596, z: 315.1045}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2131004030
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -32537,4 +32485,3 @@ SceneRoots:
   - {fileID: 612542336}
   - {fileID: 1326371735}
   - {fileID: 1275033583}
-  - {fileID: 2129253843}
