@@ -90,6 +90,10 @@ public class ItemSlot : MonoBehaviour,IPointerClickHandler
             else
             {
                 PlayerHealth.playerStats.currentHealth += itemSO.NumberOfChange;
+                if (PlayerHealth.playerStats.currentHealth >= PlayerHealth.playerStats.maxHealth)
+                {
+                    PlayerHealth.playerStats.currentHealth = PlayerHealth.playerStats.maxHealth;
+                }
                 PlayerHealth.UpdateHealthUI();
                 Debug.Log($"Current Health:{PlayerHealth.playerStats.currentHealth}");
                 RefreshInfo();
