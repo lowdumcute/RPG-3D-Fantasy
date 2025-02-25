@@ -64,7 +64,7 @@ public class ItemSlot : MonoBehaviour,IPointerClickHandler
         ItemQuantity = 0;
         IconItemSprite = null;
         ItemDecription = "";
-        isHaveItem = false; 
+        isHaveItem = false;
         isSelected = false;
 
         QuantityText.text = "";
@@ -75,7 +75,12 @@ public class ItemSlot : MonoBehaviour,IPointerClickHandler
         ItemDecriptionNameText.text = "";
         ItemDecriptionText.text = "";
         ItemDecriptionImage.sprite = null;
+
+        // tắt hình ảnh mô tả và nút sử dụng khi vật phẩm hết
+        ItemDecriptionImage.enabled = false;
+        UsingItemButton.gameObject.SetActive(false);
     }
+
 
     // Cập nhật lại UsingItem()
     public void UsingItem()
