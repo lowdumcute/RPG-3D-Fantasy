@@ -115,7 +115,14 @@ public class ItemSlot : MonoBehaviour,IPointerClickHandler
     {
         if (eventData.button == PointerEventData.InputButton.Left)// kiểm tra điều kiện nhấn chuột trái
         {
-            OnLeftClick();
+            if(!isHaveItem)
+            {
+                return; 
+            }
+            else
+            {
+                OnLeftClick();
+            }
         }
         if (eventData.button == PointerEventData.InputButton.Right)// kiểm tra điều kiện nhấn chuột phải
         {
