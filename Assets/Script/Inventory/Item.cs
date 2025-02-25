@@ -15,7 +15,7 @@ public class Item : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E))
         {
             Debug.Log("Add them item");
-            inventoryManager.AddItem(item, Quantity);
+            inventoryManager.AddItem(item2, Quantity);
         }
     }
     public void OnTriggerEnter(Collider other)//Hàm chạm vào rồi nhặt vật phẩm 

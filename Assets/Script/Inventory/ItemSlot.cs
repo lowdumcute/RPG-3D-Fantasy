@@ -29,13 +29,15 @@ public class ItemSlot : MonoBehaviour,IPointerClickHandler
     public Button UsingItemButton;
     [Header("Invetory Manager")]    //Inventory của người chơi
     [SerializeField] private InventoryManager inventoryManager;
-    public PlayerHealth PlayerHealth;// máu của người chơi
+    public PlayerHealthManager PlayerHealth;// máu của người chơi
     
     private void Start()
     {
         RefreshInfo();
         inventoryManager = GameObject.Find("Inventory").gameObject.GetComponent<InventoryManager>();
-        
+        PlayerHealth = GameObject.Find("Player").gameObject.GetComponent<PlayerHealthManager>();
+
+
     }
 
     //Hàm gọi khi mới Add 1 vật phẩm mới vào Inventory
@@ -81,9 +83,18 @@ public class ItemSlot : MonoBehaviour,IPointerClickHandler
         Debug.Log($"using {itemSO.ItemName}");
         if (itemSO.Status == StatusChange.Healt)
         {
-            PlayerHealth.CurrertHealth += itemSO.NumberOfChange;
-            Debug.Log($"Current Health:{PlayerHealth.CurrertHealth}");
-            RefreshInfo();
+            if(PlayerHealth.playerStats.currentHealth >= PlayerHealth.playerStats.maxHealth)
+            {
+                return;
+            }
+            else
+            {
+                PlayerHealth.playerStats.currentHealth += itemSO.NumberOfChange;
+                PlayerHealth.UpdateHealthUI();
+                Debug.Log($"Current Health:{PlayerHealth.playerStats.currentHealth}");
+                RefreshInfo();
+            }
+            
         }
         else if (itemSO.Status == StatusChange.Mana)
         {
