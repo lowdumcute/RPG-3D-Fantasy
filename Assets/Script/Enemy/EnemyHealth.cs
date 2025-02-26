@@ -94,8 +94,4 @@ public class EnemyHealth : MonoBehaviour
     {
         gameObject.SetActive(false);
     }
-    public void DropItem()
-    {
-        DropItemManager.Instance.SpawnItems(transform.position);
-    }
 }

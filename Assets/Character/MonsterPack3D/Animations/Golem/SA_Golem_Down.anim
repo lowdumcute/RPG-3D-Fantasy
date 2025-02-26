@@ -26152,7 +26152,7 @@ AnimationClip:
   m_HasMotionFloatCurves: 0
   m_Events:
   - time: 1.5416666
-    functionName: DropItem
+    functionName: Spawn
     data: 
     objectReferenceParameter: {fileID: 0}
     floatParameter: 0

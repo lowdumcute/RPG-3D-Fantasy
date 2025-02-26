@@ -1,24 +1,41 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class InventoryManager : MonoBehaviour
 {
+    public static InventoryManager Instance { get; private set; }
+
     [SerializeField] private GameObject InventoryMenu;
     [SerializeField] private KeyCode keyCodeInventory = KeyCode.Escape;
-    [SerializeField] private List<ItemSlot> itemsSlot;
-    
-    bool isActive;
-    void Start()
+    [SerializeField] private List<ItemSlot> itemsSlot = new List<ItemSlot>();
+    [SerializeField] private GameObject SlotPrefab;
+    [SerializeField] private Transform slotContainer; // Chỗ chứa các SlotPrefab
+
+    private bool isActive;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
+
+    private void Start()
     {
         isActive = false;
         InventoryMenu.SetActive(isActive);
+        GenerateInventorySlots(); // Tạo các slot theo số lượng itemsSlot
         DeSelectedAllItemSlot();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         if (Input.GetKeyDown(keyCodeInventory))
         {
@@ -40,44 +57,63 @@ public class InventoryManager : MonoBehaviour
             }
         }
     }
-    
-    public void AddItem(ItemSO item, int quantity)// hàm add vào Inventory
-    {
 
-        var Item = itemsSlot.Find(i => i.ID == item.ID); //kiểm tra có ID trong inventory hay không 
+    private void GenerateInventorySlots()
+    {
+        // Xóa slot cũ nếu có
+        foreach (Transform child in slotContainer)
+        {
+            Destroy(child.gameObject);
+        }
+
+        itemsSlot.Clear(); // Xóa danh sách cũ
+
+        // Spawn các slot mới
+        for (int i = 0; i < itemsSlot.Capacity; i++)
+        {
+            GameObject newSlot = Instantiate(SlotPrefab, slotContainer);
+            ItemSlot slotComponent = newSlot.GetComponent<ItemSlot>();
+            if (slotComponent != null)
+            {
+                itemsSlot.Add(slotComponent);
+            }
+        }
+    }
+
+    public void AddItem(ItemSO item, int quantity)
+    {
+        var Item = itemsSlot.Find(i => i.ID == item.ID);
         if (Item != null)
         {
-            //nếu có thì cộng số lượng 
             Item.ItemQuantity += quantity;
         }
-        else// nếu không thì add mới vào 
+        else
         {
             foreach (ItemSlot slot in itemsSlot)
             {
-                if (slot.isHaveItem== false)
+                if (!slot.isHaveItem)
                 {
                     slot.AddItem(item, quantity);
                     return;
                 }
             }
         }
-
     }
+
     public void DeSelectedAllItemSlot()
     {
-        foreach (ItemSlot slot in itemsSlot)//Tắt slotđã  chọn trước đó khi chon 1 panel khác 
+        foreach (ItemSlot slot in itemsSlot)
         {
             slot.SelectedPanel.SetActive(false);
             slot.isSelected = false;
         }
     }
-    public void RefreshInventory()// Làm mới thông tin Inventory
+
+    public void RefreshInventory()
     {
         foreach (ItemSlot slot in itemsSlot)
         {
             slot.QuantityText.text = slot.ItemQuantity.ToString();
-
         }
-
     }
 }
