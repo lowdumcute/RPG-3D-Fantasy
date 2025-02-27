@@ -1917,6 +1917,11 @@ PrefabInstance:
       propertyPath: keyCodeInventory
       value: 98
       objectReference: {fileID: 0}
+    - target: {fileID: 7591765610311584277, guid: ba4f9d616f82c91469f050f91cffa3d9,
+        type: 3}
+      propertyPath: itemsSlot.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 7625848663204783225, guid: ba4f9d616f82c91469f050f91cffa3d9,
         type: 3}
       propertyPath: m_AnchorMax.y
