@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class InventoryManager : MonoBehaviour
 {
-    public static InventoryManager Instance { get; private set; }
+    public static InventoryManager Instance { get; private set; } // Singleton
 
     [SerializeField] private GameObject InventoryMenu;
     [SerializeField] private KeyCode keyCodeInventory = KeyCode.Escape;
-    [SerializeField] private List<ItemSlot> itemsSlot = new List<ItemSlot>();
-    [SerializeField] private GameObject SlotPrefab;
-    [SerializeField] private Transform slotContainer; // Chỗ chứa các SlotPrefab
+    [SerializeField] private List<ItemSlot> itemsSlot;
 
     private bool isActive;
 
@@ -22,7 +20,7 @@ public class InventoryManager : MonoBehaviour
         }
         else
         {
-            Destroy(gameObject);
+            Destroy(gameObject); // Đảm bảo chỉ có 1 instance tồn tại
             return;
         }
     }
@@ -31,7 +29,6 @@ public class InventoryManager : MonoBehaviour
     {
         isActive = false;
         InventoryMenu.SetActive(isActive);
-        GenerateInventorySlots(); // Tạo các slot theo số lượng itemsSlot
         DeSelectedAllItemSlot();
     }
 
@@ -54,28 +51,6 @@ public class InventoryManager : MonoBehaviour
                 Cursor.lockState = CursorLockMode.Locked;
                 Cursor.visible = false;
                 CameraController.isPaused = false; // Bật lại camera
-            }
-        }
-    }
-
-    private void GenerateInventorySlots()
-    {
-        // Xóa slot cũ nếu có
-        foreach (Transform child in slotContainer)
-        {
-            Destroy(child.gameObject);
-        }
-
-        itemsSlot.Clear(); // Xóa danh sách cũ
-
-        // Spawn các slot mới
-        for (int i = 0; i < itemsSlot.Capacity; i++)
-        {
-            GameObject newSlot = Instantiate(SlotPrefab, slotContainer);
-            ItemSlot slotComponent = newSlot.GetComponent<ItemSlot>();
-            if (slotComponent != null)
-            {
-                itemsSlot.Add(slotComponent);
             }
         }
     }
