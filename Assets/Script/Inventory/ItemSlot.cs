@@ -51,6 +51,7 @@ public class ItemSlot : MonoBehaviour,IPointerClickHandler
         this.ItemDecription = itemSO.Decription;
         QuantityText.text = ItemQuantity.ToString();
         QuantityText.enabled = true;
+        ItemImage.enabled = true; ;
         ItemImage.sprite = IconItemSprite;
         isHaveItem = true;
     }
@@ -78,6 +79,7 @@ public class ItemSlot : MonoBehaviour,IPointerClickHandler
 
         // tắt hình ảnh mô tả và nút sử dụng khi vật phẩm hết
         ItemDecriptionImage.enabled = false;
+        ItemImage.enabled = false;
         UsingItemButton.gameObject.SetActive(false);
     }
 
@@ -154,6 +156,7 @@ public class ItemSlot : MonoBehaviour,IPointerClickHandler
         inventoryManager.DeSelectedAllItemSlot();
         isSelected = true;
         SelectedPanel.SetActive(true);
+       
         // Đảm bảo chỉ thêm sự kiện cho nút khi chọn item
         UsingItemButton.onClick.RemoveAllListeners(); // Xóa sự kiện cũ để tránh gọi nhiều lần
         UsingItemButton.onClick.AddListener(UsingItem);
@@ -174,6 +177,7 @@ public class ItemSlot : MonoBehaviour,IPointerClickHandler
         }
         else
         {
+            ItemImage.enabled = false;
             QuantityText.enabled = false;
         }
         if(isSelected)
@@ -190,6 +194,7 @@ public class ItemSlot : MonoBehaviour,IPointerClickHandler
         ItemDecriptionNameText.text = ItemName;
         ItemDecriptionText.text = ItemDecription;
         ItemDecriptionImage.sprite = IconItemSprite;
+        ItemImage.sprite = IconItemSprite;
     }
 
 }
