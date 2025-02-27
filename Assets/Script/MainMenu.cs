@@ -9,6 +9,7 @@ public class MainMenu : MonoBehaviour
     public void NewGame()
     {
         SceneManager.LoadScene("Scene1");
+        DynamicGI.UpdateEnvironment(); // Cập nhật ánh sáng toàn cục
     }
 
     // Update is called once per frame
