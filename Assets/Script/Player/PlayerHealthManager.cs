@@ -54,14 +54,14 @@ public class PlayerHealthManager : MonoBehaviour
     }
 
     // Cập nhật slider và text của sức khỏe
-    private void UpdateHealthUI()
+    public void UpdateHealthUI()
     {
         healthSlider.value = playerStats.currentHealth / playerStats.maxHealth;
         healthText.text = "Health: " + Mathf.Round(playerStats.currentHealth).ToString() + " / " + Mathf.Round(playerStats.maxHealth).ToString();
     }
 
     // Cập nhật slider và text của mana
-    private void UpdateManaUI()
+    public void UpdateManaUI()
     {
         manaSlider.value = playerStats.currentMana / playerStats.maxMana;
         manaText.text = "Mana: " + Mathf.Round(playerStats.currentMana).ToString() + " / " + Mathf.Round(playerStats.maxMana).ToString();

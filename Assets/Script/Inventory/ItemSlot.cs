@@ -29,13 +29,15 @@ public class ItemSlot : MonoBehaviour,IPointerClickHandler
     public Button UsingItemButton;
     [Header("Invetory Manager")]    //Inventory của người chơi
     [SerializeField] private InventoryManager inventoryManager;
-    public PlayerHealth PlayerHealth;// máu của người chơi
+    public PlayerHealthManager PlayerHealth;// máu của người chơi
     
     private void Start()
     {
         RefreshInfo();
         inventoryManager = GameObject.Find("Inventory").gameObject.GetComponent<InventoryManager>();
-        
+        PlayerHealth = GameObject.Find("Player").gameObject.GetComponent<PlayerHealthManager>();
+
+
     }
 
     //Hàm gọi khi mới Add 1 vật phẩm mới vào Inventory
@@ -62,7 +64,7 @@ public class ItemSlot : MonoBehaviour,IPointerClickHandler
         ItemQuantity = 0;
         IconItemSprite = null;
         ItemDecription = "";
-        isHaveItem = false; 
+        isHaveItem = false;
         isSelected = false;
 
         QuantityText.text = "";
@@ -73,7 +75,12 @@ public class ItemSlot : MonoBehaviour,IPointerClickHandler
         ItemDecriptionNameText.text = "";
         ItemDecriptionText.text = "";
         ItemDecriptionImage.sprite = null;
+
+        // tắt hình ảnh mô tả và nút sử dụng khi vật phẩm hết
+        ItemDecriptionImage.enabled = false;
+        UsingItemButton.gameObject.SetActive(false);
     }
+
 
     // Cập nhật lại UsingItem()
     public void UsingItem()
@@ -81,9 +88,22 @@ public class ItemSlot : MonoBehaviour,IPointerClickHandler
         Debug.Log($"using {itemSO.ItemName}");
         if (itemSO.Status == StatusChange.Healt)
         {
-            PlayerHealth.CurrertHealth += itemSO.NumberOfChange;
-            Debug.Log($"Current Health:{PlayerHealth.CurrertHealth}");
-            RefreshInfo();
+            if(PlayerHealth.playerStats.currentHealth >= PlayerHealth.playerStats.maxHealth)
+            {
+                return;
+            }
+            else
+            {
+                PlayerHealth.playerStats.currentHealth += itemSO.NumberOfChange;
+                if (PlayerHealth.playerStats.currentHealth >= PlayerHealth.playerStats.maxHealth)
+                {
+                    PlayerHealth.playerStats.currentHealth = PlayerHealth.playerStats.maxHealth;
+                }
+                PlayerHealth.UpdateHealthUI();
+                Debug.Log($"Current Health:{PlayerHealth.playerStats.currentHealth}");
+                RefreshInfo();
+            }
+            
         }
         else if (itemSO.Status == StatusChange.Mana)
         {
@@ -115,7 +135,14 @@ public class ItemSlot : MonoBehaviour,IPointerClickHandler
     {
         if (eventData.button == PointerEventData.InputButton.Left)// kiểm tra điều kiện nhấn chuột trái
         {
-            OnLeftClick();
+            if(!isHaveItem)
+            {
+                return; 
+            }
+            else
+            {
+                OnLeftClick();
+            }
         }
         if (eventData.button == PointerEventData.InputButton.Right)// kiểm tra điều kiện nhấn chuột phải
         {
