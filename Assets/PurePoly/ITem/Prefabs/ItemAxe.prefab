@@ -372,6 +372,7 @@ GameObject:
   - component: {fileID: 417134569252294082}
   - component: {fileID: 5929778768005444464}
   - component: {fileID: 1245545964602125286}
+  - component: {fileID: -1654910616561596846}
   m_Layer: 0
   m_Name: ItemAxe
   m_TagString: Untagged
@@ -511,6 +512,19 @@ MonoBehaviour:
   Quantity: 1
   pickupRange: 2
   pickupUI: {fileID: 6302997197746636161}
+--- !u!114 &-1654910616561596846
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8047764633477264512}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b2b30259abffb6e4cbc7bf236227d4c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  camera: {fileID: 0}
 --- !u!1001 &865590531137517633
 PrefabInstance:
   m_ObjectHideFlags: 0

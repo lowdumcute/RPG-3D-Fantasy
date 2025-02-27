@@ -14,7 +14,7 @@ public class Item : MonoBehaviour
 
     private void Start()
     {
-        InventoryManager.Instance.AddItem(itemSO, Quantity);
+        
         player = GameObject.FindGameObjectWithTag("Player").transform;
         if (pickupUI != null)
         {
