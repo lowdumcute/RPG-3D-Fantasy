@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ed5c91c32b9b0af4e851c25c03211f16
+guid: 6da60409d6d4dd74897163884ff89896
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -34,16 +34,16 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 2
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
     wrapV: 1
-    wrapW: 1
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -63,9 +63,9 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   ignorePngGamma: 0
-  applyGammaDecoding: 1
+  applyGammaDecoding: 0
   swizzle: 50462976
-  cookieLightType: 1
+  cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -136,22 +136,22 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: lil_roundbackground_0
+      name: BackGround Chart_0
       rect:
         serializedVersion: 2
-        x: 3
-        y: 4
-        width: 57
-        height: 57
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 10, y: 10, z: 10, w: 10}
+        x: 0
+        y: 0
+        width: 499
+        height: 499
+      alignment: 9
+      pivot: {x: 0.5005116, y: 0.45220235}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0fec2923d58e41c42bc2999e66c7822e
-      internalID: 1607186585
+      spriteID: badebaecc39f25a40a30a96576a6cc26
+      internalID: -1671038452
       vertices: []
       indices: 
       edges: []
@@ -159,7 +159,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 20a45e0f03d59b9459d45088f7c543fd
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -167,7 +167,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      lil_roundbackground_0: 1607186585
+      BackGround Chart_0: -1671038452
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

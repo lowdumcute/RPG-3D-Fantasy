@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: ed5c91c32b9b0af4e851c25c03211f16
+guid: d015f07277cfd234297590c56b5d8f9f
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -34,16 +34,16 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 2
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
     wrapV: 1
-    wrapW: 1
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -63,9 +63,9 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   ignorePngGamma: 0
-  applyGammaDecoding: 1
+  applyGammaDecoding: 0
   swizzle: 50462976
-  cookieLightType: 1
+  cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -136,22 +136,85 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: lil_roundbackground_0
+      name: IconCharacter_0
       rect:
         serializedVersion: 2
-        x: 3
-        y: 4
-        width: 57
-        height: 57
+        x: 5
+        y: 242
+        width: 245
+        height: 250
       alignment: 0
       pivot: {x: 0, y: 0}
-      border: {x: 10, y: 10, z: 10, w: 10}
+      border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0fec2923d58e41c42bc2999e66c7822e
-      internalID: 1607186585
+      spriteID: 9e6ada2036bd1764abca0405f1551629
+      internalID: 112900139
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IconCharacter_1
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 242
+        width: 243
+        height: 251
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a227f480edd7d4e4eb44cd50c8b39f64
+      internalID: -1882305722
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IconCharacter_2
+      rect:
+        serializedVersion: 2
+        x: 6
+        y: 0
+        width: 243
+        height: 235
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a2e26e9132eb9344958064e88ad66e8
+      internalID: -1201185336
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: IconCharacter_3
+      rect:
+        serializedVersion: 2
+        x: 257
+        y: 0
+        width: 243
+        height: 235
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 911cf4b9e9a48974eb96a5a80ba86a96
+      internalID: -127151587
       vertices: []
       indices: 
       edges: []
@@ -159,7 +222,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 20a45e0f03d59b9459d45088f7c543fd
+    spriteID: 7594a0bced4e3744e9319c83236566a0
     internalID: 0
     vertices: []
     indices: 
@@ -167,7 +230,10 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      lil_roundbackground_0: 1607186585
+      IconCharacter_0: 112900139
+      IconCharacter_1: -1882305722
+      IconCharacter_2: -1201185336
+      IconCharacter_3: -127151587
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
