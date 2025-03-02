@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class ListenerControler : MonoBehaviour
 {
-    public Transform cam;
-    
+    public GameObject cam;
+
 
     // Update is called once per frame
+    private void Start()
+    {
+        cam = GameObject.FindGameObjectWithTag("MainCamera");
+    }
     void Update()
     {
-        transform.LookAt(transform.position + cam.forward);
+        transform.LookAt(transform.position + cam.transform.forward);
     }
 }

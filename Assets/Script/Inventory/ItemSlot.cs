@@ -11,6 +11,7 @@ public class ItemSlot : MonoBehaviour,IPointerClickHandler
     [SerializeField] public ItemSO itemSO;
     [SerializeField] public int ID;
     [SerializeField] private string ItemName;
+    [SerializeField] private ItemType itemType;
     [SerializeField] public int ItemQuantity;
     [SerializeField] private Sprite IconItemSprite;
     [SerializeField] private string ItemDecription;
@@ -41,11 +42,12 @@ public class ItemSlot : MonoBehaviour,IPointerClickHandler
     }
 
     //Hàm gọi khi mới Add 1 vật phẩm mới vào Inventory
-    public void AddItem(ItemSO itemSO,int quantity)
+    public void AddItem(ItemSO itemSO,int quantity,ItemType itemType)
     {
         this.itemSO = itemSO;
         this.ItemName = itemSO.ItemName;
         this.ID = itemSO.ID;
+        this.itemType = itemType;
         this.ItemQuantity = quantity;
         this.IconItemSprite = itemSO.Icon;
         this.ItemDecription = itemSO.Decription;

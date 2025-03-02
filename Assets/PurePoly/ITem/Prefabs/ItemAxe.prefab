@@ -512,6 +512,7 @@ MonoBehaviour:
   Quantity: 1
   pickupRange: 2
   pickupUI: {fileID: 6302997197746636161}
+  itemType: 1
 --- !u!114 &-1654910616561596846
 MonoBehaviour:
   m_ObjectHideFlags: 0

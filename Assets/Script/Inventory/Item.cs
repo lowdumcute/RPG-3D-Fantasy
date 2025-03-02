@@ -2,14 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-
+[System.Serializable]
+public enum ItemType { Consume,weapon,Head,Body,Glove,Boots,Collectible}
 public class Item : MonoBehaviour
 {
     [SerializeField] private ItemSO itemSO;
     [SerializeField] private int Quantity;
     [SerializeField] private float pickupRange = 2f; // Khoảng cách để nhặt
     [SerializeField] private GameObject pickupUI; // UI thông báo nhặt
-
+    [SerializeField] private ItemType itemType;
     private Transform player;
 
     private void Start()
@@ -38,7 +39,7 @@ public class Item : MonoBehaviour
 
                 if (InventoryManager.Instance != null)
                 {
-                    InventoryManager.Instance.AddItem(itemSO, Quantity);
+                    InventoryManager.Instance.AddItem(itemSO, Quantity, itemType);
                     Destroy(gameObject); // Xóa item sau khi nhặt
                 }
                 else
