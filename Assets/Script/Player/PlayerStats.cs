@@ -3,6 +3,13 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "PlayerStats", menuName = "Player/Stats")]
 public class PlayerStats : ScriptableObject
 {
+    [Header("Default Stats")]
+    [SerializeField] public int DAttack = 10;
+    [SerializeField] public int DDefense = 15;
+    [SerializeField] public int DSpeed = 5;
+    [SerializeField] public int DMana = 16;
+    [SerializeField] public int DHealth = 18; 
+    [Header("Base Stats")]
     public float maxHealth = 100f;
     public float maxMana = 100f;
     public float maxAttack = 10f;

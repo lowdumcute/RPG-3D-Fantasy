@@ -10,12 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97c84de58b2d93041b3957782294b62f, type: 3}
-  m_Name: StatsPlayer
+  m_Name: ArcherStats
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  DAttack: 12
+  DDefense: 6
+  DSpeed: 10
+  DMana: 10
+  DHealth: 12
+  maxHealth: 80
   maxMana: 100
-  maxAttack: 10
-  maxSpeed: 5
+  maxAttack: 12
+  maxSpeed: 7
   maxDefend: 5
   currentHealth: 0
   currentMana: 0

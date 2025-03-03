@@ -7,9 +7,10 @@ using System;
 public class Testing : MonoBehaviour
 {
     [SerializeField]private UIStatsRadarChart uiStatsRadarChart;
+    [SerializeField] private PlayerStats playerStats;
     private void Start()
     {
-        Stats stats = new Stats(10, 2, 5, 10, 10);
+        Stats stats = new Stats(playerStats.DAttack, playerStats.DDefense, playerStats.DSpeed, playerStats.DMana, playerStats.DHealth);
 
         uiStatsRadarChart.SetStats(stats);
         CMDebug.ButtonUI(new Vector2(200, +20), "ATK++", () => stats.IncreaseStatAmount(Stats.Type.Attack));
