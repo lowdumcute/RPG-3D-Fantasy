@@ -1883,7 +1883,7 @@ MonoBehaviour:
   AvatarImage: {fileID: 21300000, guid: f2a4bdb43a86ddf4d973833a0a524053, type: 3}
   Avatar: {fileID: 899239519}
   clickSound: {fileID: 8300000, guid: dddb94bd6e37fd14a9ec4e1d0aa6e5a9, type: 3}
-  fadeDuration: 10
+  fadeDuration: 2
 --- !u!1 &430160350
 GameObject:
   m_ObjectHideFlags: 0
@@ -4001,7 +4001,7 @@ MonoBehaviour:
   AvatarImage: {fileID: 21300000, guid: 8327df74426884a45b4d6be1dc7b9aea, type: 3}
   Avatar: {fileID: 899239519}
   clickSound: {fileID: 8300000, guid: dd85c3a38016ce94c8ba6b68d2e08d63, type: 3}
-  fadeDuration: 0.5
+  fadeDuration: 2
 --- !u!1 &1128266148
 GameObject:
   m_ObjectHideFlags: 0
@@ -5635,7 +5635,7 @@ MonoBehaviour:
   AvatarImage: {fileID: 21300000, guid: c16d6a8ad91739e4581fb7af3060d304, type: 3}
   Avatar: {fileID: 899239519}
   clickSound: {fileID: 8300000, guid: b6f52ee11aa951c4e9cdb073389bf48e, type: 3}
-  fadeDuration: 0.5
+  fadeDuration: 2
 --- !u!1 &1835036352
 GameObject:
   m_ObjectHideFlags: 0
@@ -5917,7 +5917,7 @@ MonoBehaviour:
   AvatarImage: {fileID: 21300000, guid: 20cc82ec023a4bc4890e8b60f0ab454b, type: 3}
   Avatar: {fileID: 899239519}
   clickSound: {fileID: 8300000, guid: 3bea0f635211eb945aeea3ca3cb10eb3, type: 3}
-  fadeDuration: 0.5
+  fadeDuration: 2
 --- !u!1 &2015435382
 GameObject:
   m_ObjectHideFlags: 0
