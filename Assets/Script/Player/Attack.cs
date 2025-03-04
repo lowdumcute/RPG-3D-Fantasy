@@ -13,7 +13,7 @@ public class Attack : MonoBehaviour
     }
 
     public void AttackMelee()
-{
+    {
     // Bật Attack Collider
     attackCollider.enabled = true;
 

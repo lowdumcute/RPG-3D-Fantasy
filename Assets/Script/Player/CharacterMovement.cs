@@ -5,7 +5,7 @@ using UnityEngine;
 public class CharacterMovement : MonoBehaviour
 {
     [Header("Movement")]
-    private float currentSpeed = GameManager.Instance.dataGameManager.playerStatsUsing.maxSpeed; // Tốc độ hiện tại
+    private float currentSpeed ;
     private float acceleration = 5f; // Tốc độ tăng dần
     private float deceleration = 10f; // Tốc độ giảm dần
     [SerializeField] private float movementSpeed = 5f;
@@ -32,6 +32,7 @@ public class CharacterMovement : MonoBehaviour
 
     void Start()
     {
+        movementSpeed = GameManager.Instance.dataGameManager.playerStatsUsing.maxSpeed ; // Tốc độ hiện tại
         animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
         animator.SetBool("Run", false);
