@@ -4,15 +4,9 @@ using UnityEngine;
 
 public class AddPlayerStats : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] public PlayerStats playerStats;
+    public void AddSOStats()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        GameManager.Instance.AddPlayerStats(playerStats);
     }
 }

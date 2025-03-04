@@ -19,6 +19,7 @@ public class PlayerHealthManager : MonoBehaviour
     {
         // Khởi tạo PlayerStats
         GameManager.Instance.dataGameManager.playerStatsUsing.Initialize();
+        LoadUI();
 
         // Cập nhật UI ban đầu
         UpdateHealthUI();
