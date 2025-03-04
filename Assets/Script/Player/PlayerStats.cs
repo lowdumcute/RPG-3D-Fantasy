@@ -1,8 +1,11 @@
+using System;
 using UnityEngine;
+public enum Type {Warrior, Archer, Assasin, Mage}
 
 [CreateAssetMenu(fileName = "PlayerStats", menuName = "Player/Stats")]
 public class PlayerStats : ScriptableObject
 {
+    [SerializeField] public String NameRole;
     [Header("Default Stats")]
     [SerializeField] public int DAttack = 10;
     [SerializeField] public int DDefense = 15;
@@ -26,6 +29,7 @@ public class PlayerStats : ScriptableObject
         UpdateStats();
         currentHealth = maxHealth;
         currentMana = maxMana;
+        
     }
     public void UpdateStats()
     {

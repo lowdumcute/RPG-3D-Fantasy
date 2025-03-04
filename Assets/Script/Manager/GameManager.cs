@@ -31,9 +31,11 @@ public class GameManager : MonoBehaviour
     {
         GameData data = new GameData();
         data.level = dataGameManager.currentLevel;
+        data.Role = dataGameManager.playerStatsUsing.NameRole;
 
         string json = JsonUtility.ToJson(data);
         File.WriteAllText(Application.persistentDataPath + "/savegame.json", json);
+        Debug.Log ("Đã lưu" + dataGameManager);
     }
 
     public void LoadProgress()
@@ -47,6 +49,14 @@ public class GameManager : MonoBehaviour
             
             // Cập nhật ScriptableObject với dữ liệu từ JSON
             dataGameManager.currentLevel = data.level;
+            foreach (var role in dataGameManager.AllRoleStats)
+            {
+            if (role.name == data.Role) // So sánh với tên đã lưu
+            {
+                dataGameManager.playerStatsUsing = role;
+                break;
+            }
+            }
         }
         else
         {

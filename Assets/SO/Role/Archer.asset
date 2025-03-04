@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97c84de58b2d93041b3957782294b62f, type: 3}
-  m_Name: Assasin
+  m_Name: Archer
   m_EditorClassIdentifier: 
-  DAttack: 20
-  DDefense: 7
-  DSpeed: 18
-  DMana: 10
+  NameRole: Archer
+  DAttack: 19
+  DDefense: 9
+  DSpeed: 15
+  DMana: 12
   DHealth: 15
   maxHealth: 80
   maxMana: 100

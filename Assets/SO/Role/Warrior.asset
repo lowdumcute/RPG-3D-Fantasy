@@ -10,17 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 97c84de58b2d93041b3957782294b62f, type: 3}
-  m_Name: Mage
+  m_Name: Warrior
   m_EditorClassIdentifier: 
-  DAttack: 17
-  DDefense: 5
-  DSpeed: 10
-  DMana: 20
-  DHealth: 18
-  maxHealth: 80
-  maxMana: 100
-  maxAttack: 12
-  maxSpeed: 7
-  maxDefend: 5
-  currentHealth: 0
-  currentMana: 0
+  NameRole: Warrior
+  DAttack: 16
+  DDefense: 18
+  DSpeed: 9
+  DMana: 7
+  DHealth: 20
+  maxHealth: 60
+  maxMana: 21
+  maxAttack: 48
+  maxSpeed: 27
+  maxDefend: 54
+  currentHealth: 60
+  currentMana: 21

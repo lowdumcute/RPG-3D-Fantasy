@@ -11,6 +11,11 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadScene("ChooseCharacterScene");
         DynamicGI.UpdateEnvironment(); // Cập nhật ánh sáng toàn cục
     }
+    public void LoadGame(string SceneName)
+    {
+        SceneManager.LoadScene(SceneName);
+        GameManager.Instance.LoadProgress();
+    }
 
     // Update is called once per frame
     public void ExitGame()

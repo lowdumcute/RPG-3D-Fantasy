@@ -12,6 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84579d8b42eae2647ad53b739c3693ae, type: 3}
   m_Name: DataGameManager
   m_EditorClassIdentifier: 
-  playerStatsUsing: {fileID: 0}
-  currentLevel: 0
+  AllRoleStats:
+  - {fileID: 11400000, guid: 351c7359bd8469e49924b0b2fe195ae2, type: 2}
+  - {fileID: 11400000, guid: 803b71c201ccb3e46b35c10ac71dd385, type: 2}
+  - {fileID: 11400000, guid: 1324f7aaf456ebe4c90a7e83f78d99f8, type: 2}
+  - {fileID: 11400000, guid: da1d03efeb36f054e9a7d55abd5750bc, type: 2}
+  playerStatsUsing: {fileID: 11400000, guid: da1d03efeb36f054e9a7d55abd5750bc, type: 2}
+  currentLevel: 1
   exp: 0
+  location: 0
