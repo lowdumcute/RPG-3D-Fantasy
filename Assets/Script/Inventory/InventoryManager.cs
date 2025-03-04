@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class InventoryManager : MonoBehaviour
 {
@@ -11,7 +12,7 @@ public class InventoryManager : MonoBehaviour
     [SerializeField] private KeyCode keyCodeInventory = KeyCode.Escape;
     [SerializeField] private KeyCode keyCodeEquipment = KeyCode.Escape;
     [SerializeField] private List<ItemSlot> itemsConsumeSlot;
-    [SerializeField] private List<ItemSlot> itemsWeaponSlot;
+    [SerializeField] private List<EquipmentSlot> itemsWeaponSlot;
     private bool isActive;
 
     private void Awake()
@@ -67,10 +68,11 @@ public class InventoryManager : MonoBehaviour
     }
     void EquipmentInventory()
     {
-      
+        isActive = !isActive;
+        EquipmentMenu.SetActive(isActive);
         RefreshInventory();
 
-        if (EquipmentMenu.activeSelf)
+        if (isActive)
         {
             EquipmentMenu.SetActive(false);
             Cursor.lockState = CursorLockMode.None;
@@ -86,7 +88,7 @@ public class InventoryManager : MonoBehaviour
         }
     }
 
-    public void AddItem(ItemSO item, int quantity,ItemType itemtype)
+    public void AddComsumeItem(ItemSO item, int quantity,ItemType itemtype)
     {
         if(itemtype == ItemType.Consume)
         {
@@ -107,26 +109,24 @@ public class InventoryManager : MonoBehaviour
                 }
             }
         }
-        else if( itemtype == ItemType.weapon|| itemtype == ItemType.Head ||
-                 itemtype == ItemType.Body  || itemtype == ItemType.Glove|| 
+        
+    }
+    public void AddWeaponItem(EquipItemSO item, ItemType itemtype)
+    {
+        if (itemtype == ItemType.weapon || itemtype == ItemType.Head ||
+                 itemtype == ItemType.Body || itemtype == ItemType.Glove ||
                  itemtype == ItemType.Boots || itemtype == ItemType.Collectible)
         {
-            var Item = itemsWeaponSlot.Find(i => i.ID == item.ID);
-            if (Item != null)
+            
+            foreach (EquipmentSlot slot in itemsWeaponSlot)
             {
-                Item.ItemQuantity += quantity;
-            }
-            else
-            {
-                foreach (ItemSlot slot in itemsConsumeSlot)
+                if (!slot.isHaveItem)
                 {
-                    if (!slot.isHaveItem)
-                    {
-                        slot.AddItem(item, quantity, itemtype);
-                        return;
-                    }
+                    slot.AddItem(item, itemtype);
+                    return;
                 }
             }
+
         }
     }
 
@@ -136,6 +136,11 @@ public class InventoryManager : MonoBehaviour
         {
             slot.SelectedPanel.SetActive(false);
             slot.isSelected = false;
+        }
+        foreach(EquipmentSlot slots in itemsWeaponSlot)
+        {
+            slots.SelectedPanel.SetActive(false);
+            slots.isSelected = false;
         }
     }
 

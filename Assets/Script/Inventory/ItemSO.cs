@@ -12,5 +12,6 @@ public class ItemSO : ScriptableObject
     public int ID;          //Id của Item   
     public Sprite Icon;     // Icon của item
     public string Decription;//thông tin của item
+
 }
 public enum StatusChange { Healt,Mana,Stamina}

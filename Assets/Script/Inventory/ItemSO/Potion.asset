@@ -12,10 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77b1bd5274e88a54880f6acd0c44127f, type: 3}
   m_Name: Potion
   m_EditorClassIdentifier: 
-  Type: 0
   Status: 0
   NumberOfChange: 20
   ItemName: Health Potion
   ID: 3
-  Icon: {fileID: 21300000, guid: 3d6e441791dc08b41b9cccd520a510c9, type: 3}
+  Icon: {fileID: 119924292, guid: 54a105e483532c642b10651cf2988ae5, type: 3}
   Decription: Potion very Expensive
