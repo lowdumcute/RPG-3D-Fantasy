@@ -4,19 +4,21 @@ using TMPro;
 
 public class PlayerHealthManager : MonoBehaviour
 {
-    [Header("Player Stats")]
-    public PlayerStats playerStats;  // Tham chiếu tới PlayerStats
 
     [Header("UI Elements")]
     public Slider healthSlider;
     public Slider manaSlider;
     public TMP_Text healthText;
     public TMP_Text manaText;
+    [HideInInspector]public float maxHealth;
+    [HideInInspector]public int maxMana;
+    [HideInInspector]public float currentHealth;
+    [HideInInspector]public float currentMana;
 
     private void Start()
     {
         // Khởi tạo PlayerStats
-        playerStats.Initialize();
+        GameManager.Instance.dataGameManager.playerStatsUsing.Initialize();
 
         // Cập nhật UI ban đầu
         UpdateHealthUI();
@@ -40,30 +42,37 @@ public class PlayerHealthManager : MonoBehaviour
         UpdateHealthUI();
         UpdateManaUI();
     }
+    public void LoadUI()
+    {
+        maxHealth = GameManager.Instance.dataGameManager.playerStatsUsing.maxHealth;
+        maxMana = GameManager.Instance.dataGameManager.playerStatsUsing.maxMana;
+        currentHealth = GameManager.Instance.dataGameManager.playerStatsUsing.currentHealth;
+        currentMana = GameManager.Instance.dataGameManager.playerStatsUsing.currentMana;
+    }
 
     // Hàm nhận sát thương
     public void TakeDamage(float amount)
     {
-        playerStats.currentHealth = Mathf.Clamp(playerStats.currentHealth - amount, 0f, playerStats.maxHealth);
+        currentHealth = Mathf.Clamp(currentHealth - amount, 0f, maxHealth);
     }
 
     // Hàm sử dụng mana
     public void UseMana(float amount)
     {
-        playerStats.currentMana = Mathf.Clamp(playerStats.currentMana - amount, 0f, playerStats.maxMana);
+        currentMana = Mathf.Clamp(currentMana - amount, 0f, maxMana);
     }
 
     // Cập nhật slider và text của sức khỏe
     public void UpdateHealthUI()
     {
-        healthSlider.value = playerStats.currentHealth / playerStats.maxHealth;
-        healthText.text = "Health: " + Mathf.Round(playerStats.currentHealth).ToString() + " / " + Mathf.Round(playerStats.maxHealth).ToString();
+        healthSlider.value = currentHealth / maxHealth;
+        healthText.text = "Health: " + Mathf.Round(currentHealth).ToString() + " / " + Mathf.Round(maxHealth).ToString();
     }
 
     // Cập nhật slider và text của mana
     public void UpdateManaUI()
     {
-        manaSlider.value = playerStats.currentMana / playerStats.maxMana;
-        manaText.text = "Mana: " + Mathf.Round(playerStats.currentMana).ToString() + " / " + Mathf.Round(playerStats.maxMana).ToString();
+        manaSlider.value = currentMana / maxMana;
+        manaText.text = "Mana: " + Mathf.Round(currentMana).ToString() + " / " + Mathf.Round(maxMana).ToString();
     }
 }

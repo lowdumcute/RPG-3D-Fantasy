@@ -8,7 +8,7 @@ public class MainMenu : MonoBehaviour
     // Start is called before the first frame update
     public void NewGame()
     {
-        SceneManager.LoadScene("Scene1");
+        SceneManager.LoadScene("ChooseCharacterScene");
         DynamicGI.UpdateEnvironment(); // Cập nhật ánh sáng toàn cục
     }
 

@@ -5,7 +5,7 @@ using UnityEngine;
 public class CharacterMovement : MonoBehaviour
 {
     [Header("Movement")]
-    private float currentSpeed = 0f;
+    private float currentSpeed = GameManager.Instance.dataGameManager.playerStatsUsing.maxSpeed; // Tốc độ hiện tại
     private float acceleration = 5f; // Tốc độ tăng dần
     private float deceleration = 10f; // Tốc độ giảm dần
     [SerializeField] private float movementSpeed = 5f;

@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class ChangeInfo : MonoBehaviour
 {
@@ -10,6 +11,12 @@ public class ChangeInfo : MonoBehaviour
     [SerializeField] private GameObject Avatar; // GameObject chứa Image cần thay đổi
     [SerializeField] private AudioClip clickSound; // Âm thanh khi click
     [SerializeField] private float fadeDuration = 0.5f; // Thời gian làm rõ ảnh
+    [Header("Audio Source")]
+    [SerializeField] private TMP_Text AttackText;
+    [SerializeField] private TMP_Text DefenseText;
+    [SerializeField] private TMP_Text SpeedText;
+    [SerializeField] private TMP_Text ManaText;
+    [SerializeField] private TMP_Text HealthText;
     private AudioSource audioSource;
 
     private void Start()
@@ -23,6 +30,7 @@ public class ChangeInfo : MonoBehaviour
         Stats stats = new Stats(playerStats.DAttack, playerStats.DDefense, playerStats.DSpeed, playerStats.DMana, playerStats.DHealth);
         uiStatsRadarChart.SetStats(stats);
         ChangeAvatar(AvatarImage);
+        ChangeStatsText();
     }
 
     public void ChangeAvatar(Sprite newSprite)
@@ -85,6 +93,14 @@ public class ChangeInfo : MonoBehaviour
         {
             Debug.LogWarning("Thiếu AudioSource hoặc AudioClip!");
         }
+    }
+    private void ChangeStatsText()
+    {
+        AttackText.text = ("Attack: " + playerStats.DAttack * 3).ToString();
+        DefenseText.text = ("Defense: " + playerStats.DDefense * 3).ToString();
+        SpeedText.text = ("Speed: " + playerStats.DSpeed * 3).ToString();
+        ManaText.text = ("Mana: " + playerStats.DMana * 3).ToString();
+        HealthText.text = ("Health: " + playerStats.DHealth * 3).ToString();
     }
 
 }

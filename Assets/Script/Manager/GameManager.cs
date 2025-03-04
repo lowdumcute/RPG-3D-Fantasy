@@ -1,0 +1,60 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using UnityEngine;
+
+public class GameManager : MonoBehaviour
+{
+    [SerializeField] public DataGameManager dataGameManager;
+    public static GameManager Instance { get; private set; } // Singleton
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject); // Đảm bảo chỉ có 1 instance tồn tại
+            return;
+        }
+    }
+    void Start()
+    {   
+        LoadProgress();
+        // Dùng dữ liệu trong dataGameManager để tiếp tục game
+        Debug.Log("Current Level: " + dataGameManager.currentLevel);
+    }
+    // Lưu dữ liệu vào file JSON
+    public void SaveProgress()
+    {
+        GameData data = new GameData();
+        data.level = dataGameManager.currentLevel;
+
+        string json = JsonUtility.ToJson(data);
+        File.WriteAllText(Application.persistentDataPath + "/savegame.json", json);
+    }
+
+    public void LoadProgress()
+    {
+        string filePath = Application.persistentDataPath + "/savegame.json";
+
+        if (File.Exists(filePath))
+        {
+            string json = File.ReadAllText(filePath);
+            GameData data = JsonUtility.FromJson<GameData>(json);
+            
+            // Cập nhật ScriptableObject với dữ liệu từ JSON
+            dataGameManager.currentLevel = data.level;
+        }
+        else
+        {
+            // Nếu không có file lưu, khởi tạo với giá trị mặc định (ví dụ, cấp độ 1)
+            dataGameManager.currentLevel = 1;
+        }
+    }
+    public void AddPlayerStats(PlayerStats playerStats)
+    {
+        dataGameManager.playerStatsUsing = playerStats;
+    }
+}

@@ -10,11 +10,11 @@ public class PlayerStats : ScriptableObject
     [SerializeField] public int DMana = 16;
     [SerializeField] public int DHealth = 18; 
     [Header("Base Stats")]
-    public float maxHealth = 100f;
-    public float maxMana = 100f;
-    public float maxAttack = 10f;
-    public float maxSpeed = 5f;
-    public float maxDefend = 5f;
+    public float maxHealth ;
+    public int maxMana ;
+    public int maxAttack ;
+    public int maxSpeed ;
+    public int maxDefend ;
 
     // Lưu giá trị hiện tại (thay đổi trong game)
     [HideInInspector] public float currentHealth;
@@ -23,7 +23,16 @@ public class PlayerStats : ScriptableObject
     // Hàm khởi tạo lại giá trị khi bắt đầu game
     public void Initialize()
     {
+        UpdateStats();
         currentHealth = maxHealth;
         currentMana = maxMana;
+    }
+    public void UpdateStats()
+    {
+        maxHealth   = DHealth * 3;
+        maxMana     = DMana * 3;
+        maxAttack   = DAttack * 3;
+        maxSpeed    = DSpeed * 3;
+        maxDefend   = DDefense * 3;
     }
 }

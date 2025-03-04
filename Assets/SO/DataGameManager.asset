@@ -9,18 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97c84de58b2d93041b3957782294b62f, type: 3}
-  m_Name: Shaman
+  m_Script: {fileID: 11500000, guid: 84579d8b42eae2647ad53b739c3693ae, type: 3}
+  m_Name: DataGameManager
   m_EditorClassIdentifier: 
-  DAttack: 14
-  DDefense: 8
-  DSpeed: 10
-  DMana: 15
-  DHealth: 8
-  maxHealth: 80
-  maxMana: 100
-  maxAttack: 12
-  maxSpeed: 7
-  maxDefend: 5
-  currentHealth: 0
-  currentMana: 0
+  playerStatsUsing: {fileID: 0}
+  currentLevel: 0
+  exp: 0

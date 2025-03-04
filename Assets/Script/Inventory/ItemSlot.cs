@@ -92,19 +92,19 @@ public class ItemSlot : MonoBehaviour,IPointerClickHandler
         Debug.Log($"using {itemSO.ItemName}");
         if (itemSO.Status == StatusChange.Healt)
         {
-            if(PlayerHealth.playerStats.currentHealth >= PlayerHealth.playerStats.maxHealth)
+            if(PlayerHealth.currentHealth >= PlayerHealth.maxHealth)
             {
                 return;
             }
             else
             {
-                PlayerHealth.playerStats.currentHealth += itemSO.NumberOfChange;
-                if (PlayerHealth.playerStats.currentHealth >= PlayerHealth.playerStats.maxHealth)
+                PlayerHealth.currentHealth += itemSO.NumberOfChange;
+                if (PlayerHealth.currentHealth >= PlayerHealth.maxHealth)
                 {
-                    PlayerHealth.playerStats.currentHealth = PlayerHealth.playerStats.maxHealth;
+                    PlayerHealth.currentHealth = PlayerHealth.maxHealth;
                 }
                 PlayerHealth.UpdateHealthUI();
-                Debug.Log($"Current Health:{PlayerHealth.playerStats.currentHealth}");
+                Debug.Log($"Current Health:{PlayerHealth.currentHealth}");
                 RefreshInfo();
             }
             
