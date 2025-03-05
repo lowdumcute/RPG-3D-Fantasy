@@ -5,10 +5,8 @@ using UnityEngine;
 public class CharacterMovement : MonoBehaviour
 {
     [Header("Movement")]
-    private float currentSpeed ;
     private float acceleration = 5f; // Tốc độ tăng dần
-    private float deceleration = 10f; // Tốc độ giảm dần
-    [SerializeField] private float movementSpeed = 5f;
+    [SerializeField] private float movementSpeed;
     [SerializeField] private float rotationSpeed = 500f;
     [SerializeField] private float gravityMultiplier = 2f;
     [SerializeField] private float jumpForce = 10f;
@@ -32,7 +30,6 @@ public class CharacterMovement : MonoBehaviour
 
     void Start()
     {
-        movementSpeed = GameManager.Instance.dataGameManager.playerStatsUsing.maxSpeed ; // Tốc độ hiện tại
         animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
         animator.SetBool("Run", false);
@@ -47,7 +44,7 @@ public class CharacterMovement : MonoBehaviour
             downwardVelocity += Physics.gravity.y * gravityMultiplier * Time.deltaTime;
             Attack();
         }
-        if (Input.GetKeyDown("left shift") && !isAttacking && !isRolling)  // Không thể roll khi đang tấn công hoặc đang roll
+        if (Input.GetKeyDown(KeyCode.C) && !isAttacking && !isRolling)  // Không thể roll khi đang tấn công hoặc đang roll
         {
             StartCoroutine(Roll());
         }
@@ -61,36 +58,62 @@ public class CharacterMovement : MonoBehaviour
 
     private void Move()
     {
-        if (isAttacking) return; // Không cho phép di chuyển khi đang tấn công
-        
+
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
         float moveAmount = Mathf.Abs(horizontal) + Mathf.Abs(vertical);
 
         Vector3 moveDirection = new Vector3(horizontal, 0, vertical).normalized;
 
+        bool isRunning = Input.GetKey(KeyCode.LeftShift) && moveAmount > 0; // Giữ Shift để chạy
+        bool isWalking = moveAmount > 0 && !isRunning; // Nếu không giữ Shift thì đi bộ
+
+        if (isRunning)
+        {
+            animator.SetBool("Run", true);
+            animator.SetBool("Walk", false);
+            movementSpeed = GameManager.Instance.dataGameManager.playerStatsUsing.maxSpeed / 5f; // Tốc độ chạy
+            CameraController.Instance.SetTargetZoom(0.7f); // Zoom gần khi chạy
+        }
+        else if (isWalking)
+        {
+            animator.SetBool("Run", false);
+            animator.SetBool("Walk", true);
+            movementSpeed = GameManager.Instance.dataGameManager.playerStatsUsing.maxSpeed / 20f; // Tốc độ đi bộ
+            CameraController.Instance.SetTargetZoom(0.9f); // Zoom vừa phải khi đi bộ
+        }
+        else
+        {
+            animator.SetBool("Run", false);
+            animator.SetBool("Walk", false);
+            CameraController.Instance.SetTargetZoom(1f); // Trả lại zoom mặc định khi đứng yên
+        }
+
+        // Xoay theo hướng camera
         if (moveAmount > 0)
         {
-            // Tăng tốc dần
-            currentSpeed = Mathf.MoveTowards(currentSpeed, movementSpeed, acceleration * Time.deltaTime);
-            
-            animator.SetBool("Run", true);
-
-            // Xoay theo hướng camera
             moveDirection = Quaternion.LookRotation(new Vector3(Camera.main.transform.forward.x, 0f, Camera.main.transform.forward.z)) * moveDirection;
             var targetRotation = Quaternion.LookRotation(new Vector3(moveDirection.x, 0f, moveDirection.z));
             transform.rotation = Quaternion.RotateTowards(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
         }
-        else
-        {
-            // Giảm tốc dần
-            currentSpeed = Mathf.MoveTowards(currentSpeed, 0f, deceleration * Time.deltaTime);
-            animator.SetBool("Run", false);
-        }
 
         // Tính toán vận tốc di chuyển
-        Vector3 velocity = moveDirection * currentSpeed;
+        if (isAttacking)
+        {
+            Vector3 velocity = moveDirection * movementSpeed/2f;
+            // Áp dụng trọng lực nếu không chạm đất
+            if (!controller.isGrounded)
+            {
+                downwardVelocity += Physics.gravity.y * gravityMultiplier * Time.deltaTime;
+            }
 
+            velocity.y = downwardVelocity;
+            controller.Move(velocity * Time.deltaTime);
+            }
+        else
+        {
+        Vector3 velocity = moveDirection * movementSpeed;
+    
         // Áp dụng trọng lực nếu không chạm đất
         if (!controller.isGrounded)
         {
@@ -99,6 +122,7 @@ public class CharacterMovement : MonoBehaviour
 
         velocity.y = downwardVelocity;
         controller.Move(velocity * Time.deltaTime);
+        }
     }
 
     private void HandleJump()
@@ -131,6 +155,7 @@ public class CharacterMovement : MonoBehaviour
         canAttack = false;
         animator.SetBool("IsAttacking", true);
         lastAttackTime = Time.time;
+        movementSpeed = 1f; // Tốc độ đi bộ
 
         // Tiến hành thực hiện combo
         comboStep++;
@@ -159,9 +184,6 @@ public class CharacterMovement : MonoBehaviour
             float cameraYRotation = Mathf.Atan2(cameraForward.x, cameraForward.z) * Mathf.Rad2Deg;
             transform.rotation = Quaternion.Euler(0, cameraYRotation, 0);
         }
-
-        // Tiến lên phía trước một chút trong lúc tấn công
-        StartCoroutine(MoveForwardDuringAttack(movementSpeed / 3));
     }
 private Transform FindNearestEnemy(float radius)
 {
@@ -182,19 +204,6 @@ private Transform FindNearestEnemy(float radius)
     return nearestEnemy;
 }
 
-    private IEnumerator MoveForwardDuringAttack(float movementSpeed)
-    {
-        Vector3 forwardMovement = transform.forward;
-        float moveTime = 0.1f; // Thời gian di chuyển
-        float elapsedTime = 0f;
-
-        while (elapsedTime < moveTime)
-        {
-            controller.Move(forwardMovement * movementSpeed * Time.deltaTime); // Di chuyển nhân vật
-            elapsedTime += Time.deltaTime;
-            yield return null;
-        }
-    }
 
     public void UnlockMovementAfterAttack()
     {

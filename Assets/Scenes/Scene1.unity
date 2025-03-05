@@ -7504,6 +7504,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   smoothingSpeed: 10
+  currentDistance: 0
 --- !u!1001 &334373269
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -15184,9 +15185,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementSpeed: 5
-  rotationSpeed: 500
+  rotationSpeed: 1000
   gravityMultiplier: 2
-  jumpForce: 5
+  jumpForce: 10
   isAttacking: 0
 --- !u!1001 &823646459
 PrefabInstance:

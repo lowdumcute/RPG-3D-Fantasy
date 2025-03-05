@@ -4,28 +4,46 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
+    public static CameraController Instance { get; private set; }
     public Transform followTarget;
-    [SerializeField] private float defaultDistance = 7.5f;
+
+    [SerializeField] public float defaultDistance = 7.5f;
     [SerializeField] private float minDistance = 1.5f;
     [SerializeField] private float rotationSpeed = 2;
     [SerializeField] private float minVerticalAngle = 0;
     [SerializeField] private float maxVerticalAngle = 90;
     [SerializeField] private LayerMask obstacleMask;
-    [SerializeField] private float smoothingSpeed = 10f;
+    [SerializeField] private float smoothingSpeed = 5f; // Giảm tốc độ Lerp xuống để tránh giật
 
     private Vector2 rotation;
-    private float currentDistance;
-    public static bool isPaused = false; // Biến kiểm soát camera
+    private float targetDistance; // Khoảng cách mong muốn
+    [HideInInspector] public float currentDistance;
+    public static bool isPaused = false; 
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+            return;
+        }
+    }
 
     void Start()
     {
         Cursor.lockState = CursorLockMode.Locked;
         currentDistance = defaultDistance;
+        targetDistance = defaultDistance;
     }
 
     void Update()
     {
-        if (isPaused) return; // Dừng input nếu isPaused = true
+        if (isPaused) return; 
 
         rotation += new Vector2(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X")) * rotationSpeed;
         rotation.x = Mathf.Clamp(rotation.x, minVerticalAngle, maxVerticalAngle);
@@ -33,18 +51,24 @@ public class CameraController : MonoBehaviour
 
         Vector3 targetPosition = followTarget.position - targetRotation * new Vector3(0f, 0f, defaultDistance);
         RaycastHit hit;
-        
+
         if (Physics.Raycast(followTarget.position, targetPosition - followTarget.position, out hit, defaultDistance, obstacleMask))
         {
-            currentDistance = Mathf.Clamp(hit.distance * 0.9f, minDistance, defaultDistance);
+            targetDistance = Mathf.Clamp(hit.distance * 0.9f, minDistance, defaultDistance);
         }
-        else
-        {
-            currentDistance = Mathf.Lerp(currentDistance, defaultDistance, Time.deltaTime * smoothingSpeed);
-        }
+
+        // Làm mượt thu phóng bằng Lerp
+        currentDistance = Mathf.Lerp(currentDistance, targetDistance, Time.deltaTime * smoothingSpeed);
 
         transform.position = followTarget.position - targetRotation * new Vector3(0f, 0f, currentDistance);
         transform.rotation = targetRotation;
     }
+
+
+    public void SetTargetZoom(float zoomFactor)
+    {
+        targetDistance = Mathf.Lerp(minDistance, defaultDistance, zoomFactor);
+    }
 }
+
 
