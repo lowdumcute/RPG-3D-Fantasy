@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -22,7 +23,6 @@ public class GameManager : MonoBehaviour
     }
     void Start()
     {   
-        LoadProgress();
         // Dùng dữ liệu trong dataGameManager để tiếp tục game
         Debug.Log("Current Level: " + dataGameManager.currentLevel);
     }
@@ -30,9 +30,10 @@ public class GameManager : MonoBehaviour
     public void SaveProgress()
     {
         GameData data = new GameData();
-        data.level = dataGameManager.currentLevel;
-        data.Role = dataGameManager.playerStatsUsing.NameRole;
-        data.position= GamePlayManager.Instance.Player.transform.position;
+        data.level = dataGameManager.currentLevel; // lưu cấp độ
+        data.Role = dataGameManager.playerStatsUsing.NameRole; // lưu tên role
+        data.position= GamePlayManager.Instance.Player.transform.position; // lưu vị trí
+        data.SceneSave = SceneManager.GetActiveScene().name; //
 
         string json = JsonUtility.ToJson(data);
         File.WriteAllText(Application.persistentDataPath + "/savegame.json", json);
@@ -50,7 +51,8 @@ public class GameManager : MonoBehaviour
             
             // Cập nhật ScriptableObject với dữ liệu từ JSON
             dataGameManager.currentLevel = data.level;
-            dataGameManager.Position = data.position;
+            GamePlayManager.Instance.Player.transform.position = data.position;
+            GamePlayManager.Instance.Player.GetComponent<CharacterController>().enabled = true;
             foreach (var role in dataGameManager.AllRoleStats)
             {
             if (role.name == data.Role) // So sánh với tên đã lưu
@@ -64,6 +66,7 @@ public class GameManager : MonoBehaviour
         {
             // Nếu không có file lưu, khởi tạo với giá trị mặc định (ví dụ, cấp độ 1)
             dataGameManager.currentLevel = 1;
+            GamePlayManager.Instance.Player.GetComponent<CharacterController>().enabled = true;
         }
     }
     public void AddPlayerStats(PlayerStats playerStats)

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class GamePlayManager : MonoBehaviour
@@ -23,9 +24,10 @@ public class GamePlayManager : MonoBehaviour
     }
     public void Start()
     {
-        Player.transform.position = GameManager.Instance.dataGameManager.Position;
+        GameManager.Instance.LoadProgress();
         isActive = false;
         Settingmenu.SetActive(isActive);
+        
     }
     private void Update()
     {
@@ -41,6 +43,10 @@ public class GamePlayManager : MonoBehaviour
     public void SaveGame()
     {
         GameManager.Instance.SaveProgress();
+    }
+    public void LoadGame()
+    {
+        GameManager.Instance.LoadProgress();
     }
     public void SettingMenu()
     {
