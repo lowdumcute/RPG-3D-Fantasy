@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 [System.Serializable]
 
-public class Item : MonoBehaviour
+public class ItemDrop : MonoBehaviour
 {
     [SerializeField] private ItemSO itemSO;
     [SerializeField] private int Quantity;

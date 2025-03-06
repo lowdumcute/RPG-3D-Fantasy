@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bf82cb40315d4794aa202c9940195ad3, type: 3}
+  m_Name: Straight Sword
+  m_EditorClassIdentifier: 
+  ItemID: 0
+  ItemName: Straight Sword
+  ItemIcon: {fileID: 0}
+  ItemDecriptions: 
+  WeaponPrefab: {fileID: 0}
+  StregthREQ: 10
+  DexREQ: 8
+  IntelREQ: 0
+  FaitREQ: 0
+  PhysicalDamage: 18
+  MagicDamage: 0
+  FireDamage: 0
+  HolycDamage: 0
+  LightingDamage: 0
+  poiseDame: 5
+  BaseStaminaCost: 10

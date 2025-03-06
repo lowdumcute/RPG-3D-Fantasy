@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class EquipqedSlot : MonoBehaviour
+public class EquipqedSlot : MonoBehaviour, IPointerClickHandler
 {
 
     //UI của Slot Equip
@@ -43,6 +44,33 @@ public class EquipqedSlot : MonoBehaviour
     }
     public void UnEquipmentgear()
     {
+        if (currentWeapon != null)
+        {
+            Destroy(currentWeapon);
+            currentWeapon = null;
+        }
+        if (equipItem != null)
+        {
+            InventoryManager.Instance.AddWeaponItem(equipItem, itemType);
+        }
+        // Reset UI
+        SlotImage.sprite = null;
+        slotName.enabled = true;
+        // Reset dữ liệu
+        equipItem = null;
+        itemSprite = null;
+        itemName = string.Empty;
+        itemDecription = string.Empty;
+
+        // Thêm vũ khí vào kho đồ (giả sử InventoryManager có hàm AddItem)
         
+    }
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        
+        if (eventData.button == PointerEventData.InputButton.Right)// kiểm tra điều kiện nhấn chuột phải
+        {
+            UnEquipmentgear();
+        }
     }
 }

@@ -5,12 +5,14 @@ using static UnityEditor.Progress;
 
 public class InventoryManager : MonoBehaviour
 {
+    [Header("Button Active")]
+    [SerializeField] private GameObject[] InventoryPanel;
+    
     public static InventoryManager Instance { get; private set; } // Singleton
 
     [SerializeField] private GameObject InventoryMenu;
     [SerializeField] private GameObject EquipmentMenu;
     [SerializeField] private KeyCode keyCodeInventory = KeyCode.Escape;
-    [SerializeField] private KeyCode keyCodeEquipment = KeyCode.Escape;
     [SerializeField] private List<ItemSlot> itemsConsumeSlot;
     [SerializeField] private List<EquipmentSlot> itemsWeaponSlot;
     private bool isActive;
@@ -27,7 +29,6 @@ public class InventoryManager : MonoBehaviour
             return;
         }
     }
-
     private void Start()
     {
         isActive = false;
@@ -39,55 +40,39 @@ public class InventoryManager : MonoBehaviour
     {
         if (Input.GetKeyDown(keyCodeInventory))
         {
-            ConsumeInventory();
+            isActive = !isActive;
+            InventoryMenu.SetActive(isActive);
+            RefreshInventory();
+
+            if (isActive)
+            {
+                Cursor.lockState = CursorLockMode.None;
+                Cursor.visible = true;
+                CameraController.isPaused = true; // Tắt camera
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+                Cursor.visible = false;
+                CameraController.isPaused = false; // Bật lại camera
+            }
         }
-        else if(Input.GetKeyDown(keyCodeEquipment))
+        
+        
+    }
+    public void ActiveInventoryPanel(int index)
+    {
+        for (int i = 0; i < InventoryPanel.Length; i++)
         {
-            EquipmentInventory();
+            InventoryPanel[i].SetActive(false);
+        }
+        for (int i = 0; i < InventoryPanel.Length; i++)
+        {
+            InventoryPanel[index].SetActive(true);
         }
         
     }
-    void ConsumeInventory()
-    {
-        isActive = !isActive;
-        InventoryMenu.SetActive(isActive);
-        RefreshInventory();
-
-        if (isActive)
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            CameraController.isPaused = true; // Tắt camera
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            CameraController.isPaused = false; // Bật lại camera
-        }
-    }
-    void EquipmentInventory()
-    {
-        isActive = !isActive;
-        EquipmentMenu.SetActive(isActive);
-        RefreshInventory();
-
-        if (isActive)
-        {
-            EquipmentMenu.SetActive(false);
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-            CameraController.isPaused = true; // Tắt camera
-        }
-        else
-        {
-            EquipmentMenu.SetActive(true);
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-            CameraController.isPaused = false; // Bật lại camera
-        }
-    }
-
+    
     public void AddComsumeItem(ItemSO item, int quantity,ItemType itemtype)
     {
         if(itemtype == ItemType.Consume)
