@@ -7,6 +7,7 @@ public class DataGameManager : ScriptableObject
     [SerializeField] public PlayerStats playerStatsUsing;
     [SerializeField] public int currentLevel;
     [SerializeField] private int exp;
+    [SerializeField] public Vector3 Position;
 
 }
 [System.Serializable]

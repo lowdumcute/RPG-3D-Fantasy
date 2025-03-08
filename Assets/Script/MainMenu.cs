@@ -9,6 +9,7 @@ public class MainMenu : MonoBehaviour
     public void NewGame()
     {
         SceneManager.LoadScene("ChooseCharacterScene");
+        GameManager.Instance.dataGameManager.Position = new Vector3(548, 11, 375);
         DynamicGI.UpdateEnvironment(); // Cập nhật ánh sáng toàn cục
     }
     public void LoadGame(string SceneName)

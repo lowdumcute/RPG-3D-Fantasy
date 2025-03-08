@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -6,6 +7,7 @@ using UnityEngine;
 public class GamePlayManager : MonoBehaviour
 {
     public static GamePlayManager Instance;
+    [SerializeField] DataGameManager dataGameManager;
     [SerializeField] private GameObject Settingmenu;
     [SerializeField] public GameObject Player;
     public bool isActive;
@@ -24,7 +26,8 @@ public class GamePlayManager : MonoBehaviour
     }
     public void Start()
     {
-        GameManager.Instance.LoadProgress();
+        Player.transform.position = dataGameManager.Position;
+        Player.GetComponent<CharacterController> ().enabled = true;
         isActive = false;
         Settingmenu.SetActive(isActive);
         
