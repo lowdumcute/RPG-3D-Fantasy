@@ -148,6 +148,7 @@ public class CharacterMovement : MonoBehaviour
 
    private void Attack()
     {
+        
         if (!canAttack) return;  // Nếu đang trong thời gian hồi chiêu thì không tấn công
         if (isAttacking || isRolling) return; // Không cho phép di chuyển khi đang tấn công hoặc đang roll
 

@@ -51,8 +51,7 @@ public class GameManager : MonoBehaviour
             
             // Cập nhật ScriptableObject với dữ liệu từ JSON
             dataGameManager.currentLevel = data.level;
-            GamePlayManager.Instance.Player.transform.position = data.position;
-            GamePlayManager.Instance.Player.GetComponent<CharacterController>().enabled = true;
+            dataGameManager.Position = data.position;
             foreach (var role in dataGameManager.AllRoleStats)
             {
             if (role.name == data.Role) // So sánh với tên đã lưu
