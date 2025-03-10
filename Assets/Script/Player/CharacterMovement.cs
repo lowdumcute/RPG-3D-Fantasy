@@ -5,7 +5,6 @@ using UnityEngine;
 public class CharacterMovement : MonoBehaviour
 {
     [Header("Movement")]
-    private float acceleration = 5f; // Tốc độ tăng dần
     [SerializeField] private float movementSpeed;
     [SerializeField] private float rotationSpeed = 500f;
     [SerializeField] private float gravityMultiplier = 2f;
@@ -121,7 +120,16 @@ public class CharacterMovement : MonoBehaviour
         }
 
         velocity.y = downwardVelocity;
-        controller.Move(velocity * Time.deltaTime);
+        if( controller.enabled == false || controller ==null )
+        {
+            return;
+        }
+        else
+        {
+            controller.Move(velocity * Time.deltaTime);
+        }
+        
+        
         }
     }
 
