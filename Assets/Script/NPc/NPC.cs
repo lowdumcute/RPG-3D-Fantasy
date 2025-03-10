@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class NPCInteraction : MonoBehaviour
 {
     public GameObject talkButton; // Button UI để nói chuyện
+    [SerializeField] private NPCTalk npcTalk;
     [SerializeField] private GameObject CameraNpc;
     [SerializeField] private GameObject cameraMain;
     public float interactionRadius = 3f; // Bán kính phát hiện người chơi
@@ -44,6 +45,7 @@ public class NPCInteraction : MonoBehaviour
         CameraNpc.SetActive(true);
         cameraMain.SetActive(false);
         GamePlayManager.Instance.Player.GetComponent<CharacterController>().enabled = false;
+        npcTalk.StartTalk();
         Debug.Log("Đang nói chuyện với NPC...");
         // Thêm logic hội thoại ở đây
     }

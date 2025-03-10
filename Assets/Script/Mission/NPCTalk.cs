@@ -1,51 +1,58 @@
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
-using TMPro;
 
 public class NPCTalk : MonoBehaviour
 {
-    public TextMeshProUGUI dialogueText; // Text để hiển thị hội thoại
-    public GameObject choicePanel; // Panel chứa lựa chọn Yes/No
-    public Button yesButton, noButton; // Nút Yes và No
+    [TextArea(2, 5)] public string startDialogue;
+    [TextArea(2, 5)] public string yesDialogue;
+    [TextArea(2, 5)] public string noDialogue;
+    public float typingSpeed = 0.05f;
 
-    [TextArea(2, 5)] public string startDialogue; // Đoạn hội thoại mở đầu
-    [TextArea(2, 5)] public string yesDialogue; // Đoạn hội thoại khi chọn Yes
-    [TextArea(2, 5)] public string noDialogue; // Đoạn hội thoại khi chọn No
-
-    public float typingSpeed = 0.05f; // Tốc độ chạy chữ
-
-    private void Start()
+    private void OnTriggerEnter(Collider other) // Khi người chơi vào vùng kích hoạt
     {
-        choicePanel.SetActive(false); // Ẩn panel lựa chọn ban đầu
-        StartCoroutine(TypeSentence(startDialogue, true)); // Bắt đầu chạy chữ cho đoạn mở đầu
+        if (other.CompareTag("Player"))
+        {
+            StartTalk();
+        }
+    }
+
+    public void StartTalk()
+    {
+        CanvasTalk.Instance.choicePanel.SetActive(false);
+        CanvasTalk.Instance.Mission.SetActive(true);
+        StartCoroutine(TypeSentence(startDialogue, true));
     }
 
     IEnumerator TypeSentence(string sentence, bool showChoices)
     {
-        dialogueText.text = "";
+        CanvasTalk.Instance.dialogueText.text = "";
         foreach (char letter in sentence.ToCharArray())
         {
-            dialogueText.text += letter;
+            CanvasTalk.Instance.dialogueText.text += letter;
             yield return new WaitForSeconds(typingSpeed);
         }
 
         if (showChoices)
         {
             yield return new WaitForSeconds(0.5f);
-            choicePanel.SetActive(true); // Hiện panel lựa chọn sau khi hội thoại chạy xong
+            CanvasTalk.Instance.choicePanel.SetActive(true);
+            CanvasTalk.Instance.yesButton.onClick.RemoveAllListeners();
+            CanvasTalk.Instance.noButton.onClick.RemoveAllListeners();
+
+            CanvasTalk.Instance.yesButton.onClick.AddListener(() => ChooseYes());
+            CanvasTalk.Instance.noButton.onClick.AddListener(() => ChooseNo());
         }
     }
 
     public void ChooseYes()
     {
-        choicePanel.SetActive(false); // Ẩn lựa chọn
-        StartCoroutine(TypeSentence(yesDialogue, false)); // Hiển thị hội thoại Yes
+        CanvasTalk.Instance.choicePanel.SetActive(false);
+        StartCoroutine(TypeSentence(yesDialogue, false));
     }
 
     public void ChooseNo()
     {
-        choicePanel.SetActive(false); // Ẩn lựa chọn
-        StartCoroutine(TypeSentence(noDialogue, false)); // Hiển thị hội thoại No
+        CanvasTalk.Instance.choicePanel.SetActive(false);
+        StartCoroutine(TypeSentence(noDialogue, false));
     }
 }
