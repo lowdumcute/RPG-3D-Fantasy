@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class NPCTalk : MonoBehaviour
 {
+    [SerializeField] private Mission missionToGive;
     [TextArea(2, 5)] public string startDialogue;
     [TextArea(2, 5)] public string yesDialogue;
     [TextArea(2, 5)] public string noDialogue;
@@ -48,6 +49,8 @@ public class NPCTalk : MonoBehaviour
     {
         CanvasTalk.Instance.choicePanel.SetActive(false);
         StartCoroutine(TypeSentence(yesDialogue, false));
+        CanvasTalk.Instance.CloseButton.SetActive(true);
+        MissionManager.Instance.AddMission(missionToGive);
     }
 
     public void ChooseNo()

@@ -8,7 +8,7 @@ public class CanvasTalk : MonoBehaviour
 
     public TextMeshProUGUI dialogueText; // Text hiển thị hội thoại
     public GameObject Mission; 
-    public GameObject choicePanel; // Panel chứa Yes/No
+    public GameObject choicePanel, CloseButton; // Panel chứa Yes/No
     public Button yesButton, noButton; // Nút Yes/No
 
     private void Awake()
@@ -24,6 +24,7 @@ public class CanvasTalk : MonoBehaviour
     }
     public void Start()
     {
+        CloseButton.SetActive(false);
         Mission.SetActive(false);
     }
 }

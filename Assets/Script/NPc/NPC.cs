@@ -38,14 +38,16 @@ public class NPCInteraction : MonoBehaviour
 
     public void InteractWithNPC()
     {
+        
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
         isInteracting = true;
         talkButton.SetActive(false);
         CameraNpc.SetActive(true);
         cameraMain.SetActive(false);
-        GamePlayManager.Instance.Player.GetComponent<CharacterController>().enabled = false;
+        GamePlayManager.Instance.LockPlayer();
         npcTalk.StartTalk();
+        CanvasTalk.Instance.CloseButton.GetComponent<Button>().onClick.AddListener(EndInteraction);
         Debug.Log("Đang nói chuyện với NPC...");
         // Thêm logic hội thoại ở đây
     }
@@ -57,7 +59,7 @@ public class NPCInteraction : MonoBehaviour
         isInteracting = false;
         CameraNpc.SetActive(false);
         cameraMain.SetActive(true);
-        GamePlayManager.Instance.Player.GetComponent<CharacterController>().enabled = true;
+        GamePlayManager.Instance.UnlockPlayer();
         if (isPlayerNear && talkButton != null)
             talkButton.SetActive(true);
     }
