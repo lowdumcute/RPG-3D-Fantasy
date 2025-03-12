@@ -83,6 +83,7 @@ public class GamePlayManager : MonoBehaviour
     public void LockPlayer()
     {
         Player.GetComponent<CharacterController>().enabled = false;
+        Player.GetComponent<CharacterMovement>().ResetToIdle();
         Player.GetComponent<CharacterMovement>().enabled = false;
         Player.GetComponent<Attack>().enabled = false;
     }

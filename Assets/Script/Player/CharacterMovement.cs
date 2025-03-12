@@ -244,4 +244,25 @@ private Transform FindNearestEnemy(float radius)
 
         isRolling = false;  // Kết thúc roll
     }
+
+    public void ResetToIdle()
+    {
+        animator.SetBool("Run", false);
+        animator.SetBool("Walk", false);
+        animator.SetBool("IsAttacking", false);
+
+        isAttacking = false;
+        isRolling = false;
+
+        // Đặt tốc độ di chuyển về 0 để dừng hoàn toàn
+        movementSpeed = 0f;
+        downwardVelocity = 0f;
+
+        // Nếu đang dùng CharacterController, đảm bảo không di chuyển nữa
+        if (controller != null && controller.enabled)
+        {
+            controller.Move(Vector3.zero);
+        }
+    }
+
 }

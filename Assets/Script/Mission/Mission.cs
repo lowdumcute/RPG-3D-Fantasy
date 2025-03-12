@@ -17,6 +17,7 @@ public class Mission : ScriptableObject
     [TextArea] public string description;  // Mô tả nhiệm vụ
     public MissionType missionType; // Loại nhiệm vụ
     public int requiredAmount;      // Số lượng yêu cầu để hoàn thành
+    public bool isActive; // nhiệm vụ được kích hoạt chưa 
     public bool isCompleted;        // Trạng thái hoàn thành nhiệm vụ
 
     [Header("Tiến độ nhiệm vụ")]

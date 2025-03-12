@@ -16,5 +16,6 @@ MonoBehaviour:
   description: 
   missionType: 1
   requiredAmount: 30
+  isActive: 1
   isCompleted: 0
   currentProgress: 0
