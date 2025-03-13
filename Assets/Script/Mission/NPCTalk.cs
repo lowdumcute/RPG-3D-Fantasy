@@ -18,11 +18,25 @@ public class NPCTalk : MonoBehaviour
     }
 
     public void StartTalk()
+{
+    // Tìm đối tượng có tag "Player"
+    GameObject player = GameObject.FindGameObjectWithTag("Player");
+    if (player != null)
     {
-        CanvasTalk.Instance.choicePanel.SetActive(false);
-        CanvasTalk.Instance.Mission.SetActive(true);
-        StartCoroutine(TypeSentence(startDialogue, true));
+        // Tính toán hướng từ NPC đến Player
+        Vector3 direction = player.transform.position - transform.position;
+        direction.y = 0; // Giữ nguyên trục Y để tránh NPC bị nghiêng
+
+        // Quay NPC về hướng Player
+        transform.rotation = Quaternion.LookRotation(direction);
     }
+
+    // Hiển thị hộp thoại
+    CanvasTalk.Instance.choicePanel.SetActive(false);
+    CanvasTalk.Instance.Mission.SetActive(true);
+    StartCoroutine(TypeSentence(startDialogue, true));
+}
+
 
     IEnumerator TypeSentence(string sentence, bool showChoices)
     {
