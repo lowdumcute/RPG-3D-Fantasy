@@ -11,13 +11,13 @@ AnimatorStateMachine:
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: -6816583146431552441}
-    m_Position: {x: 260, y: 90, z: 0}
+    m_Position: {x: 310, y: 100, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -1453081869568355907}
-    m_Position: {x: 260, y: -10, z: 0}
+    m_Position: {x: 310, y: 10, z: 0}
   - serializedVersion: 1
     m_State: {fileID: -6717767822641556110}
-    m_Position: {x: 530, y: 90, z: 0}
+    m_Position: {x: 580, y: 100, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -240,7 +240,7 @@ BlendTree:
     m_DirectBlendParameter: Horizontal
     m_Mirror: 0
   - serializedVersion: 2
-    m_Motion: {fileID: -203655887218126122, guid: 197f78d851e2a45428d0ca1c3742bb1d,
+    m_Motion: {fileID: -203655887218126122, guid: 0b2c422f3b2719542b392baa8981b364,
       type: 3}
     m_Threshold: 0.5
     m_Position: {x: 0, y: 1}
@@ -348,6 +348,18 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!114 &6151313273531672290
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eabaf7f9697165a4fa588774a14b2d74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &9047537049734953129
 MonoBehaviour:
   m_ObjectHideFlags: 1

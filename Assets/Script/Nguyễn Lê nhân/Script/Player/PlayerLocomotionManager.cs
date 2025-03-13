@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,19 +8,24 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     [HideInInspector] public float verticalMovement;
     [HideInInspector] public float horizontalMovement;
     [HideInInspector] public float moveAmount;
+    [HideInInspector] public float turnTime = 0.1f;
+    [HideInInspector] public float turnSmoothVelocity;
     [Header("Setting")]
+    [SerializeField] private Transform cam;
     [SerializeField] private Vector3 MoveDirection;
     [SerializeField] private Vector3 targetDirection;
     [SerializeField] private float WalkingSpeed  = 2f;
     [SerializeField] private float RunningSpeed =5f;
     [SerializeField] private float RotationSpeed = 5f;
-    [Header("Dodge")]
-    [SerializeField] private KeyCode Button;
+    [SerializeField] private float StaminaCost = 5f;
+    
+    [Header("Dodge")]    
     private Vector3 RollDirection;
     protected override void Awake()
     {
         base.Awake();
         playerManager = GetComponent<PlayerManager>();
+        
     }
     private void GetVerticalAndHorizontalInput()
     {
@@ -29,10 +34,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         moveAmount = PlayerInput.Instance.moveAmount;
     }
     public void HandheldAllMovement()
-    {
-        
-
-       
+    { 
         //Ground Movement
         HandleGroundMovement();
         //AirMovement
@@ -40,27 +42,42 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     }
     public void HandleGroundMovement()
     {
-        if (!playerManager.canmove) return;
+        if (!playerManager.canmove|| !playerManager.canRotate) return;
         CheckGround();
         GetVerticalAndHorizontalInput();
-        HandleRotation();
-        MoveDirection = CameraController.Instance.transform.forward * verticalMovement;
-        MoveDirection = MoveDirection + CameraController.Instance.transform.right * horizontalMovement;
-        MoveDirection.Normalize();
-        MoveDirection.y = 0f;
+
+        Vector3 Direction = new Vector3(horizontalMovement, 0f, verticalMovement).normalized;
+
+        if (Direction.magnitude >= 0.1f)
+        {
+            float targetAngle = Mathf.Atan2(Direction.x, Direction.z) * Mathf.Rad2Deg + cam.eulerAngles.y;
+            float angle = Mathf.SmoothDampAngle(transform.eulerAngles.y, targetAngle, ref turnSmoothVelocity, turnTime);
+            transform.rotation = Quaternion.Euler(0f, angle, 0f);
+
+            MoveDirection = Quaternion.Euler(0f, targetAngle, 0f) * Vector3.forward;
+
+
+
+            // Nếu stamina hết -> ép nhân vật đi bộ
+            if (playerManager.isRun && playerManager.playerStatusManager.currentStamina <= 0 )
+            {
+                playerManager.isRun = false; // Tắt trạng thái chạy
+                playerManager.playerAnimtionManager.UpdateParamaterValue(0, 0.5f);
+            }
+
+            if (playerManager.isRun)
+            {
+                playerManager.characterController.Move(MoveDirection * RunningSpeed * Time.deltaTime);
+                float stamina = playerManager.playerStatusManager.currentStamina -= StaminaCost * Time.deltaTime;
+                PlayerUI_HUD_Manager.instance.SetNewStaminaValue(stamina);
+                playerManager.playerStatusManager.StaminaRegeTimer = 0;
+            }
+            else
+            {
+                playerManager.characterController.Move(MoveDirection * WalkingSpeed * Time.deltaTime);
+            }
+        }
         
-        if (PlayerInput.Instance.moveAmount >= 0.5 && PlayerInput.Instance.moveAmount < 1.5)
-        {
-            //Running
-            playerManager.characterController.Move(MoveDirection * WalkingSpeed * Time.deltaTime);
-            
-        }
-        else if (playerManager.canRun)
-        {
-            //running
-            playerManager.characterController.Move(MoveDirection * RunningSpeed * Time.deltaTime);
-            
-        }
     }
     void CheckGround()
     {
@@ -70,21 +87,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             playerManager.characterController.Move(downwardForce);
         }
     }
-    public void HandleRotation()
-    {
-        if (!playerManager.canRotate) return;
-        targetDirection = Vector3.zero;
-        targetDirection = CameraController.Instance.gameObject.transform.forward * verticalMovement;
-        targetDirection = targetDirection + CameraController.Instance.gameObject.transform.right * horizontalMovement;
-        targetDirection.y = 0f;
-        if (targetDirection == Vector3.zero)
-        {
-            targetDirection = transform.forward;
-        }
-        Quaternion Newrotation = Quaternion.LookRotation(targetDirection);
-        Quaternion TargerRotation = Quaternion.Slerp(transform.rotation, Newrotation, RotationSpeed * Time.deltaTime);
-        transform.rotation = TargerRotation;
-    }
+    
     public void AttemtoDodge()
     {
         if (playerManager.isPerformingAction == true) return;
@@ -97,7 +100,12 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             playerManager.transform.rotation = playerRotation;
             if(!playerManager.canSlide)
             {
-                playerManager.playerAnimtionManager.PlayTargetActionAnimation("Roll_Forward", true, true);
+               if(playerManager.playerStatusManager.currentStamina > 5)
+                {
+                    playerManager.playerAnimtionManager.PlayTargetActionAnimation("Roll_Forward", true, true);
+                    float stamina = playerManager.playerStatusManager.currentStamina -= 5;
+                    PlayerUI_HUD_Manager.instance.SetNewStaminaValue(stamina);
+                }
             }
             else
             {

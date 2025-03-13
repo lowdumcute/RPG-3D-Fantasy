@@ -10,10 +10,19 @@ public class CharacterEffectManager : MonoBehaviour
     // Time Effect : poisom
     // Static Effect : Adding/Remove Buffs From Relic 
 
-    public void ProcessInstantEffect()
+
+    public PlayerManager playerManager;
+    public AudioSource audioSource;
+    protected void Awake()
+    {
+        playerManager = GetComponent<PlayerManager>();
+        audioSource = GetComponent<AudioSource>();
+    }
+    public virtual void ProcessInstantEffect(InstantCharacterEffect effect)
     {
         //Take Effect 
-        //Process It
 
+        //Process It
+        effect.ProcessEffect(playerManager);
     }
 }

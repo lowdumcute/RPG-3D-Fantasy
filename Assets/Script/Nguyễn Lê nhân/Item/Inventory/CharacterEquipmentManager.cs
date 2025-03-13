@@ -2,17 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class InstantEffectCharacter : MonoBehaviour
+public class CharacterEquipmentManager : MonoBehaviour
 {
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Awake()
     {
         
+    }
+    protected virtual void Start()
+    {
+
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
