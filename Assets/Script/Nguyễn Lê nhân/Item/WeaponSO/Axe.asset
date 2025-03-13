@@ -10,22 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bf82cb40315d4794aa202c9940195ad3, type: 3}
-  m_Name: Straight Sword
+  m_Name: Axe
   m_EditorClassIdentifier: 
   ItemID: 0
-  ItemName: Straight Sword
+  ItemName: Iron Axe
   ItemIcon: {fileID: 0}
   ItemDecriptions: 
-  WeaponPrefab: {fileID: 4907678763757218528, guid: 83d4d2558c427af4da137d153f0a261c,
+  WeaponPrefab: {fileID: 6643013971951710130, guid: 539e85ae4841c1e468fbbe29465926a3,
     type: 3}
-  StregthREQ: 10
-  DexREQ: 8
+  StregthREQ: 12
+  DexREQ: 1
   IntelREQ: 0
   FaitREQ: 0
-  PhysicalDamage: 18
+  PhysicalDamage: 23
   MagicDamage: 0
   FireDamage: 0
   HolycDamage: 0
   LightingDamage: 0
-  poiseDame: 5
-  BaseStaminaCost: 10
+  poiseDame: 10
+  BaseStaminaCost: 20

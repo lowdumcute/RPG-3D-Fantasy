@@ -8,6 +8,7 @@ public class PlayerInput : MonoBehaviour
     [Header("Movement Setting")]
     public static PlayerInput Instance;
     public PlayerManager PlayerManager; 
+
     [SerializeField] private Vector2 MovementInput;
 
     [HideInInspector]public float verticalInput;
@@ -29,17 +30,18 @@ public class PlayerInput : MonoBehaviour
                 return;
             } 
     }
-    void Start()
-    {
-        
-    }
 
+    private void Start()
+    {
+        PlayerManager = GetComponent<PlayerManager>();
+    }
     // Update is called once per frame
     void Update()
     {
             
         MovementInput.x = Input.GetAxis("Horizontal");
         MovementInput.y = Input.GetAxis("Vertical");
+
         HanndleMovementInput();
     }
     private void HanndleMovementInput()
@@ -49,16 +51,19 @@ public class PlayerInput : MonoBehaviour
         
         //Trả về số luôn dương;
         moveAmount = Mathf.Clamp01(Mathf.Abs(verticalInput) + Mathf.Clamp01(Mathf.Abs(horizontalInput)));
+
         if(moveAmount<= 0.5 && moveAmount > 0)
         {
             moveAmount = 0.5f;
         }
-        else if(PlayerManager.canRun)
+        else if(PlayerManager.isRun)
         {
             moveAmount = 2;
         }
         //Horizontal = 0 vì đang không có lock on 
-        PlayerManager.playerAnimtionManager.UpdateParamaterValue(0,moveAmount);
+        
+            PlayerManager.playerAnimtionManager.UpdateParamaterValue(0, moveAmount);
+        
         //Nếu có Locked Target 
     }
     
