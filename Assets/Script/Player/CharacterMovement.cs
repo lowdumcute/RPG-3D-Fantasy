@@ -5,7 +5,6 @@ using UnityEngine;
 public class CharacterMovement : MonoBehaviour
 {
     [Header("Movement")]
-    private float acceleration = 5f; // Tốc độ tăng dần
     [SerializeField] private float movementSpeed;
     [SerializeField] private float rotationSpeed = 500f;
     [SerializeField] private float gravityMultiplier = 2f;
@@ -121,7 +120,16 @@ public class CharacterMovement : MonoBehaviour
         }
 
         velocity.y = downwardVelocity;
-        controller.Move(velocity * Time.deltaTime);
+        if( controller.enabled == false || controller ==null )
+        {
+            return;
+        }
+        else
+        {
+            controller.Move(velocity * Time.deltaTime);
+        }
+        
+        
         }
     }
 
@@ -236,4 +244,25 @@ private Transform FindNearestEnemy(float radius)
 
         isRolling = false;  // Kết thúc roll
     }
+
+    public void ResetToIdle()
+    {
+        animator.SetBool("Run", false);
+        animator.SetBool("Walk", false);
+        animator.SetBool("IsAttacking", false);
+
+        isAttacking = false;
+        isRolling = false;
+
+        // Đặt tốc độ di chuyển về 0 để dừng hoàn toàn
+        movementSpeed = 0f;
+        downwardVelocity = 0f;
+
+        // Nếu đang dùng CharacterController, đảm bảo không di chuyển nữa
+        if (controller != null && controller.enabled)
+        {
+            controller.Move(Vector3.zero);
+        }
+    }
+
 }

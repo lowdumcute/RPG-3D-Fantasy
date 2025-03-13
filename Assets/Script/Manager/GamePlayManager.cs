@@ -80,4 +80,17 @@ public class GamePlayManager : MonoBehaviour
         CameraController.isPaused = true; // Tắt camera
         isActive= true;
     }
+    public void LockPlayer()
+    {
+        Player.GetComponent<CharacterController>().enabled = false;
+        Player.GetComponent<CharacterMovement>().ResetToIdle();
+        Player.GetComponent<CharacterMovement>().enabled = false;
+        Player.GetComponent<Attack>().enabled = false;
+    }
+    public void UnlockPlayer()
+    {
+        Player.GetComponent<CharacterController>().enabled = true;
+        Player.GetComponent<CharacterMovement>().enabled = true;
+        Player.GetComponent<Attack>().enabled = true;
+    }
 }
