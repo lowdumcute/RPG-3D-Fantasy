@@ -45,19 +45,6 @@ public class MissionManager : MonoBehaviour
         UpdateMissions();
     }
 
-    public void UpdateMissionProgress(MissionType type, int amount)
-    {
-        foreach (var mission in allMission)
-        {
-            if (mission.missionType == type && !mission.isCompleted)
-            {
-                mission.UpdateProgress(amount);
-                Debug.Log($"Cập nhật nhiệm vụ: {mission.missionName} ({mission.currentProgress}/{mission.requiredAmount})");
-                UpdateMissions();
-            }
-        }
-    }
-
     public void CompleteMission(Mission mission)
     {
         if (mission.isCompleted)
@@ -71,7 +58,9 @@ public class MissionManager : MonoBehaviour
     {
         foreach (Mission mission in allMission)
         {
-            if (!mission.isActive || mission.isCompleted) continue;
+            if (!mission.isActive) continue; // Nếu chưa kích hoạt, bỏ qua
+
+            TMP_Text progressText; 
 
             if (!missionObjects.ContainsKey(mission))
             {
@@ -80,17 +69,51 @@ public class MissionManager : MonoBehaviour
 
                 // Lấy các TMP Text theo thứ tự con trong Prefab
                 TMP_Text nameText = missionUI.transform.GetChild(0).GetComponent<TMP_Text>();
-                TMP_Text progressText = missionUI.transform.GetChild(1).GetComponent<TMP_Text>();
+                progressText = missionUI.transform.GetChild(1).GetComponent<TMP_Text>();
 
                 nameText.text = mission.missionName;
-                progressText.text = $"{mission.currentProgress}/{mission.requiredAmount}";
             }
             else
             {
-                // Nếu đã tồn tại, chỉ cần cập nhật tiến trình
-                TMP_Text progressText = missionObjects[mission].transform.GetChild(1).GetComponent<TMP_Text>();
+                progressText = missionObjects[mission].transform.GetChild(1).GetComponent<TMP_Text>();
+            }
+
+            // Luôn cập nhật tiến trình nhiệm vụ
+            if (mission.currentProgress >= mission.requiredAmount)
+            {
+                progressText.text = $"(Đã hoàn thành)";
+                NPCManager.Instance.UpdateAllMissionIcons();
+            }
+            else
+            {
                 progressText.text = $"{mission.currentProgress}/{mission.requiredAmount}";
+            }
+
+            // Nếu nhiệm vụ hoàn thành, có thể làm gì đó thêm ở đây, ví dụ: Đổi màu chữ
+            if (mission.isCompleted)
+            {
+                progressText.color = Color.yellow; // Đổi màu chữ khi hoàn thành
             }
         }
     }
+
+    public void IncreaseMissionProgress(string targetName, int amount)
+    {
+        if (allMission == null || allMission.Count == 0) return; // Tránh lỗi khi danh sách rỗng
+
+        bool updated = false; // Kiểm tra xem có nhiệm vụ nào được cập nhật không
+
+        foreach (var mission in allMission)
+        {
+            if (mission.targetName == targetName && mission.isActive && !mission.isCompleted)
+            {
+                mission.UpdateProgress(amount);
+                Debug.Log($"Cập nhật nhiệm vụ: {mission.missionName} ({mission.currentProgress}/{mission.requiredAmount})");
+                updated = true;
+            }
+        }
+
+        if (updated) UpdateMissions(); // Chỉ cập nhật UI nếu có thay đổi
+    }
+
 }

@@ -10,6 +10,7 @@ public class EnemyHealth : MonoBehaviour
     public float hitBackForce = 3f; // Lực đẩy khi bị đánh
     public float hitBackDuration = 0.2f; // Thời gian đẩy lùi
     public float rotationSpeed = 10f;
+    [SerializeField] private string TypeTarget;
 
     private Animator animator;
     private CharacterController controller;
@@ -89,6 +90,7 @@ public class EnemyHealth : MonoBehaviour
         aiMovement.enabled = false; // Tắt script di chuyển
         animator.SetBool("isDead", true); // Chuyển sang trạng thái chết
         controller.enabled = false; // Tắt CharacterController
+        MissionManager.Instance.IncreaseMissionProgress(TypeTarget, 1);
     }
     public void UnActive()
     {

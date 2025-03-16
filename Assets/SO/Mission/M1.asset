@@ -14,8 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   missionName: Kill the monster in front of the castle
   description: 
+  targetName: Golem
   missionType: 1
-  requiredAmount: 30
+  isReceive: 0
   isActive: 0
   isCompleted: 0
   currentProgress: 0
+  requiredAmount: 1
+  rewardExp: 0
+  rewardGold: 0
+  AskedMissionDialogue: "Gi\xFAp t\xF4i ti\xEAu di\u1EC7t con Golem ngo\xE0i kia "
+  AcceptMissionDialogue: "c\u1EA3m \u01A1n ch\xFAc b\u1EA1n may m\u1EAFn"
+  CompleteMissionDialogue: "C\u1EA3m \u01A1n \u0111\xE2y l\xE0 ph\u1EA7n th\u01B0\u1EDFng"
