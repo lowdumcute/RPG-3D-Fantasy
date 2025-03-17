@@ -25,17 +25,6 @@ public class NPCManager : MonoBehaviour
         }
     }
 
-    // Gọi phương thức này khi cần cập nhật các nhiệm vụ, ví dụ khi một nhiệm vụ được hoàn thành
-    public void UpdateMissionForNPC(Mission completedMission)
-    {
-        foreach (NPCTalk npcTalk in npcTalkList)
-        {
-            if (npcTalk.missionToGive == completedMission)
-            {
-                npcTalk.UpdateMissionIcon(); // Cập nhật icon của NPC đó sau khi nhiệm vụ hoàn thành
-            }
-        }
-    }
 
     // Thêm NPC vào danh sách
     public void AddNPC(NPCTalk npcTalk)
