@@ -48,7 +48,7 @@ public class PlayerLevel : MonoBehaviour
         currentLevel++; // Tăng level
         expToNextLevel += currentLevel * 50; // Tăng EXP yêu cầu mỗi lần lên cấp
 
-        Debug.Log($"🎉 Level Up! Level hiện tại: {currentLevel}");
+        Debug.Log($" Level Up! Level hiện tại: {currentLevel}");
 
         // Gọi sự kiện OnLevelUp
         OnLevelUp?.Invoke(currentLevel); 
