@@ -5,6 +5,17 @@ public class NPCManager : MonoBehaviour
 {
     public static NPCManager Instance; // Singleton
     [SerializeField] private List<NPCTalk> npcTalkList = new List<NPCTalk>();  // Danh sách các NPC có NPCTalk
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     private void Start()
     {
@@ -18,10 +29,9 @@ public class NPCManager : MonoBehaviour
     {
         foreach (NPCTalk npcTalk in npcTalkList)
         {
-            if (npcTalk != null && npcTalk.missionToGive != null)
-            {
+            
                 npcTalk.UpdateMissionIcon();  // Cập nhật icon cho từng NPC
-            }
+            
         }
     }
 

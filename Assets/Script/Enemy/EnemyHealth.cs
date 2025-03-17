@@ -17,7 +17,7 @@ public class EnemyHealth : MonoBehaviour
     private AIMovement aiMovement;
     private Vector3 hitBackDirection;
     private float hitBackTimer;
-
+    [SerializeField] private int exp;
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -91,6 +91,7 @@ public class EnemyHealth : MonoBehaviour
         animator.SetBool("isDead", true); // Chuyển sang trạng thái chết
         controller.enabled = false; // Tắt CharacterController
         MissionManager.Instance.IncreaseMissionProgress(TypeTarget, 1);
+        PlayerLevel.Instance.GainExp(20);
     }
     public void UnActive()
     {

@@ -18,7 +18,7 @@ public class Mission : ScriptableObject
     public string targetName;       // Tên mục tiêu
     public MissionType missionType; // Loại nhiệm vụ
     [Header("Trạng thái nhiệm vụ")]
-    public bool isReceive; // nhiệm vụ đã nhận thưởng chưa
+    public bool isReward; // nhiệm vụ đã nhận thưởng chưa
     public bool isActive; // nhiệm vụ được kích hoạt chưa 
     public bool isCompleted;        // Trạng thái hoàn thành nhiệm vụ
 

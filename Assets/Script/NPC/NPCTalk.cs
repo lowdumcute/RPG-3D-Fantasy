@@ -69,6 +69,10 @@ public class NPCTalk : MonoBehaviour
             {
                 CanvasTalk.Instance.CreateButton("Asked Mission", AskedMission);
             }
+            else if (missionToGive.isCompleted && missionToGive.isActive)
+            {
+                CanvasTalk.Instance.CreateButton("Recevied Mission", RewardMission);
+            }
         }
     }
 
@@ -90,6 +94,12 @@ public class NPCTalk : MonoBehaviour
         MissionManager.Instance.AddMission(missionToGive);
         UpdateMissionIcon();
     }
+    public void RewardMission()
+    {
+        StartCoroutine(TypeSentence(missionToGive.CompleteMissionDialogue, false));
+        CanvasTalk.Instance.CloseButton.SetActive(true);
+        missionToGive.isReward = true;
+    }
 
     public void ChoseEndDialogue()
     {
@@ -103,6 +113,7 @@ public class NPCTalk : MonoBehaviour
         // Kiểm tra trạng thái mission và thay đổi icon
         if (!missionToGive.isActive)
         {
+            MissionIcon.SetActive(true); 
             MissionIcon.GetComponent<Image>().sprite = GamePlayManager.Instance.uiIconSprite.IconMissionWait;
         }
         else if (missionToGive.isActive && !missionToGive.isCompleted)
@@ -111,6 +122,7 @@ public class NPCTalk : MonoBehaviour
         }
         else if (missionToGive.isActive && missionToGive.isCompleted)
         {
+            MissionIcon.SetActive(true); 
             MissionIcon.GetComponent<Image>().sprite = GamePlayManager.Instance.uiIconSprite.IconMissionComplete;
         }
     }

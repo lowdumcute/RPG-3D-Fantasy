@@ -8,7 +8,7 @@ public class GamePlayManager : MonoBehaviour
 {
     public static GamePlayManager Instance;
     [SerializeField] public UIIconSprite uiIconSprite;
-    [SerializeField] DataGameManager dataGameManager;
+    [SerializeField] public DataGameManager dataGameManager;
     [SerializeField] private GameObject Settingmenu;
     [SerializeField] public GameObject Player;
     public bool isActive;

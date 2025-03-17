@@ -82,7 +82,6 @@ public class MissionManager : MonoBehaviour
             if (mission.currentProgress >= mission.requiredAmount)
             {
                 progressText.text = $"(Đã hoàn thành)";
-                NPCManager.Instance.UpdateAllMissionIcons();
             }
             else
             {
@@ -93,6 +92,7 @@ public class MissionManager : MonoBehaviour
             if (mission.isCompleted)
             {
                 progressText.color = Color.yellow; // Đổi màu chữ khi hoàn thành
+                NPCManager.Instance.UpdateAllMissionIcons();
             }
         }
     }
