@@ -8391,7 +8391,8 @@ Transform:
   m_LocalPosition: {x: 0.121, y: -0.03, z: -0.007}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 825904333}
   m_Father: {fileID: 6873895598838514595}
   m_LocalEulerAnglesHint: {x: -60.189, y: 136.237, z: 70.674}
 --- !u!4 &414995887 stripped
@@ -14916,7 +14917,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7580070497ca17b43bec1b01c4432552, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  attackCollider: {fileID: 0}
+  attackCollider: {fileID: 825904334}
   VFX: {fileID: 982899138}
   attackDamage: 100
 --- !u!114 &811276623
@@ -15033,6 +15034,86 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8e8f8660f45621a4a804df622b985183, type: 3}
+--- !u!1001 &825904332
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 413924399}
+    m_Modifications:
+    - target: {fileID: 8133399767090564659, guid: fa7576413fbf339459d948aa3d3ebbe5,
+        type: 3}
+      propertyPath: m_Name
+      value: PP_Theme_06_Sword_Two-Handed_001
+      objectReference: {fileID: 0}
+    - target: {fileID: 8904869160435963017, guid: fa7576413fbf339459d948aa3d3ebbe5,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8904869160435963017, guid: fa7576413fbf339459d948aa3d3ebbe5,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8904869160435963017, guid: fa7576413fbf339459d948aa3d3ebbe5,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8904869160435963017, guid: fa7576413fbf339459d948aa3d3ebbe5,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8904869160435963017, guid: fa7576413fbf339459d948aa3d3ebbe5,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8904869160435963017, guid: fa7576413fbf339459d948aa3d3ebbe5,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8904869160435963017, guid: fa7576413fbf339459d948aa3d3ebbe5,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8904869160435963017, guid: fa7576413fbf339459d948aa3d3ebbe5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8904869160435963017, guid: fa7576413fbf339459d948aa3d3ebbe5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8904869160435963017, guid: fa7576413fbf339459d948aa3d3ebbe5,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: fa7576413fbf339459d948aa3d3ebbe5, type: 3}
+--- !u!4 &825904333 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8904869160435963017, guid: fa7576413fbf339459d948aa3d3ebbe5,
+    type: 3}
+  m_PrefabInstance: {fileID: 825904332}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &825904334 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 1151190489202553697, guid: fa7576413fbf339459d948aa3d3ebbe5,
+    type: 3}
+  m_PrefabInstance: {fileID: 825904332}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &826498741
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19699,9 +19780,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 142454917728055141, guid: cfdaf9009eaf6284bb2e89504bc24020,
         type: 3}
+      propertyPath: exp
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 142454917728055141, guid: cfdaf9009eaf6284bb2e89504bc24020,
+        type: 3}
       propertyPath: TypeTarget
       value: Golem
       objectReference: {fileID: 0}
+    - target: {fileID: 142454917728055141, guid: cfdaf9009eaf6284bb2e89504bc24020,
+        type: 3}
+      propertyPath: expOrbPrefab
+      value: 
+      objectReference: {fileID: 2108570865866153017, guid: 20dad28e65ecd2d4cb99cde76006891a,
+        type: 3}
     - target: {fileID: 474825259339910810, guid: cfdaf9009eaf6284bb2e89504bc24020,
         type: 3}
       propertyPath: m_Name
@@ -21478,6 +21570,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e624e59bd1c66dd469390f63c75944a0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelText: {fileID: 1211507762}
   currentLevel: 1
   currentExp: 0
   expToNextLevel: 100
@@ -22097,7 +22190,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: '100
+  m_text: 'LV:100
 
 '
   m_isRightToLeft: 0
@@ -22127,7 +22220,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 51.65
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -49449,6 +49542,7 @@ GameObject:
   - component: {fileID: 811276624}
   - component: {fileID: 811276623}
   - component: {fileID: 811276622}
+  - component: {fileID: 919132148198534855}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -49456,6 +49550,29 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!136 &919132148198534855
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148198534854}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &1055878172489745240
 MonoBehaviour:
   m_ObjectHideFlags: 0

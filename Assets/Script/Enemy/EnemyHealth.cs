@@ -18,6 +18,7 @@ public class EnemyHealth : MonoBehaviour
     private Vector3 hitBackDirection;
     private float hitBackTimer;
     [SerializeField] private int exp;
+    [SerializeField] GameObject expOrbPrefab; // Prefab viên kinh nghiệm
     private void Start()
     {
         animator = GetComponent<Animator>();
@@ -91,10 +92,21 @@ public class EnemyHealth : MonoBehaviour
         animator.SetBool("isDead", true); // Chuyển sang trạng thái chết
         controller.enabled = false; // Tắt CharacterController
         MissionManager.Instance.IncreaseMissionProgress(TypeTarget, 1);
-        PlayerLevel.Instance.GainExp(20);
+        PlayerLevel.Instance.GainExp(exp);
     }
     public void UnActive()
     {
-        gameObject.SetActive(false);
+        // Số viên EXP rơi ra
+        int expDropCount = Random.Range(2, 5);
+
+        for (int i = 0; i < expDropCount; i++)
+        {
+            Vector3 randomOffset = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f));
+            GameObject expOrb = Instantiate(expOrbPrefab, transform.position + randomOffset, Quaternion.identity);
+
+            // Thiết lập mục tiêu là người chơi
+            expOrb.GetComponent<UIExpOrb>().Setup(GameObject.FindGameObjectWithTag("Player").transform, 10);
+            gameObject.SetActive(false);
+        }
     }
 }

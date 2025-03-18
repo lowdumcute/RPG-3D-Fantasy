@@ -1,4 +1,6 @@
 using System;
+using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class PlayerLevel : MonoBehaviour
@@ -6,9 +8,9 @@ public class PlayerLevel : MonoBehaviour
     public static PlayerLevel Instance; // Singleton
 
     public event Action<int> OnLevelUp; // Sự kiện khi lên cấp
-
-    [SerializeField] private int currentLevel ; // Level hiện tại
-    [SerializeField] private int currentExp ; // EXP hiện tại
+    [SerializeField] private TMP_Text levelText; // Text hiển thị level
+    [SerializeField] private int currentLevel ;
+    [SerializeField] private int currentExp ;
     [SerializeField] private int expToNextLevel = 100; // EXP cần để lên level tiếp theo
 
     private void Awake()
@@ -24,8 +26,12 @@ public class PlayerLevel : MonoBehaviour
     }
     private void Start()
     {
-        currentLevel = GamePlayManager.Instance.dataGameManager.currentLevel;
-        currentExp = GamePlayManager.Instance.dataGameManager.exp;
+        if (GamePlayManager.Instance != null)  
+        {  
+            currentLevel = GamePlayManager.Instance.dataGameManager.currentLevel;  
+            currentExp = GamePlayManager.Instance.dataGameManager.exp;  
+        } 
+        UpdateLevelUI();
     }
 
     // Hàm để tăng EXP
@@ -52,9 +58,15 @@ public class PlayerLevel : MonoBehaviour
 
         // Gọi sự kiện OnLevelUp
         OnLevelUp?.Invoke(currentLevel); 
+        UpdateLevelUI();
     }
 
     public int GetLevel() => currentLevel;
     public int GetExp() => currentExp;
     public int GetExpToNextLevel() => expToNextLevel;
+    private void UpdateLevelUI()
+    {
+        levelText.text = $"LV: {currentLevel}";
+    }
+
 }
