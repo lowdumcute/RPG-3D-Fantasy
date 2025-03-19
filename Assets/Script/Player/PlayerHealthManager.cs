@@ -76,4 +76,15 @@ public class PlayerHealthManager : MonoBehaviour
         manaSlider.value = currentMana / maxMana;
         manaText.text = "Mana: " + Mathf.Round(currentMana).ToString() + " / " + Mathf.Round(maxMana).ToString();
     }
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("ExpOrb"))
+        {
+            UIExpOrb expOrb = other.GetComponent<UIExpOrb>();
+            if (expOrb != null)
+            {
+                Destroy(other.gameObject); // Xóa viên EXP
+            }
+        }
+    }
 }
