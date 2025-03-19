@@ -5,4 +5,5 @@ using UnityEngine;
 public class EquipItemSO : ItemSO
 {
     public GameObject WeaponPrefab;
+    public ItemType itemType; //
 }

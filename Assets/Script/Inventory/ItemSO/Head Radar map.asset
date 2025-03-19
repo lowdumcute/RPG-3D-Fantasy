@@ -17,6 +17,7 @@ MonoBehaviour:
   ItemName: Head Test
   ID: 23
   Icon: {fileID: 1175088384, guid: 376b58bf9ce043d49ad45b395ebb9c31, type: 3}
-  Decription: 
+  Decription: "Trang b\u1ECB v\xE0o \u0111\u1EC3 c\xF3 minimap"
   WeaponPrefab: {fileID: 2803155876801012076, guid: de06179bc9aa0af48b5b261cdeac2460,
     type: 3}
+  itemType: 2

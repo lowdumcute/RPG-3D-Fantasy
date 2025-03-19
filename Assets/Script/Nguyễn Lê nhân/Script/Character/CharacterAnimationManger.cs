@@ -21,9 +21,7 @@ public class CharacterAnimationManger : MonoBehaviour
         characterManager.animator.CrossFade(targetAnimation, 0.2f);
 
         characterManager.isPerformingAction = isPerformAction;
-        characterManager.canmove = false;
-        characterManager.canRotate = false;
-        characterManager.canSlide = false;
+        
     }    
         
 

@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class EquipqedSlot : MonoBehaviour, IPointerClickHandler
+public class EquipqedSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
 {
 
     //UI của Slot Equip
@@ -51,16 +51,21 @@ public class EquipqedSlot : MonoBehaviour, IPointerClickHandler
         }
         if (equipItem != null)
         {
-            InventoryManager.Instance.AddWeaponItem(equipItem, itemType);
+            // Reset UI
+            SlotImage.sprite = null;
+            slotName.enabled = true;
+            // Reset dữ liệu
+
+            EquipItemSO equipItemtemp = equipItem;
+            equipItem = null;
+            itemSprite = null;
+            itemName = string.Empty;
+            itemDecription = string.Empty;
+            Debug.Log("Reset Item");
+            InventoryManager.Instance.AddWeaponItem(equipItemtemp, itemType);
+            
         }
-        // Reset UI
-        SlotImage.sprite = null;
-        slotName.enabled = true;
-        // Reset dữ liệu
-        equipItem = null;
-        itemSprite = null;
-        itemName = string.Empty;
-        itemDecription = string.Empty;
+        
 
         // Thêm vũ khí vào kho đồ (giả sử InventoryManager có hàm AddItem)
         
@@ -72,5 +77,21 @@ public class EquipqedSlot : MonoBehaviour, IPointerClickHandler
         {
             UnEquipmentgear();
         }
+    }
+
+    public void OnDrop(PointerEventData eventData)
+    {
+        Debug.Log($"Drop Weapon on Slot: {this.itemType}");
+        GameObject droppedItem = eventData.pointerDrag;
+        if (droppedItem == null ) return;
+        
+        EquipmentSlot WeapontDrop = droppedItem.GetComponentInParent<EquipmentSlot>();
+        if (WeapontDrop.itemType != this.itemType) return;
+        
+        if (WeapontDrop == null) return;
+        Debug.Log($"Equip Weapon on Slot: {this.itemType}");
+        UnEquipmentgear();
+        Equipmentgear(WeapontDrop.itemSO, WeapontDrop.itemSO.Icon, WeapontDrop.itemSO.ItemName, WeapontDrop.itemSO.Decription);
+        WeapontDrop.ResetItemSlot();
     }
 }

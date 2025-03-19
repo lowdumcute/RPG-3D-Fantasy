@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 [System.Serializable]
-public enum ItemType { Consume,weapon, Head, Body, Glove, Boots, Collectible }
+public enum ItemType { Consume,weapon, Head, Body, Glove, Boots, Collectible,None }
 public class WeaponItem : MonoBehaviour
 {
     [SerializeField] private EquipItemSO itemSO;
