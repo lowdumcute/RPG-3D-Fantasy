@@ -39,6 +39,7 @@ public class CameraController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         currentDistance = defaultDistance;
         targetDistance = defaultDistance;
+        Update();
     }
 
     void Update()
@@ -63,6 +64,7 @@ public class CameraController : MonoBehaviour
         transform.position = followTarget.position - targetRotation * new Vector3(0f, 0f, currentDistance);
         transform.rotation = targetRotation;
     }
+    
 
 
     public void SetTargetZoom(float zoomFactor)

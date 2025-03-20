@@ -1,24 +1,33 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class MainMenu : MonoBehaviour
 {
-    // Start is called before the first frame update
     public void NewGame()
     {
         SceneManager.LoadScene("ChooseCharacterScene");
         GameManager.Instance.dataGameManager.Position = new Vector3(548, 11, 375);
         DynamicGI.UpdateEnvironment(); // Cập nhật ánh sáng toàn cục
     }
-    public void LoadGame(string SceneName)
+
+    public void LoadGame(string sceneName)
     {
-        SceneManager.LoadScene(SceneName);
-        GameManager.Instance.LoadProgress();
+        StartCoroutine(LoadSceneAndWait(sceneName));
     }
 
-    // Update is called once per frame
+    private IEnumerator LoadSceneAndWait(string sceneName)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        while (!asyncLoad.isDone)
+        {
+            yield return null; // Chờ Scene load hoàn tất
+        }
+
+        yield return new WaitForSeconds(0.1f); // Đợi thêm chút để đảm bảo mọi thứ đã sẵn sàng
+        GameManager.Instance.LoadProgress(); // Gọi LoadProgress() sau khi Scene đã load xong
+    }
+
     public void ExitGame()
     {
         Debug.Log("Quit");

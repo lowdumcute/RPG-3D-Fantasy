@@ -5250,8 +5250,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d57de8868c729dc4e9cd825936d39092, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiStatsRadarChart: {fileID: 815102261}
-  playerStats: {fileID: 11400000, guid: da1d03efeb36f054e9a7d55abd5750bc, type: 2}
 --- !u!4 &1919238658
 Transform:
   m_ObjectHideFlags: 0
