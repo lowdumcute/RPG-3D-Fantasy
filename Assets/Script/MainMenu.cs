@@ -18,6 +18,7 @@ public class MainMenu : MonoBehaviour
 
     private IEnumerator LoadSceneAndWait(string sceneName)
     {
+        GameManager.Instance.LoadProgress(); // Gọi LoadProgress() sau khi Scene đã load xong
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
         while (!asyncLoad.isDone)
         {
@@ -25,7 +26,6 @@ public class MainMenu : MonoBehaviour
         }
 
         yield return new WaitForSeconds(0.1f); // Đợi thêm chút để đảm bảo mọi thứ đã sẵn sàng
-        GameManager.Instance.LoadProgress(); // Gọi LoadProgress() sau khi Scene đã load xong
     }
 
     public void ExitGame()
