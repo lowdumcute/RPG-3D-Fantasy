@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class ChangeScene : MonoBehaviour
+public class NewGame : MonoBehaviour
 {
     public void Change(string NameScene)
     {
-        SceneManager.LoadScene(NameScene);
-        DynamicGI.UpdateEnvironment(); // Cập nhật ánh sáng toàn cục
+        GameManager.Instance.dataGameManager.Position = new Vector3(548, 11, 375);
+        SceneChangeManager.Instance.LoadScene(NameScene);
     }
 }
