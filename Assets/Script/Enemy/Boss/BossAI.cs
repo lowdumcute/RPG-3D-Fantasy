@@ -4,15 +4,15 @@ using System.Collections;
 public class BossAI : MonoBehaviour
 {
     [Header("Thiết lập AI")]
-    public Transform player; // Người chơi cần đuổi theo
-    public float chaseRange = 10f; // Khoảng cách phát hiện người chơi
-    public float attackRange = 2f; // Khoảng cách tấn công
-    public float patrolSpeed = 1f; // Tốc độ tuần tra
-    public float chaseSpeed = 2f; // Tốc độ đuổi theo
-    public float obstacleCheckDistance = 1.5f; // Khoảng cách kiểm tra vật cản
-    public float maxStepHeight = 1.0f; // Chiều cao tối đa boss có thể bước qua
+    public Transform player;
+    public float chaseRange = 10f;
+    public float attackRange = 2f;
+    public float patrolSpeed = 1f;
+    public float chaseSpeed = 2f;
+    public float obstacleCheckDistance = 1.5f;
+    public float maxStepHeight = 1.0f;
     public LayerMask groundLayer;
-    public LayerMask obstacleLayer; // Layer kiểm tra vật cản
+    public LayerMask obstacleLayer;
 
     private Animator animator;
     private CharacterController controller;
@@ -52,15 +52,19 @@ public class BossAI : MonoBehaviour
         ApplyRootMotionMovement();
     }
 
-    // Xử lý di chuyển dựa trên Root Motion
     private void ApplyRootMotionMovement()
     {
         if (animator == null || controller == null) return;
 
-        moveDirection = animator.deltaPosition; // Lấy dữ liệu từ Root Motion
-        moveDirection.y = 0; // Giữ boss trên mặt đất
+        moveDirection = animator.deltaPosition;
+        moveDirection.y = 0; // Không bị ảnh hưởng bởi trọng lực gốc
 
-        // Nếu đang đuổi theo thì kiểm tra vật cản trước mặt
+        if (isAttacking)
+        {
+            controller.Move(moveDirection); // Giữ nguyên Root Motion khi Attack
+            return;
+        }
+
         if (isChasing)
         {
             if (IsObstacleInFront()) 
@@ -69,9 +73,8 @@ public class BossAI : MonoBehaviour
                 return;
             }
 
-            // Xoay về phía người chơi khi di chuyển
             Vector3 directionToPlayer = (player.position - transform.position).normalized;
-            directionToPlayer.y = 0; // Không xoay theo trục Y
+            directionToPlayer.y = 0;
             if (directionToPlayer.magnitude > 0f)
             {
                 Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
@@ -79,13 +82,14 @@ public class BossAI : MonoBehaviour
             }
         }
 
-        controller.Move(moveDirection); // Di chuyển với CharacterController
+        controller.Move(moveDirection);
         KeepOnGround();
     }
 
-    // Giữ boss luôn trên mặt đất
     private void KeepOnGround()
     {
+        if (isAttacking) return; // Không áp dụng trọng lực khi Attack
+
         RaycastHit hit;
         if (Physics.Raycast(transform.position + Vector3.up, Vector3.down, out hit, 2f, groundLayer))
         {
@@ -94,25 +98,22 @@ public class BossAI : MonoBehaviour
         }
     }
 
-    // Kiểm tra vật cản trước mặt
     private bool IsObstacleInFront()
     {
         RaycastHit hit;
-        Vector3 rayOrigin = transform.position + Vector3.up * 0.5f; // Bắt đầu từ ngang tầm nhân vật
+        Vector3 rayOrigin = transform.position + Vector3.up * 0.5f;
         Vector3 direction = transform.forward;
 
         if (Physics.Raycast(rayOrigin, direction, out hit, obstacleCheckDistance, obstacleLayer))
         {
-            // Kiểm tra nếu vật cản cao hơn mức có thể bước qua
             if (hit.point.y - transform.position.y > maxStepHeight)
             {
-                return true; // Có vật cản không thể vượt qua
+                return true;
             }
         }
         return false;
     }
 
-    // Bắt đầu đuổi theo người chơi
     private void StartChase()
     {
         if (isChasing) return;
@@ -122,7 +123,6 @@ public class BossAI : MonoBehaviour
         animator.SetBool("isRunning", true);
     }
 
-    // Bắt đầu tấn công
     private void StartAttack()
     {
         if (isAttacking) return;
@@ -133,7 +133,6 @@ public class BossAI : MonoBehaviour
         animator.SetTrigger("Attack");
     }
 
-    // Tuần tra khi không có người chơi gần đó
     private IEnumerator PatrolRoutine()
     {
         while (true)

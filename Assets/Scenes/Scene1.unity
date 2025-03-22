@@ -16952,7 +16952,7 @@ PrefabInstance:
     - target: {fileID: 1845945369076765872, guid: 3d2e6e9a35aebe848bcaf85c3ec6c0f1,
         type: 3}
       propertyPath: m_Name
-      value: URP - Giant01_Flat - Golem_Flat
+      value: GaintGolem
       objectReference: {fileID: 0}
     - target: {fileID: 4915082991154533488, guid: 3d2e6e9a35aebe848bcaf85c3ec6c0f1,
         type: 3}
@@ -17022,7 +17022,12 @@ MonoBehaviour:
   attackRange: 2
   patrolSpeed: 1
   chaseSpeed: 2
+  obstacleCheckDistance: 1.5
+  maxStepHeight: 1
   groundLayer:
+    serializedVersion: 2
+    m_Bits: 128
+  obstacleLayer:
     serializedVersion: 2
     m_Bits: 128
 --- !u!4 &1269084415 stripped
