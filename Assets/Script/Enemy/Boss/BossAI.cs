@@ -5,20 +5,26 @@ public class BossAI : MonoBehaviour
 {
     [Header("Thiết lập AI")]
     public Transform player;
-    public float chaseRange = 10f;
-    public float attackRange = 2f;
+    public float chaseRange = 10f; 
+    public float attackRange = 2f; 
+    public float cooldownTime = 3f; 
+
     public float patrolSpeed = 1f;
     public float chaseSpeed = 2f;
     public float obstacleCheckDistance = 1.5f;
     public float maxStepHeight = 1.0f;
     public LayerMask groundLayer;
     public LayerMask obstacleLayer;
+    public float gravity = -9.8f;  
 
     private Animator animator;
     private CharacterController controller;
     private Vector3 moveDirection;
     private bool isChasing = false;
     private bool isAttacking = false;
+    private bool isOnCooldown = false;
+    private bool isIdle = false; // Thêm trạng thái Idle
+    private float lastAttackTime = -Mathf.Infinity; 
 
     void Start()
     {
@@ -32,8 +38,26 @@ public class BossAI : MonoBehaviour
         if (player == null) return;
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
-        
-        if (distanceToPlayer < attackRange)
+
+        // Nếu đang trong cooldown thì chỉ Idle và nhìn theo player
+        if (isOnCooldown) 
+        {
+            if (Time.time - lastAttackTime > cooldownTime)
+            {
+                isOnCooldown = false;
+                isIdle = false;
+                isChasing = true;
+            }
+            else
+            {
+                isIdle = true;
+                animator.SetBool("isRunning", false);
+                LookAtPlayer();
+                return;
+            }
+        }
+
+        if (distanceToPlayer < attackRange)  
         {
             StartAttack();
         }
@@ -45,6 +69,8 @@ public class BossAI : MonoBehaviour
         {
             isChasing = false;
         }
+
+        ApplyGravity();
     }
 
     void LateUpdate()
@@ -57,44 +83,53 @@ public class BossAI : MonoBehaviour
         if (animator == null || controller == null) return;
 
         moveDirection = animator.deltaPosition;
-        moveDirection.y = 0; // Không bị ảnh hưởng bởi trọng lực gốc
+        moveDirection.y = 0;
 
-        if (isAttacking)
+        if (isAttacking || isIdle)
         {
-            controller.Move(moveDirection); // Giữ nguyên Root Motion khi Attack
+            controller.Move(Vector3.zero);
             return;
         }
 
         if (isChasing)
         {
-            if (IsObstacleInFront()) 
+            if (IsObstacleInFront())
             {
                 animator.SetBool("isRunning", false);
                 return;
             }
 
-            Vector3 directionToPlayer = (player.position - transform.position).normalized;
-            directionToPlayer.y = 0;
-            if (directionToPlayer.magnitude > 0f)
-            {
-                Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
-                transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
-            }
+            LookAtPlayer();
         }
 
         controller.Move(moveDirection);
         KeepOnGround();
     }
 
+    private void ApplyGravity()
+    {
+        if (isAttacking) return; // Không áp dụng trọng lực khi đang tấn công
+
+        if (!controller.isGrounded)
+        {
+            moveDirection.y += gravity * Time.deltaTime;
+            controller.Move(new Vector3(0, moveDirection.y - 3f, 0) * Time.deltaTime); // Đảm bảo nhân vật rơi xuống
+        }
+        else
+        {
+            moveDirection.y = 0; // Reset lại vận tốc rơi nếu chạm đất
+        }
+    }
+
     private void KeepOnGround()
     {
-        if (isAttacking) return; // Không áp dụng trọng lực khi Attack
+        if (isAttacking) return;
 
         RaycastHit hit;
         if (Physics.Raycast(transform.position + Vector3.up, Vector3.down, out hit, 2f, groundLayer))
         {
-            Vector3 newPos = hit.point;
-            transform.position = newPos;
+            transform.position = hit.point;
+            moveDirection.y = 0;
         }
     }
 
@@ -116,7 +151,7 @@ public class BossAI : MonoBehaviour
 
     private void StartChase()
     {
-        if (isChasing) return;
+        if (isChasing || isIdle) return;
 
         isChasing = true;
         isAttacking = false;
@@ -125,12 +160,38 @@ public class BossAI : MonoBehaviour
 
     private void StartAttack()
     {
-        if (isAttacking) return;
+        if (isAttacking || isOnCooldown) return;
+
+        LookAtPlayer();
 
         isAttacking = true;
         isChasing = false;
         animator.SetBool("isRunning", false);
         animator.SetTrigger("Attack");
+
+        lastAttackTime = Time.time;
+    }
+
+    public void EndAttack()
+    {
+        ApplyGravity();
+        isOnCooldown = true;
+        isAttacking = false;
+        isIdle = true;
+    }
+
+    private void LookAtPlayer()
+    {
+        if (player == null) return;
+
+        Vector3 directionToPlayer = (player.position - transform.position).normalized;
+        directionToPlayer.y = 0;
+
+        if (directionToPlayer.magnitude > 0f)
+        {
+            Quaternion lookRotation = Quaternion.LookRotation(directionToPlayer);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+        }
     }
 
     private IEnumerator PatrolRoutine()
@@ -139,10 +200,18 @@ public class BossAI : MonoBehaviour
         {
             if (!isChasing && !isAttacking)
             {
-                animator.SetBool("isRunning", true);
                 animator.SetBool("isRunning", false);
             }
             yield return new WaitForSeconds(5f);
         }
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, attackRange);
+
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, chaseRange);
     }
 }
