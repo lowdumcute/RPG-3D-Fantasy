@@ -10,5 +10,5 @@ public enum WeaponModelSlot
 {
     Righthand,
     LeftHand,
-
 }
+public enum ItemType { Consume, weapon, Head, Body, Glove, Boots, Collectible, None }
