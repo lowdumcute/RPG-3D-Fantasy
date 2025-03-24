@@ -42,10 +42,10 @@ public class CameraController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         currentDistance = defaultDistance;
         targetDistance = defaultDistance;
-        Update();
+        
     }
 
-    void Update()
+    void LateUpdate()
     {
         if (isPaused) return;
 
@@ -69,24 +69,31 @@ public class CameraController : MonoBehaviour
             rotation += new Vector2(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X")) * rotationSpeed;
             rotation.x = Mathf.Clamp(rotation.x, minVerticalAngle, maxVerticalAngle);
 
-            Quaternion targetRotation = Quaternion.Euler(rotation);
-            transform.rotation = targetRotation;
+            Quaternion targetRotation = Quaternion.Euler(rotation.x, rotation.y, 0);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * smoothingSpeed);
         }
 
-        Vector3 targetPosition = followTarget.position - transform.rotation * new Vector3(0f, 0f, currentDistance);
-        
-        RaycastHit hit;
+        // Tính vị trí mong muốn của camera
+        Vector3 targetPosition = followTarget.position - transform.rotation * Vector3.forward * currentDistance;
 
+        // Kiểm tra va chạm với vật cản
+        RaycastHit hit;
         if (Physics.Raycast(followTarget.position, targetPosition - followTarget.position, out hit, defaultDistance, obstacleMask))
         {
             targetDistance = Mathf.Clamp(hit.distance * 0.9f, minDistance, defaultDistance);
         }
+        else
+        {
+            targetDistance = defaultDistance;
+        }
 
+        // Cập nhật khoảng cách camera
         currentDistance = Mathf.Lerp(currentDistance, targetDistance, Time.deltaTime * smoothingSpeed);
-       
-        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref smoothVelocity, 0.1f);
-        
+
+        // Làm mượt vị trí camera bằng SmoothDamp
+        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref smoothVelocity, 0.05f);
     }
+
     public void SetTargetZoom(float zoomFactor)
     {
         targetDistance = Mathf.Lerp(minDistance, defaultDistance, zoomFactor);
