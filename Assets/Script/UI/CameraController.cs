@@ -16,10 +16,13 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float smoothingSpeed = 5f; // Giảm tốc độ Lerp xuống để tránh giật
 
     private Vector2 rotation;
+    private Vector3 smoothVelocity = Vector3.zero;
     private float targetDistance; // Khoảng cách mong muốn
     [HideInInspector] public float currentDistance;
-    public static bool isPaused = false; 
+    public static bool isPaused = false;
 
+    public LockOnSystem lockOnSystem; // Thêm biến tham chiếu Lock-On
+    private bool isLockedOn => lockOnSystem != null && lockOnSystem.currentTarget != null;
     private void Awake()
     {
         if (Instance == null)
@@ -44,13 +47,34 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
-        if (isPaused) return; 
+        if (isPaused) return;
 
-        rotation += new Vector2(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X")) * rotationSpeed;
-        rotation.x = Mathf.Clamp(rotation.x, minVerticalAngle, maxVerticalAngle);
-        Quaternion targetRotation = Quaternion.Euler(rotation);
+        if (isLockedOn && lockOnSystem.lockOnTargetPoint != null)
+        {
+            // Camera luôn nhìn vào mục tiêu khi khóa
+            Vector3 directionToTarget = lockOnSystem.currentTarget.position - transform.position;
 
-        Vector3 targetPosition = followTarget.position - targetRotation * new Vector3(0f, 0f, defaultDistance);
+            // Giữ nguyên trục ngang (Y) nhưng hạn chế thay đổi trục dọc (X)
+            Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
+            Vector3 eulerAngles = lookRotation.eulerAngles;
+
+            eulerAngles.x = Mathf.LerpAngle(transform.eulerAngles.x, eulerAngles.x, Time.deltaTime * 2f); // Giảm rung
+            eulerAngles.y = Mathf.LerpAngle(transform.eulerAngles.y, eulerAngles.y, Time.deltaTime * smoothingSpeed);
+
+            transform.rotation = Quaternion.Euler(eulerAngles);
+        }
+        else
+        {
+            // Điều khiển camera bình thường nếu không khóa mục tiêu
+            rotation += new Vector2(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X")) * rotationSpeed;
+            rotation.x = Mathf.Clamp(rotation.x, minVerticalAngle, maxVerticalAngle);
+
+            Quaternion targetRotation = Quaternion.Euler(rotation);
+            transform.rotation = targetRotation;
+        }
+
+        Vector3 targetPosition = followTarget.position - transform.rotation * new Vector3(0f, 0f, currentDistance);
+        
         RaycastHit hit;
 
         if (Physics.Raycast(followTarget.position, targetPosition - followTarget.position, out hit, defaultDistance, obstacleMask))
@@ -58,19 +82,23 @@ public class CameraController : MonoBehaviour
             targetDistance = Mathf.Clamp(hit.distance * 0.9f, minDistance, defaultDistance);
         }
 
-        // Làm mượt thu phóng bằng Lerp
         currentDistance = Mathf.Lerp(currentDistance, targetDistance, Time.deltaTime * smoothingSpeed);
-
-        transform.position = followTarget.position - targetRotation * new Vector3(0f, 0f, currentDistance);
-        transform.rotation = targetRotation;
+       
+        transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref smoothVelocity, 0.1f);
+        
     }
-    
-
-
     public void SetTargetZoom(float zoomFactor)
     {
         targetDistance = Mathf.Lerp(minDistance, defaultDistance, zoomFactor);
     }
+    public void SaveCurrentCameraRotation()
+    {
+        // Lưu góc quay hiện tại để không bị giật khi tắt Lock-on
+        rotation.x = transform.eulerAngles.x;
+        rotation.y = transform.eulerAngles.y;
+    }
+
+
 }
 
 

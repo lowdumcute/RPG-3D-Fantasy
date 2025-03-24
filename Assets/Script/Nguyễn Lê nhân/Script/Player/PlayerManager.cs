@@ -11,10 +11,12 @@ public class PlayerManager : CharacterManager
     }
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
+        if (isPerformingAction) return;
+        if (Input.GetKeyDown(KeyCode.Space))
         {
 
             characterAnimationManger.PlayTargetActionAnimation("Slide_Forward", true, true);
+            
         }
     }
 }

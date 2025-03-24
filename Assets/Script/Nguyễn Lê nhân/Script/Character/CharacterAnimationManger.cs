@@ -5,7 +5,7 @@ using static UnityEditor.Searcher.SearcherWindow.Alignment;
 
 public class CharacterAnimationManger : MonoBehaviour
 {
-    CharacterManager characterManager;
+    public CharacterManager characterManager;
     protected virtual void Awake()
     {
         characterManager = GetComponent<CharacterManager>();
@@ -17,9 +17,10 @@ public class CharacterAnimationManger : MonoBehaviour
     }
     public virtual void PlayTargetActionAnimation(string targetAnimation, bool isPerformAction, bool applyRootMotion= true)
     {
-        characterManager.animator.applyRootMotion = applyRootMotion;
+        
+        
         characterManager.animator.CrossFade(targetAnimation, 0.2f);
-
+        characterManager.animator.applyRootMotion = applyRootMotion;
         characterManager.isPerformingAction = isPerformAction;
         
     }    
