@@ -3,117 +3,83 @@ using UnityEngine;
 
 public class JumpAttack : MonoBehaviour
 {
-    public Transform player; // Vị trí của người chơi
-    public float jumpHeight = 5f; // Chiều cao nhảy
-    public float jumpDuration = 1f; // Thời gian nhảy lên
-    public float attackDuration = 0.5f; // Thời gian tấn công khi tiếp đất
-    public float damageAmount = 10f; // Số lượng sát thương
-    public float jumpOffset = 1f; // Khoảng cách offset khi nhảy tới người chơi
+    [Header("VFX")]
+    [SerializeField] private GameObject VFX;
+    [SerializeField] private GameObject VFXPoint; // vị trí spawn 
+    public Transform player; // Mục tiêu người chơi
+    public float jumpHeight = 5f; // Độ cao nhảy
+    public float jumpDuration = 1f; // Thời gian nhảy
+    public float attackDuration = 0.5f; // Thời gian đứng yên khi chạm đất
+    public float damageAmount = 10f; // Lượng sát thương
+    public float jumpSpeed = 10f; // Tốc độ nhảy tới mục tiêu
+    public float gravity = -20f; // Trọng lực mạnh hơn giúp rơi xuống nhanh hơn
+    public Collider attackCollider; // Box Collider dùng để tấn công
 
-    private bool isJumping = false;
-    private bool isFalling = false;
-    private Vector3 targetPosition; // Vị trí mục tiêu khi nhảy đến
-    private Vector3 startPosition; // Vị trí bắt đầu nhảy
+    private Vector3 targetPosition; // Điểm đến khi nhảy
     private CharacterController controller;
-    private float jumpStartTime;
-    private float verticalVelocity = 0f; // Dùng để áp dụng trọng lực
-    private float gravity = -9.8f; // Trọng lực
+    private Vector3 startPosition; // Lưu vị trí ban đầu
 
     void Start()
     {
+        attackCollider.enabled = false; // Tắt collider ban đầu
         controller = GetComponent<CharacterController>();
+        startPosition = transform.position; // Lưu lại vị trí ban đầu
     }
 
-    void Update()
-    {
-        if (isJumping)
-        {
-            Jump(); // Gọi phương thức nhảy
-        }
-
-        if (isFalling)
-        {
-            Fall(); // Gọi phương thức lao xuống
-        }
-    }
-
-    // Phương thức gọi để bắt đầu nhảy tấn công
+    // Hàm bắt đầu nhảy tấn công
     public void JumpToAttack()
     {
-        if (isJumping || isFalling) return; // Nếu đang nhảy hoặc đang rơi thì không gọi lại
+        StartCoroutine(PerformJumpAttack());
+    }
 
-        isJumping = true;
-        startPosition = transform.position;
-
-        // Tạo vị trí mục tiêu với một khoảng cách nhỏ so với người chơi
+    private IEnumerator PerformJumpAttack()
+    {
+        startPosition = transform.position; // Cập nhật vị trí ban đầu của mỗi lần nhảy
         Vector3 directionToPlayer = (player.position - transform.position).normalized;
-        targetPosition = player.position - directionToPlayer * jumpOffset; // Cách người chơi một khoảng nhỏ
+        targetPosition = player.position - directionToPlayer * 1f; // Cách người chơi 1 đơn vị
 
-        jumpStartTime = Time.time; // Lưu lại thời gian bắt đầu nhảy
+        float timer = 0f;
+
+        // Giai đoạn nhảy lên và di chuyển ngang
+        while (timer < jumpDuration)
+        {
+            float t = timer / jumpDuration;
+            float height = Mathf.Sin(t * Mathf.PI) * jumpHeight; // Quỹ đạo nhảy parabolic
+            Vector3 horizontalMove = Vector3.Lerp(startPosition, targetPosition, t); // Tiến đến mục tiêu
+
+            // Áp dụng di chuyển
+            Vector3 moveDirection = new Vector3(horizontalMove.x, startPosition.y + height, horizontalMove.z) - transform.position;
+            controller.Move(moveDirection);
+
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        // Giai đoạn rơi xuống
+        while (!controller.isGrounded)
+        {
+            controller.Move(Vector3.down * Mathf.Abs(gravity) * Time.deltaTime);
+            yield return null;
+        }
+
+        // Chờ attackDuration trước khi reset trạng thái
+        yield return new WaitForSeconds(attackDuration);
+    }
+    public void OnEnableCollider()
+    {
+        SpawnVFX();
+        attackCollider.enabled = true;
     }
 
-    // Phương thức nhảy lên
-    public void Jump()
+    public void DisableAttackCollider()
     {
-        float t = (Time.time - jumpStartTime) / jumpDuration;
-
-        if (t < 1f)
-        {
-            // Tính toán quỹ đạo nhảy (Đi lên)
-            float height = Mathf.Sin(t * Mathf.PI) * jumpHeight; // Tạo độ cao nhảy
-            Vector3 horizontalMovement = Vector3.Lerp(startPosition, targetPosition, t); // Di chuyển về vị trí người chơi
-
-            verticalVelocity += gravity * Time.deltaTime; // Áp dụng trọng lực
-
-            // Tính toán vị trí mới của nhân vật
-            Vector3 newPosition = new Vector3(horizontalMovement.x, startPosition.y + height + verticalVelocity, horizontalMovement.z);
-            
-            // Sử dụng Move thay vì thay đổi trực tiếp transform.position
-            controller.Move(newPosition - transform.position);
-        }
-        else
-        {
-            // Khi đạt đến độ cao tối đa, chuyển sang rơi xuống
-            isJumping = false;
-            isFalling = true; // Bắt đầu phần rơi xuống
-        }
+        attackCollider.enabled = false;
     }
-
-    // Phương thức rơi xuống và lao tới vị trí người chơi
-    public void Fall()
+    private void SpawnVFX()
     {
-        // Áp dụng trọng lực để rơi xuống
-        verticalVelocity += gravity * Time.deltaTime;
-
-        // Di chuyển thẳng đến vị trí của người chơi
-        Vector3 fallPosition = new Vector3(targetPosition.x, transform.position.y + verticalVelocity, targetPosition.z);
-        
-        // Di chuyển nhân vật đến vị trí người chơi (Lao tới)
-        transform.position = Vector3.MoveTowards(transform.position, fallPosition, Time.deltaTime * 10f);
-
-        if (transform.position == fallPosition)
+        if (VFX != null)
         {
-            isFalling = false; // Kết thúc quá trình rơi xuống
-        }
-    }
-
-    // Kết thúc tấn công
-    // Kết thúc tấn công và reset lại để có thể thực hiện lần tiếp theo
-    public void FinishingAttack()
-    {
-        // Reset các trạng thái nhảy và rơi
-        isJumping = false;
-        isFalling = false;
-        verticalVelocity = 0f; // Reset trọng lực
-
-        // Đặt lại vị trí của nhân vật (nếu cần thiết)
-        transform.position = startPosition; // Đảm bảo nhân vật quay về vị trí ban đầu (nếu cần)
-
-        // Bật lại Root Motion sau khi kết thúc tấn công
-        Animator animator = GetComponent<Animator>();
-        if (animator != null)
-        {
-            animator.applyRootMotion = true;
+            Instantiate(VFX, transform); // Spawn VFX và đặt làm con của object này
         }
     }
 }
