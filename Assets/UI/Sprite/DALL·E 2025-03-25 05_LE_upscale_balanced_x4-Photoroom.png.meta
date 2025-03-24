@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4f8e653bf1c0b054680c13a05741c202
+guid: 540c60f929a19f04c88808cdd20bb343
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -34,12 +34,12 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 1
+    filterMode: 0
     aniso: 1
     mipBias: 0
     wrapU: 1
     wrapV: 1
-    wrapW: 1
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -63,16 +63,16 @@ TextureImporter:
   compressionQualitySet: 0
   textureFormatSet: 0
   ignorePngGamma: 0
-  applyGammaDecoding: 1
+  applyGammaDecoding: 0
   swizzle: 50462976
-  cookieLightType: 1
+  cookieLightType: 0
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 1
+    textureCompression: 0
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -136,22 +136,106 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Hp_line_0
+      name: "DALL\xB7E 2025-03-25 05_LE_upscale_balanced_x4-Photoroom_0"
       rect:
         serializedVersion: 2
-        x: 7
-        y: 9
-        width: 1009
-        height: 48
+        x: 0
+        y: 619
+        width: 1251
+        height: 613
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f484eeef4554b3242ad0e613a8fe0568
-      internalID: 630986559
+      spriteID: be3113b773a7ed247acf2fe0e09bfae4
+      internalID: -1986596899
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "DALL\xB7E 2025-03-25 05_LE_upscale_balanced_x4-Photoroom_1"
+      rect:
+        serializedVersion: 2
+        x: 5
+        y: 496
+        width: 368
+        height: 126
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a70b6e8fed1b696449a69213f2753e40
+      internalID: -1354928281
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "DALL\xB7E 2025-03-25 05_LE_upscale_balanced_x4-Photoroom_2"
+      rect:
+        serializedVersion: 2
+        x: 423
+        y: 496
+        width: 816
+        height: 126
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 116, y: 0, z: 116, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 00ba9737bba48a04f80aa381ebbe3a2b
+      internalID: -1911141362
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "DALL\xB7E 2025-03-25 05_LE_upscale_balanced_x4-Photoroom_3"
+      rect:
+        serializedVersion: 2
+        x: 22
+        y: 129
+        width: 397
+        height: 299
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4447015be91ae5d459f75a43e81f0774
+      internalID: 1317768197
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: "DALL\xB7E 2025-03-25 05_LE_upscale_balanced_x4-Photoroom_5"
+      rect:
+        serializedVersion: 2
+        x: 805
+        y: 53
+        width: 440
+        height: 440
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ac84b7586a1a10b479a4c120f9074915
+      internalID: -682753224
       vertices: []
       indices: 
       edges: []
@@ -159,7 +243,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 85cf612f75e690446babccbf3faef30c
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -167,7 +251,13 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      Hp_line_0: 630986559
+      "DALL\xB7E 2025-03-25 05_LE_upscale_balanced_x4-Photoroom_0": -1986596899
+      "DALL\xB7E 2025-03-25 05_LE_upscale_balanced_x4-Photoroom_1": -1354928281
+      "DALL\xB7E 2025-03-25 05_LE_upscale_balanced_x4-Photoroom_2": -1911141362
+      "DALL\xB7E 2025-03-25 05_LE_upscale_balanced_x4-Photoroom_3": 1317768197
+      "DALL\xB7E 2025-03-25 05_LE_upscale_balanced_x4-Photoroom_4": 820661835
+      "DALL\xB7E 2025-03-25 05_LE_upscale_balanced_x4-Photoroom_5": -682753224
+      "DALL\xB7E 2025-03-25 05_LE_upscale_balanced_x4-Photoroom_6": 152951433
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

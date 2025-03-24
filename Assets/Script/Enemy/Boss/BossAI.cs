@@ -25,9 +25,12 @@ public class BossAI : MonoBehaviour
     private bool isOnCooldown = false;
     private bool isIdle = false; // Thêm trạng thái Idle
     private float lastAttackTime = -Mathf.Infinity; 
+    [Header("Thanh máu")]
+    [SerializeField] private GameObject healthBarUI;
 
     void Start()
     {
+        healthBarUI.SetActive(false);
         animator = GetComponent<Animator>();
         controller = GetComponent<CharacterController>();
         StartCoroutine(PatrolRoutine());
@@ -38,6 +41,9 @@ public class BossAI : MonoBehaviour
         if (player == null) return;
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
+
+        // Hiển thị thanh máu nếu player trong chaseRange, tắt nếu ra ngoài
+        healthBarUI.SetActive(distanceToPlayer < chaseRange);
 
         // Nếu đang trong cooldown thì chỉ Idle và nhìn theo player
         if (isOnCooldown) 
