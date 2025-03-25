@@ -508,7 +508,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b24ccc5d9ee68da479c6b157d9521383, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemSO: {fileID: 11400000, guid: d2a87d5ffdcc402488b1c91363051283, type: 2}
+  itemSO: {fileID: 11400000, guid: 9f9d5a3b33874354ab85029b2ebb784b, type: 2}
   Quantity: 1
   pickupRange: 2
   pickupUI: {fileID: 6302997197746636161}
