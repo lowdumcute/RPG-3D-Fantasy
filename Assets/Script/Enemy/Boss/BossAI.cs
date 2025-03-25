@@ -23,7 +23,8 @@ public class BossAI : MonoBehaviour
     private bool isChasing = false;
     private bool isAttacking = false;
     private bool isOnCooldown = false;
-    private bool isIdle = false; // Thêm trạng thái Idle
+    private bool isIdle = false;
+    private bool hasRoared = false; // Biến kiểm tra đã gầm hay chưa
     private float lastAttackTime = -Mathf.Infinity; 
     [Header("Thanh máu")]
     [SerializeField] private GameObject healthBarUI;
@@ -44,6 +45,13 @@ public class BossAI : MonoBehaviour
 
         // Hiển thị thanh máu nếu player trong chaseRange, tắt nếu ra ngoài
         healthBarUI.SetActive(distanceToPlayer < chaseRange);
+
+        // Nếu chưa gầm và lần đầu thấy Player, thì gầm trước khi đuổi
+        if (!hasRoared && distanceToPlayer < chaseRange)
+        {
+            StartRoar();
+            return;
+        }
 
         // Nếu đang trong cooldown thì chỉ Idle và nhìn theo player
         if (isOnCooldown) 
@@ -114,16 +122,16 @@ public class BossAI : MonoBehaviour
 
     private void ApplyGravity()
     {
-        if (isAttacking) return; // Không áp dụng trọng lực khi đang tấn công
+        if (isAttacking) return; 
 
         if (!controller.isGrounded)
         {
             moveDirection.y += gravity * Time.deltaTime;
-            controller.Move(new Vector3(0, moveDirection.y - 3f, 0) * Time.deltaTime); // Đảm bảo nhân vật rơi xuống
+            controller.Move(new Vector3(0, moveDirection.y - 3f, 0) * Time.deltaTime); 
         }
         else
         {
-            moveDirection.y = 0; // Reset lại vận tốc rơi nếu chạm đất
+            moveDirection.y = 0; 
         }
     }
 
@@ -219,5 +227,24 @@ public class BossAI : MonoBehaviour
 
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, chaseRange);
+    }
+    private void StartRoar()
+    {
+        if (hasRoared) return;
+
+        isIdle = true; 
+        isChasing = false; 
+        isAttacking = false;
+
+        animator.SetTrigger("Roar"); // Kích hoạt animation Roar
+        StartCoroutine(WaitForRoar());
+    }
+
+    private IEnumerator WaitForRoar()
+    {
+        yield return new WaitForSeconds(2f); // Đợi animation gầm (có thể thay đổi)
+        hasRoared = true;
+        isIdle = false;
+        isChasing = true;
     }
 }

@@ -4272,7 +4272,7 @@ MonoBehaviour:
   maxVerticalAngle: 40
   obstacleMask:
     serializedVersion: 2
-    m_Bits: 128
+    m_Bits: 8320
   smoothingSpeed: 10
   currentDistance: 0
   lockOnSystem: {fileID: 919132148198534861}
@@ -12938,6 +12938,7 @@ GameObject:
   - component: {fileID: 977741417}
   - component: {fileID: 977741416}
   - component: {fileID: 977741415}
+  - component: {fileID: 977741418}
   m_Layer: 6
   m_Name: Info
   m_TagString: Untagged
@@ -13029,6 +13030,27 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 0
   m_TargetDisplay: 0
+--- !u!95 &977741418
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 977741413}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: d37f6a7b50b987b40ad12f1feffd65a1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &979874608 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4472924558029580, guid: 0af388c5f7d3fe8418aecd4b47e51d62,

@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,16 +12,20 @@ public class CameraController : MonoBehaviour
     [SerializeField] private float minVerticalAngle = 0;
     [SerializeField] private float maxVerticalAngle = 90;
     [SerializeField] private LayerMask obstacleMask;
-    [SerializeField] private float smoothingSpeed = 5f; // Giảm tốc độ Lerp xuống để tránh giật
+    [SerializeField] private float smoothingSpeed = 5f;
 
     private Vector2 rotation;
     private Vector3 smoothVelocity = Vector3.zero;
-    private float targetDistance; // Khoảng cách mong muốn
+    private float targetDistance;
     [HideInInspector] public float currentDistance;
     public static bool isPaused = false;
 
-    public LockOnSystem lockOnSystem; // Thêm biến tham chiếu Lock-On
+    public LockOnSystem lockOnSystem;
     private bool isLockedOn => lockOnSystem != null && lockOnSystem.currentTarget != null;
+
+    private Dictionary<Renderer, Material> originalMaterials = new Dictionary<Renderer, Material>();
+    private List<Renderer> currentObstructions = new List<Renderer>();
+
     private void Awake()
     {
         if (Instance == null)
@@ -42,7 +45,6 @@ public class CameraController : MonoBehaviour
         Cursor.lockState = CursorLockMode.Locked;
         currentDistance = defaultDistance;
         targetDistance = defaultDistance;
-        
     }
 
     void LateUpdate()
@@ -51,32 +53,23 @@ public class CameraController : MonoBehaviour
 
         if (isLockedOn && lockOnSystem.lockOnTargetPoint != null)
         {
-            // Camera luôn nhìn vào mục tiêu khi khóa
             Vector3 directionToTarget = lockOnSystem.currentTarget.position - transform.position;
-
-            // Giữ nguyên trục ngang (Y) nhưng hạn chế thay đổi trục dọc (X)
             Quaternion lookRotation = Quaternion.LookRotation(directionToTarget);
             Vector3 eulerAngles = lookRotation.eulerAngles;
-
-            eulerAngles.x = Mathf.LerpAngle(transform.eulerAngles.x, eulerAngles.x, Time.deltaTime * 2f); // Giảm rung
+            eulerAngles.x = Mathf.LerpAngle(transform.eulerAngles.x, eulerAngles.x, Time.deltaTime * 2f);
             eulerAngles.y = Mathf.LerpAngle(transform.eulerAngles.y, eulerAngles.y, Time.deltaTime * smoothingSpeed);
-
             transform.rotation = Quaternion.Euler(eulerAngles);
         }
         else
         {
-            // Điều khiển camera bình thường nếu không khóa mục tiêu
             rotation += new Vector2(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X")) * rotationSpeed;
             rotation.x = Mathf.Clamp(rotation.x, minVerticalAngle, maxVerticalAngle);
-
             Quaternion targetRotation = Quaternion.Euler(rotation.x, rotation.y, 0);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * smoothingSpeed);
         }
 
-        // Tính vị trí mong muốn của camera
         Vector3 targetPosition = followTarget.position - transform.rotation * Vector3.forward * currentDistance;
 
-        // Kiểm tra va chạm với vật cản
         RaycastHit hit;
         if (Physics.Raycast(followTarget.position, targetPosition - followTarget.position, out hit, defaultDistance, obstacleMask))
         {
@@ -87,25 +80,50 @@ public class CameraController : MonoBehaviour
             targetDistance = defaultDistance;
         }
 
-        // Cập nhật khoảng cách camera
         currentDistance = Mathf.Lerp(currentDistance, targetDistance, Time.deltaTime * smoothingSpeed);
-
-        // Làm mượt vị trí camera bằng SmoothDamp
         transform.position = Vector3.SmoothDamp(transform.position, targetPosition, ref smoothVelocity, 0.05f);
+
+        HandleObstructions();
+    }
+
+    private void HandleObstructions()
+    {
+        foreach (Renderer renderer in currentObstructions)
+        {
+            if (renderer != null)
+                renderer.material = originalMaterials[renderer];
+        }
+        currentObstructions.Clear();
+        originalMaterials.Clear();
+
+        Vector3 directionToPlayer = followTarget.position - transform.position;
+        RaycastHit[] hits = Physics.RaycastAll(transform.position, directionToPlayer, directionToPlayer.magnitude, obstacleMask);
+
+        foreach (RaycastHit hit in hits)
+        {
+            Renderer renderer = hit.collider.GetComponent<Renderer>();
+            if (renderer != null)
+            {
+                if (!originalMaterials.ContainsKey(renderer))
+                {
+                    originalMaterials[renderer] = renderer.material;
+                    Material transparentMaterial = new Material(renderer.material);
+                    transparentMaterial.color = new Color(transparentMaterial.color.r, transparentMaterial.color.g, transparentMaterial.color.b, 0.3f);
+                    renderer.material = transparentMaterial;
+                }
+                currentObstructions.Add(renderer);
+            }
+        }
     }
 
     public void SetTargetZoom(float zoomFactor)
     {
         targetDistance = Mathf.Lerp(minDistance, defaultDistance, zoomFactor);
     }
+
     public void SaveCurrentCameraRotation()
     {
-        // Lưu góc quay hiện tại để không bị giật khi tắt Lock-on
         rotation.x = transform.eulerAngles.x;
         rotation.y = transform.eulerAngles.y;
     }
-
-
 }
-
-
