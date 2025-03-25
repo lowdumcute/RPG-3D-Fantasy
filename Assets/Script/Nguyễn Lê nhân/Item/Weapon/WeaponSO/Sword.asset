@@ -20,6 +20,6 @@ MonoBehaviour:
   Decription: "Ki\u1EBFm th\u1EB3ng \u0111\u01B0\u1EE3c l\xE0m b\u1EDFi th\u1EE3
     r\xE8n, \u0111a d\u1EE5ng trong chi\u1EBFn \u0111\u1EA5u\n\n\"Mua \u1EDF c\u1EEDa
     h\xE0ng\""
-  WeaponPrefab: {fileID: 8133399767090564659, guid: fa7576413fbf339459d948aa3d3ebbe5,
+  WeaponPrefab: {fileID: 4835177439745538495, guid: 21bdb5924c508a847b8731c791b49f65,
     type: 3}
   itemType: 1

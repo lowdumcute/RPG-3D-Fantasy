@@ -40,6 +40,8 @@ public class EquipqedSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
         {
             currentWeapon = Instantiate(equipItem.WeaponPrefab);
             currentWeapon.transform.SetParent(HandlerWeapon.transform, false);
+            Weapon WeaponCombo = currentWeapon.gameObject.GetComponent<Weapon>();
+            PlayerCombat.Instance.SetWeaponCombo(WeaponCombo);
         }
     }
     public void UnEquipmentgear()
@@ -65,7 +67,7 @@ public class EquipqedSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
             InventoryManager.Instance.AddWeaponItem(equipItemtemp, itemType);
             
         }
-        
+        PlayerCombat.Instance.RemoveCombo();
 
         // Thêm vũ khí vào kho đồ (giả sử InventoryManager có hàm AddItem)
         

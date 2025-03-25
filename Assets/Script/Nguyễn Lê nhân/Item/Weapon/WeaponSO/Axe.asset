@@ -9,23 +9,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bf82cb40315d4794aa202c9940195ad3, type: 3}
+  m_Script: {fileID: 11500000, guid: 77b1bd5274e88a54880f6acd0c44127f, type: 3}
   m_Name: Axe
   m_EditorClassIdentifier: 
-  ItemID: 0
-  ItemName: Iron Axe
-  ItemIcon: {fileID: 0}
-  ItemDecriptions: 
-  WeaponPrefab: {fileID: 6643013971951710130, guid: 539e85ae4841c1e468fbbe29465926a3,
-    type: 3}
-  StregthREQ: 12
-  DexREQ: 1
-  IntelREQ: 0
-  FaitREQ: 0
-  PhysicalDamage: 23
-  MagicDamage: 0
-  FireDamage: 0
-  HolycDamage: 0
-  LightingDamage: 0
-  poiseDame: 10
-  BaseStaminaCost: 20
+  Type: 1
+  Status: 0
+  NumberOfChange: 20
+  ItemName: Axe
+  ID: 3
+  Icon: {fileID: 21300000, guid: a5d67750f6216e14b900147047e56cfd, type: 3}
+  Decription: Potion very Expensive

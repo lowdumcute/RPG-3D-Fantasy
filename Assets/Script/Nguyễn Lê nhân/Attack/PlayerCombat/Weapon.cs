@@ -6,6 +6,7 @@ using UnityEngine.VFX;
 public class Weapon : MonoBehaviour
 {
     public float dame;
+    public List<AttackSO> combo;
     public BoxCollider boxCollider;
     public ParticleSystem particle;
     private void Start()
