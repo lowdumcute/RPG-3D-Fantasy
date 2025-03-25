@@ -8,7 +8,9 @@ public class CharacterManager : MonoBehaviour
     public Animator animator;
 
     [Header("Flag")]
-    public bool isPerformingAction = false;  
+    public bool isPerformingAction = false;
+    public bool isRunning = false;
+    
     protected virtual void Awake()
     {
         DontDestroyOnLoad(this);

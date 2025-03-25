@@ -14,8 +14,14 @@ public class PlayerManager : CharacterManager
         if (isPerformingAction) return;
         if (Input.GetKeyDown(KeyCode.Space))
         {
-
-            characterAnimationManger.PlayTargetActionAnimation("Slide_Forward", true, true);
+            if(isRunning)
+            {
+                characterAnimationManger.PlayTargetActionAnimation("Slide_Forward", true, true);
+            }
+            else
+            {
+                characterAnimationManger.PlayTargetActionAnimation("Roll_Forward ", true, true);
+            }
             
         }
     }

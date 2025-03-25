@@ -54,6 +54,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             animator.SetBool("isMoving", false);
+            playerManager.isRunning = false;
             animator.SetFloat(_speedHash, 0, 0.1f, Time.deltaTime);
         }
 
@@ -76,11 +77,14 @@ public class PlayerMovement : MonoBehaviour
         {
             characterController.Move(MoveDir * playerStatus.Speed * 1.5f * Time.deltaTime);
             animator.SetFloat(_speedHash, 2f, 0.1f, Time.deltaTime);
+            playerManager.isRunning = true;
+
         }
         else
         {
             characterController.Move(MoveDir * playerStatus.Speed * Time.deltaTime);
             animator.SetFloat(_speedHash, Direction.magnitude, 0.1f, Time.deltaTime);
+            playerManager.isRunning = false;
         }
         
     }
