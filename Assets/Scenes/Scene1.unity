@@ -6268,8 +6268,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.028374767, y: 0.6372381, z: -0.023488972, w: 0.76978624}
-  m_LocalPosition: {x: 543.248, y: 9.127, z: 365.735}
+  m_LocalRotation: {x: 0.36494565, y: 0.5615656, z: -0.30210626, w: 0.6783736}
+  m_LocalPosition: {x: 535.9467, y: 12.709008, z: 343.9817}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -19563,7 +19563,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 875050177}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1721469452}
+        m_TargetAssemblyTypeName: NPCTalk, Assembly-CSharp
+        m_MethodName: StartTalk
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &875050177
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -35903,7 +35915,8 @@ MonoBehaviour:
   m_text: con maej adasdasa
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 29ec1d2b778c26448b216e4f1725cd73, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_sharedMaterial: {fileID: 2825188238534909626, guid: 29ec1d2b778c26448b216e4f1725cd73,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -35927,7 +35940,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 88.2
+  m_fontSize: 80.95
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -44664,7 +44677,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1974285124
 RectTransform:
   m_ObjectHideFlags: 0
@@ -45136,7 +45149,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e20b160639554b47a0a32be8d32b458, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  npcTalkList: []
+  npcTalkList:
+  - {fileID: 1721469452}
 --- !u!1001 &2032591829
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -52090,6 +52104,7 @@ GameObject:
   - component: {fileID: 919132148198534861}
   - component: {fileID: 919132148198534860}
   - component: {fileID: 919132148198534862}
+  - component: {fileID: 919132148198534863}
   m_Layer: 9
   m_Name: Player
   m_TagString: Player
@@ -52250,6 +52265,23 @@ MonoBehaviour:
   lastClickedTime: 0
   LastComboEnd: 0
   WeaponinHand: {fileID: 0}
+--- !u!114 &919132148198534863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 919132148198534854}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78f9f5657fe89f040ba600813e5fa71d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementSpeed: 0
+  rotationSpeed: 500
+  gravityMultiplier: 2
+  jumpForce: 10
+  isAttacking: 0
 --- !u!1 &1193340831107777453
 GameObject:
   m_ObjectHideFlags: 0

@@ -10,7 +10,7 @@ public class PlayerLevel : MonoBehaviour
     public event Action<int> OnLevelUp; // Sự kiện khi lên cấp
     [SerializeField] private TMP_Text levelText; // Text hiển thị level
     [SerializeField] private int currentLevel ;
-    [SerializeField] private int currentExp ;
+    [SerializeField] public int currentExp ;
     [SerializeField] private int expToNextLevel = 100; // EXP cần để lên level tiếp theo
 
     private void Awake()

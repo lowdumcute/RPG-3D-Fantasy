@@ -27,7 +27,7 @@ public class BossAI : MonoBehaviour
     private bool hasRoared = false; // Biến kiểm tra đã gầm hay chưa
     private float lastAttackTime = -Mathf.Infinity; 
     [Header("Thanh máu")]
-    [SerializeField] private GameObject healthBarUI;
+    [SerializeField] public GameObject healthBarUI;
 
     void Start()
     {

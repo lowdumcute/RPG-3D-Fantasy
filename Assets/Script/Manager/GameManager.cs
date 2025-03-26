@@ -34,6 +34,7 @@ public class GameManager : MonoBehaviour
         data.Role = dataGameManager.playerStatsUsing.NameRole; // lưu tên role
         data.position= GamePlayManager.Instance.Player.transform.position; // lưu vị trí
         data.SceneSave = SceneManager.GetActiveScene().name; //
+        data.level = PlayerLevel.Instance.currentExp;
 
         string json = JsonUtility.ToJson(data);
         File.WriteAllText(Application.persistentDataPath + "/savegame.json", json);

@@ -16,9 +16,9 @@ MonoBehaviour:
   description: 
   targetName: Golem
   missionType: 1
-  isReward: 1
-  isActive: 1
-  isCompleted: 1
+  isReward: 0
+  isActive: 0
+  isCompleted: 0
   currentProgress: 1
   requiredAmount: 1
   rewardExp: 50

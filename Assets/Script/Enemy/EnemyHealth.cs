@@ -95,6 +95,7 @@ public class EnemyHealth : MonoBehaviour
             BossAI bossAI = GetComponent<BossAI>();
             if (bossAI != null)
             {
+                bossAI.healthBarUI.SetActive(false);
                 bossAI.enabled = false; // Vô hiệu hóa BossAI
             }
         }
