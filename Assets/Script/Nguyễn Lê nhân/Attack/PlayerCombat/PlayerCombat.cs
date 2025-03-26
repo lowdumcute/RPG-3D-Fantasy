@@ -86,16 +86,20 @@ public class PlayerCombat : MonoBehaviour
                 if(ComboCounter >= combo.Count)
                 {
                     ComboCounter = 0;
+                    
                 }
             }
         }
+
+        
     }
     void ExitAttack()
     {
-        if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.5f &&  animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
+        if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f &&  animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
         {
             
             Invoke("EndCombo",1);
+            
         }
     }
     void EndCombo()

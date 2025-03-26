@@ -751,7 +751,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.42
+      value: 0.61273444
       mode: 0
       spread: 0
       speed:
@@ -980,7 +980,7 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 0
-        scalar: 40
+        scalar: 60
         minScalar: 30
         maxCurve:
           serializedVersion: 2
@@ -1366,9 +1366,9 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 1}
+        key0: {r: 0.5973442, g: 0.88671964, b: 0.9924528, a: 1}
         key1: {r: 1, g: 1, b: 1, a: 0}
-        key2: {r: 0, g: 0, b: 0, a: 0}
+        key2: {r: 1, g: 1, b: 1, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
         key5: {r: 0, g: 0, b: 0, a: 0}
@@ -1376,7 +1376,7 @@ ParticleSystem:
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 0
         ctime1: 65535
-        ctime2: 0
+        ctime2: 65535
         ctime3: 0
         ctime4: 0
         ctime5: 0
@@ -9806,7 +9806,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4835177439745538495}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0.38268343, z: 0, w: 0.92387956}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
@@ -9814,7 +9814,7 @@ Transform:
   - {fileID: 5361931032663095347}
   - {fileID: 1189446473888092433}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 45, z: 0}
 --- !u!33 &179428007198767907
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -9902,8 +9902,8 @@ MonoBehaviour:
   dame: 0
   combo:
   - {fileID: 11400000, guid: 4c99df6293aacea44abcbee731b26fb8, type: 2}
-  - {fileID: 11400000, guid: a81d5c6ef51267d499d1c0b6198cb064, type: 2}
   - {fileID: 11400000, guid: 8ebc113b49730714dbae9b06fe55c010, type: 2}
+  - {fileID: 11400000, guid: a81d5c6ef51267d499d1c0b6198cb064, type: 2}
   boxCollider: {fileID: 1641323969236513552}
   particle: {fileID: 4924268240435014916}
 --- !u!65 &1641323969236513552

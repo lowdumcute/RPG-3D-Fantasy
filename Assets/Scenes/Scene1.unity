@@ -48785,7 +48785,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   currentTarget: {fileID: 0}
-  lockOnRadius: 10
+  lockOnRadius: 30
   enemyLayer:
     serializedVersion: 2
     m_Bits: 64
