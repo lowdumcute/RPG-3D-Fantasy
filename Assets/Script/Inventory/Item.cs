@@ -15,7 +15,7 @@ public class ItemDrop : MonoBehaviour
 
     private void Start()
     {
- 
+        InventoryManager.Instance.AddComsumeItem(itemSO, Quantity, itemType);
         player = GameObject.FindGameObjectWithTag("Player").transform;
         if (pickupUI != null)
         {

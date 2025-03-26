@@ -8,6 +8,7 @@ public class Weapon : MonoBehaviour
     public float dame;
     public List<AttackSO> combo;
     public BoxCollider boxCollider;
+    [SerializeField] private GameObject VFX;
     public ParticleSystem particle;
     private void Start()
     {
@@ -17,7 +18,29 @@ public class Weapon : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        //Tính dame
+        if(other.gameObject.CompareTag("Enemy"))
+        {
+            Debug.Log("Hit Enemy");
+            
+
+            
+                // Kiểm tra xem đối tượng có CharacterController hoặc tag "Enemy"
+                if (other.TryGetComponent<CharacterController>(out CharacterController enemyController) || other.CompareTag("Enemy"))
+                {
+                    // Kiểm tra xem có EnemyHealth không
+                    if (other.TryGetComponent<EnemyHealth>(out EnemyHealth enemyHealth))
+                    {
+                        // Gây sát thương
+                        enemyHealth.TakeDamage(dame, transform.position);
+                        Debug.Log("Hit VFX");
+                    var hitVFX =  Instantiate(VFX, transform.position, Quaternion.identity,transform); // Bật VFX
+                    hitVFX.SetActive(true);
+
+
+                }
+                }
+            
+        }
     }
    
     //Mở Box
@@ -37,5 +60,9 @@ public class Weapon : MonoBehaviour
         boxCollider.enabled = false;
 
     }
+    
+
+
+    
 
 }
