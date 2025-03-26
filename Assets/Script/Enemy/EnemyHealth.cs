@@ -88,19 +88,27 @@ public class EnemyHealth : MonoBehaviour
     private void Die()
     {
         Debug.Log("Enemy died!");
+
+        // Nếu aiMovement (AIMovement) bị null, tìm BossAI thay thế
         if (aiMovement == null)
         {
-            
+            BossAI bossAI = GetComponent<BossAI>();
+            if (bossAI != null)
+            {
+                bossAI.enabled = false; // Vô hiệu hóa BossAI
+            }
         }
         else
         {
-            aiMovement.enabled = false; // Tắt script di chuyển
+            aiMovement.enabled = false; // Tắt AIMovement nếu có
         }
+
         animator.SetBool("isDead", true); // Chuyển sang trạng thái chết
         controller.enabled = false; // Tắt CharacterController
         MissionManager.Instance.IncreaseMissionProgress(TypeTarget, 1);
         PlayerLevel.Instance.GainExp(exp);
     }
+
     public void UnActive()
     {
         // Số viên EXP rơi ra
