@@ -3,7 +3,7 @@ using UnityEngine;
 public class UIExpOrb : MonoBehaviour
 {
     private Transform target; // Người chơi
-    private float moveSpeed = 20f; // Tốc độ bay
+    private float moveSpeed = 5f; // Tốc độ bay
 
     public void Setup(Transform player, int expAmount)
     {

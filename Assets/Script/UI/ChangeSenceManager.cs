@@ -1,11 +1,13 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SceneChangeManager : MonoBehaviour
 {
     public static SceneChangeManager Instance;
     public GameObject loadingScreen;
+    [SerializeField] private Slider ProgressBar;
     public Animator loadingAnimator;
 
     private void Awake()
@@ -37,27 +39,30 @@ public class SceneChangeManager : MonoBehaviour
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
         asyncLoad.allowSceneActivation = false;
 
-        float loadStartTime = Time.time; // Lưu thời điểm bắt đầu
+        float loadStartTime = Time.time;
         bool isSceneReady = false;
 
         while (!asyncLoad.isDone)
         {
+            float elapsedTime = Time.time - loadStartTime;
+            float progressValue = Mathf.Clamp01((asyncLoad.progress / 0.9f) * (elapsedTime / 5f));
+            ProgressBar.value = progressValue;
+            
             if (asyncLoad.progress >= 0.9f)
             {
                 isSceneReady = true;
             }
 
-            // Chờ ít nhất 9 giây hoặc lâu hơn nếu scene chưa sẵn sàng
-            if (isSceneReady && Time.time - loadStartTime >= 5f)
+            if (isSceneReady && elapsedTime >= 5f)
             {
-                asyncLoad.allowSceneActivation = true; // Chuyển sang scene mới ngay lập tức
-                yield return new WaitForSeconds(0.5f); // Chờ một chút để scene hoàn toàn chuyển đổi
+                asyncLoad.allowSceneActivation = true;
+                yield return new WaitForSeconds(0.5f);
 
-                DynamicGI.UpdateEnvironment(); // Cập nhật ánh sáng toàn cục
-                loadingAnimator.SetTrigger("End"); // Kích hoạt animation kết thúc
-                yield return new WaitForSeconds(1.5f); // Đợi animation kết thúc
+                DynamicGI.UpdateEnvironment();
+                loadingAnimator.SetTrigger("End");
+                yield return new WaitForSeconds(1.5f);
 
-                HideLoadingScreen(); // Ẩn màn hình loading
+                HideLoadingScreen();
             }
 
             yield return null;
