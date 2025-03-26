@@ -25,25 +25,32 @@ public class EquipqedSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
     //Biến chứa các Game Prefab và instance
     GameObject currentWeapon;
     public GameObject HandlerWeapon;
-    
+
     public void Equipmentgear(EquipItemSO EquipItem, Sprite itemSprite, string name, string itemDecription)
     {
-        //Update Image
+        // Update UI
         this.itemSprite = itemSprite;
         SlotImage.sprite = this.itemSprite;
         slotName.enabled = false;
-        //Update Data
+
+        // Update Data
         this.equipItem = EquipItem;
         this.itemName = name;
         this.itemDecription = itemDecription;
-        if(HandlerWeapon != null)
+
+        if (HandlerWeapon != null && itemType == ItemType.weapon) // Kiểm tra có phải vũ khí không
         {
             currentWeapon = Instantiate(equipItem.WeaponPrefab);
             currentWeapon.transform.SetParent(HandlerWeapon.transform, false);
+
             Weapon WeaponCombo = currentWeapon.gameObject.GetComponent<Weapon>();
-            PlayerCombat.Instance.SetWeaponCombo(WeaponCombo);
+            if (WeaponCombo != null)
+            {
+                PlayerCombat.Instance.SetWeaponCombo(WeaponCombo);
+            }
         }
     }
+
     public void UnEquipmentgear()
     {
         if (currentWeapon != null)
@@ -51,27 +58,31 @@ public class EquipqedSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
             Destroy(currentWeapon);
             currentWeapon = null;
         }
+
         if (equipItem != null)
         {
             // Reset UI
             SlotImage.sprite = null;
             slotName.enabled = true;
-            // Reset dữ liệu
 
+            // Reset dữ liệu
             EquipItemSO equipItemtemp = equipItem;
             equipItem = null;
             itemSprite = null;
             itemName = string.Empty;
             itemDecription = string.Empty;
             Debug.Log("Reset Item");
-            InventoryManager.Instance.AddWeaponItem(equipItemtemp, itemType);
-            
-        }
-        PlayerCombat.Instance.RemoveCombo();
 
-        // Thêm vũ khí vào kho đồ (giả sử InventoryManager có hàm AddItem)
-        
+            InventoryManager.Instance.AddWeaponItem(equipItemtemp, itemType);
+        }
+
+        // Chỉ xóa combo nếu tháo vũ khí
+        if (itemType == ItemType.weapon)
+        {
+            PlayerCombat.Instance.RemoveCombo();
+        }
     }
+
     public void OnPointerClick(PointerEventData eventData)
     {
         
@@ -93,7 +104,9 @@ public class EquipqedSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
         if (WeapontDrop == null) return;
         Debug.Log($"Equip Weapon on Slot: {this.itemType}");
         UnEquipmentgear();
+        
         Equipmentgear(WeapontDrop.itemSO, WeapontDrop.itemSO.Icon, WeapontDrop.itemSO.ItemName, WeapontDrop.itemSO.Decription);
+
         WeapontDrop.ResetItemSlot();
     }
 }
