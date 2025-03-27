@@ -8,7 +8,8 @@ public class PlayerCombat : MonoBehaviour
     public static PlayerCombat Instance;
     [Header("Player manager")]
     public PlayerManager playerManager;
-
+    [Header("Player manager")]
+    public AnimatorOverrideController DefauthAnimator;
     [Header("Các Biến Combo")]
     public List<AttackSO> combo;
     public float lastClickedTime;
@@ -44,6 +45,17 @@ public class PlayerCombat : MonoBehaviour
         {
             combo.Add(WeaponinHand.combo[i]);
         }
+       
+
+        // Áp dụng override controller trước khi phát animation
+        if(WeaponinHand.Weaponanimator != null)
+        {
+            animator.runtimeAnimatorController = WeaponinHand.Weaponanimator;
+        }
+
+        // Phát animation
+        animator.Play("Change Weapon", 0, 0);
+        
     }
     public void RemoveCombo()
     {
@@ -51,7 +63,13 @@ public class PlayerCombat : MonoBehaviour
         {
             combo.Clear();
         }
-        WeaponinHand = null;
+        animator.runtimeAnimatorController = DefauthAnimator;
+
+        // Phát animation di chuyển sau khi xóa vũ khí
+        animator.Play("Change Weapon", 0, 0);
+
+        WeaponinHand = null; // Xóa vũ khí
+        
     }
     
     // Update is called once per frame
@@ -71,7 +89,7 @@ public class PlayerCombat : MonoBehaviour
         if (playerManager.isPerformingAction) return;
         if (isAttacking) return; // Không cho phép spam tấn công
 
-        if (Time.time - LastComboEnd > 0.5f && ComboCounter <= combo.Count)
+        if (Time.time - LastComboEnd > 0.9f && ComboCounter <= combo.Count)
         {
             CancelInvoke("EndCombo");
             if(Time.time - lastClickedTime >=0.2f)
@@ -95,7 +113,7 @@ public class PlayerCombat : MonoBehaviour
     }
     void ExitAttack()
     {
-        if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.9f &&  animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
+        if(animator.GetCurrentAnimatorStateInfo(0).normalizedTime > 0.8f &&  animator.GetCurrentAnimatorStateInfo(0).IsTag("Attack"))
         {
             
             Invoke("EndCombo",1);

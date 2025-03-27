@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: GreatSwordmovement
+  m_Controller: {fileID: 9100000, guid: 42495cbeb6395f945ae6bf24fcaf7dd6, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: -203655887218126122, guid: cf0d729896a8b074491313a3a374c505,
+      type: 3}
+    m_OverrideClip: {fileID: -203655887218126122, guid: cf0d729896a8b074491313a3a374c505,
+      type: 3}
+  - m_OriginalClip: {fileID: -203655887218126122, guid: 894ba37ac23205f42a5c5949f9e921a5,
+      type: 3}
+    m_OverrideClip: {fileID: -203655887218126122, guid: a7fd47db3cea7984e86d7f1b83452ddf,
+      type: 3}
+  - m_OriginalClip: {fileID: -203655887218126122, guid: 0ce46799806215742b1888e3806c10de,
+      type: 3}
+    m_OverrideClip: {fileID: -203655887218126122, guid: 48107710e9d600544939b5c0660b3fb8,
+      type: 3}
+  - m_OriginalClip: {fileID: -203655887218126122, guid: 94d9dc408ac6a114fb0436a3f46ea589,
+      type: 3}
+    m_OverrideClip: {fileID: -203655887218126122, guid: 092184bf826274b4598fc387607a7c01,
+      type: 3}

@@ -4,6 +4,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Item", menuName = "GameItem/Equipment")]
 public class EquipItemSO : ItemSO
 {
+
     public GameObject WeaponPrefab;
+    [Header("Âm thanh")]
+    
     public ItemType itemType; //
 }

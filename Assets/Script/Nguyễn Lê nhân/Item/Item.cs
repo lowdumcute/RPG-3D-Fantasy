@@ -10,5 +10,6 @@ public class Item : ScriptableObject
     public Sprite ItemIcon;
     [TextArea]
     public string ItemDecriptions;
+    
 
 }

@@ -38,11 +38,11 @@ public class EquipqedSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
         this.itemName = name;
         this.itemDecription = itemDecription;
 
-        if (HandlerWeapon != null && itemType == ItemType.weapon) // Kiểm tra có phải vũ khí không
-        {
             currentWeapon = Instantiate(equipItem.WeaponPrefab);
             currentWeapon.transform.SetParent(HandlerWeapon.transform, false);
 
+        if (HandlerWeapon != null && itemType == ItemType.weapon) // Kiểm tra có phải vũ khí không
+        {
             Weapon WeaponCombo = currentWeapon.gameObject.GetComponent<Weapon>();
             if (WeaponCombo != null)
             {

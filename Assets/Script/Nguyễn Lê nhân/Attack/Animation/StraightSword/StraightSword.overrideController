@@ -6,12 +6,9 @@ AnimatorOverrideController:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack01
+  m_Name: StraightSword
   m_Controller: {fileID: 9100000, guid: 42495cbeb6395f945ae6bf24fcaf7dd6, type: 2}
   m_Clips:
-  - m_OriginalClip: {fileID: 7400000, guid: e13e6685ec1500a4ab92bf062447d2a0, type: 2}
-    m_OverrideClip: {fileID: -203655887218126122, guid: db5c7bef7aa4eca42b78946f5de5e0a2,
-      type: 3}
   - m_OriginalClip: {fileID: -203655887218126122, guid: cf0d729896a8b074491313a3a374c505,
       type: 3}
     m_OverrideClip: {fileID: -203655887218126122, guid: 083b347734c59ea43bb0443f0bbf3c15,

@@ -9791,6 +9791,7 @@ GameObject:
   - component: {fileID: 8367059075984290277}
   - component: {fileID: 7955988163671873530}
   - component: {fileID: 1641323969236513552}
+  - component: {fileID: -6194362271154192546}
   m_Layer: 0
   m_Name: PP_Theme_06_Sword_Two-Handed_001 1
   m_TagString: Player
@@ -9806,8 +9807,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4835177439745538495}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0.42261827, z: 0, w: 0.9063079}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.0015270663, y: 0.16015962, z: -0.001336678, w: 0.9870891}
+  m_LocalPosition: {x: -0.089, y: -0, z: -0.04}
   m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -9815,7 +9816,7 @@ Transform:
   - {fileID: 6759824354149653107}
   - {fileID: 1189446473888092433}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 50, z: 0}
+  m_LocalEulerAnglesHint: {x: 0.197, y: 18.432, z: -0.123}
 --- !u!33 &179428007198767907
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -9906,6 +9907,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a81d5c6ef51267d499d1c0b6198cb064, type: 2}
   - {fileID: 11400000, guid: 4c99df6293aacea44abcbee731b26fb8, type: 2}
   boxCollider: {fileID: 1641323969236513552}
+  Weaponanimator: {fileID: 22100000, guid: 4985d55602907484f8d87b173b037e4f, type: 2}
+  SoundAttack: {fileID: 8300000, guid: 62901b0b2aac7c84a8ff4065fc623496, type: 3}
+  SoundCollider: {fileID: 8300000, guid: da4221787a2670a4f9edb112b51b50c3, type: 3}
+  audioSource: {fileID: -6194362271154192546}
   VFX: {fileID: 6263782476919498309, guid: 1fd2749f2a4056446881dce86ed70c39, type: 3}
   particle: {fileID: 4924268240435014916}
 --- !u!65 &1641323969236513552
@@ -9929,6 +9934,102 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.36, y: 1.42, z: 0.24}
   m_Center: {x: -0.0003722843, y: 0.81, z: 0.00037624533}
+--- !u!82 &-6194362271154192546
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4835177439745538495}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1001 &802437426785401907
 PrefabInstance:
   m_ObjectHideFlags: 0
