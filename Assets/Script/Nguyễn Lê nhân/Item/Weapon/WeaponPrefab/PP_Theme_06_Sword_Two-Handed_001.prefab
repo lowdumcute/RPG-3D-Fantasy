@@ -9808,12 +9808,11 @@ Transform:
   m_GameObject: {fileID: 4835177439745538495}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.0819809, w: 0.99663395}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.091, y: 0.106, z: -0.043}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5361931032663095347}
-  - {fileID: 7385297312518877094}
   - {fileID: 1189446473888092433}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -9.405}
@@ -10029,102 +10028,3 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!1001 &3499495093517142502
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 6003687730418443959}
-    m_Modifications:
-    - target: {fileID: 3241733169545288115, guid: 1fd2749f2a4056446881dce86ed70c39,
-        type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6263782476919498304, guid: 1fd2749f2a4056446881dce86ed70c39,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6263782476919498304, guid: 1fd2749f2a4056446881dce86ed70c39,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6263782476919498304, guid: 1fd2749f2a4056446881dce86ed70c39,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6263782476919498304, guid: 1fd2749f2a4056446881dce86ed70c39,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6263782476919498304, guid: 1fd2749f2a4056446881dce86ed70c39,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6263782476919498304, guid: 1fd2749f2a4056446881dce86ed70c39,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6263782476919498304, guid: 1fd2749f2a4056446881dce86ed70c39,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6263782476919498304, guid: 1fd2749f2a4056446881dce86ed70c39,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6263782476919498304, guid: 1fd2749f2a4056446881dce86ed70c39,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6263782476919498304, guid: 1fd2749f2a4056446881dce86ed70c39,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6263782476919498309, guid: 1fd2749f2a4056446881dce86ed70c39,
-        type: 3}
-      propertyPath: m_Name
-      value: CFXR4 Sword Hit FIRE (Cross)
-      objectReference: {fileID: 0}
-    - target: {fileID: 6263782476919498309, guid: 1fd2749f2a4056446881dce86ed70c39,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6263782476919498310, guid: 1fd2749f2a4056446881dce86ed70c39,
-        type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6676390458904220202, guid: 1fd2749f2a4056446881dce86ed70c39,
-        type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6676390459128088485, guid: 1fd2749f2a4056446881dce86ed70c39,
-        type: 3}
-      propertyPath: m_Materials.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 1fd2749f2a4056446881dce86ed70c39, type: 3}
---- !u!4 &7385297312518877094 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 6263782476919498304, guid: 1fd2749f2a4056446881dce86ed70c39,
-    type: 3}
-  m_PrefabInstance: {fileID: 3499495093517142502}
-  m_PrefabAsset: {fileID: 0}

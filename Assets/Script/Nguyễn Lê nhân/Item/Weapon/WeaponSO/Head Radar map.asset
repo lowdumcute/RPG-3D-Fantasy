@@ -14,10 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Status: 0
   NumberOfChange: 0
-  ItemName: Head Test
+  ItemName: "M\u1EB7t n\u1EA1 \u0111\u1ECDa \u0111\u1EA7y"
   ID: 23
   Icon: {fileID: 1175088384, guid: 376b58bf9ce043d49ad45b395ebb9c31, type: 3}
-  Decription: "Trang b\u1ECB v\xE0o \u0111\u1EC3 c\xF3 minimap"
+  Decription: "1 chi\u1EBFc m\u1EB7t n\u1EA1 cho ph\xE9p ng\u01B0\u1EDDi \u0111eo
+    c\xF3 kh\u1EA3 n\u0103ng th\u1EA5u th\u1ECB\n\n\"T\u01B0\u01A1ng truy\u1EC1n
+    th\u1EE9 n\xE0y ban cho ng\u01B0\u1EDDi \u0111eo kh\u1EA3 n\u0103ng d\xF2 t\xECm
+    k\u1EBB \u0111\u1ECBch xung quanh m\xECnh\""
   WeaponPrefab: {fileID: 2803155876801012076, guid: de06179bc9aa0af48b5b261cdeac2460,
     type: 3}
   itemType: 2

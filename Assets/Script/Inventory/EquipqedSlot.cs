@@ -49,6 +49,7 @@ public class EquipqedSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
                 PlayerCombat.Instance.SetWeaponCombo(WeaponCombo);
             }
         }
+        SlotImage.enabled = true;
     }
 
     public void UnEquipmentgear()
@@ -81,6 +82,7 @@ public class EquipqedSlot : MonoBehaviour, IPointerClickHandler, IDropHandler
         {
             PlayerCombat.Instance.RemoveCombo();
         }
+        SlotImage.enabled = false;
     }
 
     public void OnPointerClick(PointerEventData eventData)

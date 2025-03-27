@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Status: 0
   NumberOfChange: 0
-  ItemName: Defaut Pant
+  ItemName: "Qu\u1EA7n v\u1EA3i"
   ID: 12
   Icon: {fileID: 21300000, guid: 6709c3b3ac3f70f4eb79ff91e6a8afb2, type: 3}
   Decription: "Qu\u1EA7n c\xF9ng v\u1EDBi v\u1EA3i l\u1EE5a"

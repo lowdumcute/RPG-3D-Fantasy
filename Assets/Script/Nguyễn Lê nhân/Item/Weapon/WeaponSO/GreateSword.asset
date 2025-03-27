@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Status: 0
   NumberOfChange: 0
-  ItemName: Sword
+  ItemName: "\u0110\u1EA1i ki\u1EBFm"
   ID: 25
   Icon: {fileID: 21300000, guid: a5d67750f6216e14b900147047e56cfd, type: 3}
-  Decription: "1 thanh s\u1EAFt to c\u1EE1 l\u1EDBn, y\xEAu c\u1EA7u ph\u1EA3i c\xF3
-    s\u1EE9c m\u1EA1nh n\u1EBFu mu\u1ED1n s\u1EED d\u1EE5ng\n\n\n\"Mua \u1EDF c\u1EEDa
-    h\xE0ng\""
+  Decription: "1 c\xE2y r\xECu to c\u1EE1 l\u1EDBn v\u1EDBi l\u01B0\u1EDBi r\xECu
+    s\u1EAFt l\u1EB9m, y\xEAu c\u1EA7u ph\u1EA3i c\xF3 s\u1EE9c m\u1EA1nh n\u1EBFu
+    mu\u1ED1n s\u1EED d\u1EE5ng\n\n\n\"Mua \u1EDF c\u1EEDa h\xE0ng\""
   WeaponPrefab: {fileID: 4835177439745538495, guid: 8a5e15dfe4b2f9642bf10f6634c11782,
     type: 3}
   itemType: 1
